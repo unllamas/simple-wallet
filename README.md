@@ -19,7 +19,7 @@ yarn
 ##### 2. Create `.env.local` file:
 
 ```bash
-INFURA_TOKEN_API = 'API KEY from Alchemy'
+INFURA_TOKEN_API = 'API KEY from Infura'
 CRYPTO_SECRET_KEY = 'API KEY from encrypt/decrypt'
 ```
 
