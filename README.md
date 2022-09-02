@@ -1,4 +1,4 @@
-## Tech Stack
+## 💻 Tech Stack
 
 - [Yarn]() for package management
 - [Next.js](https://nextjs.org/) for web app
@@ -6,7 +6,7 @@
 - [Ethers.js](https://ethers.org/) for client blockchain
 - [Infura](https://infura.io/) for API blockchain
 
-## Getting Started
+## 🚀 Getting Started
 
 ##### 1. Clone proyect:
 
@@ -31,4 +31,7 @@ yarn run dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## 📖 Docs
+
+- 🖌 [Figma](https://www.figma.com/file/1i0831yLWD4XJmjo9iEXvR/Simple-wallet?node-id=21%3A13)
+
