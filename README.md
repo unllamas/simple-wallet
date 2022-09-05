@@ -20,7 +20,7 @@ yarn
 
 ```bash
 INFURA_TOKEN_API = 'API KEY from Infura'
-CRYPTO_SECRET_KEY = 'API KEY from encrypt/decrypt'
+CRYPTO_SECRET_KEY = 'KEY random for encrypt/decrypt'
 ```
 
 ##### 3. Run the proyect:
