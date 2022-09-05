@@ -10,13 +10,13 @@ const Text = (props) => {
     },
     sm: {
       opacity: 0.65,
-      fontSize: '14px',
-      lineHeight: '20px',
+      fontSize: '12px',
+      lineHeight: '18px',
     },
   };
 
   return (
-    <TextBox color='#333' {...props} {...variants[size]}>
+    <TextBox m='0px' color='#333' {...props} {...variants[size]}>
       {children}
     </TextBox>
   );
