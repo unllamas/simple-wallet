@@ -31,7 +31,7 @@ const Send = () => {
   // const { balance, sendTransaction, getGasPrice } = useAccountContext();
 
   const [loading, setLoading] = useState(false);
-  const [toAddress, setToAddress] = useState(null);
+  const [toAddress, setToAddress] = useState('');
   const [mount, setMount] = useState();
   const [price, setPrice] = useState(0);
   const [gasPrice, setGasPrice] = useState(0);
@@ -74,6 +74,15 @@ const Send = () => {
   //   onClose();
   // };
 
+  const handlePasteAddress = async () => {
+    try {
+      const text = await navigator.clipboard.readText();
+      setToAddress(text);
+    } catch (err) {
+      console.error('Failed to read clipboard contents: ', err);
+    }
+  };
+
   return (
     <ModalContent bg='#fff'>
       <ModalHeader>Send</ModalHeader>
@@ -82,9 +91,9 @@ const Send = () => {
         <Flex flexDirection='column' justifyContent='space-between' flex='1'>
           <Flex flexDirection='column' gap='10px'>
             <Box position='relative'>
-              <Input pr='80px' placeholder='Address' onChange={(e) => setToAddress(e.target.value)} />
+              <Input pr='80px' placeholder='Address' value={toAddress} onChange={(e) => setToAddress(e.target.value)} />
               <Flex position='absolute' zIndex={1} right='10px' top='0' h='100%' alignItems={'center'}>
-                <Button color='secondary' size='sm'>
+                <Button color='secondary' size='sm' onClick={() => handlePasteAddress()} disabled={toAddress}>
                   Paste
                 </Button>
               </Flex>

@@ -14,10 +14,13 @@ const Receive = () => {
   // Context
   const { wallet } = useAccount();
 
-  const handleCopyAddress = () => {
-    navigator.clipboard.writeText(wallet?.address).then(() => {
+  const handleCopyAddress = async () => {
+    try {
+      await navigator.clipboard.writeText(wallet?.address);
       toast({ description: 'Copied address', status: 'success' });
-    });
+    } catch (err) {
+      console.error('Failed to copy: ', err);
+    }
   };
 
   return (
