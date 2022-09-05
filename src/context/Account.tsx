@@ -15,6 +15,7 @@ export function AccountWrapper({ children }) {
   const { kovanProvider } = useBlockchain();
 
   const [wallet, setWallet] = useState({});
+  const [address, setAddress] = useState('');
   const [signer, setSigner] = useState();
 
   const [mnemonic, setMnemonic] = useState('');
@@ -36,6 +37,7 @@ export function AccountWrapper({ children }) {
       const mnemonicEncypt = decrypt(mnemonic);
       const wallet = ethers.Wallet.fromMnemonic(mnemonicEncypt);
       setWallet(wallet);
+      setAddress(wallet?.address);
 
       // Datos sobre la wallet contactada al provider
       const signer = wallet.connect(kovanProvider);
@@ -46,7 +48,6 @@ export function AccountWrapper({ children }) {
   // Crear wallet
   const createWallet = (): { success: boolean } => {
     const wallet = ethers.Wallet.createRandom();
-    console.log('wallet', wallet);
     if (wallet) {
       const mnemonicEncypt = encrypt(wallet.mnemonic.phrase);
       localStorage.setItem('sw_mnemonic', mnemonicEncypt);
@@ -60,7 +61,7 @@ export function AccountWrapper({ children }) {
     }
   };
 
-  return <AccountContext.Provider value={{ wallet, createWallet }}>{children}</AccountContext.Provider>;
+  return <AccountContext.Provider value={{ wallet, address, createWallet }}>{children}</AccountContext.Provider>;
 }
 
 export function useAccount() {
