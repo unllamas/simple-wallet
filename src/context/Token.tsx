@@ -38,15 +38,6 @@ export function TokenWrapper({ children }) {
     }
   });
 
-  // console.log('balance', balance);
-
-  // useEffect(() => {
-  //   if (!provider) {
-  //     const providerDAI = new ethers.Contract(addressDAI, abiDAI, kovanProvider);
-  //     setProvider(providerDAI);
-  //   }
-  // }, [provider]);
-
   const providerDAI = new ethers.Contract(addressDAI, abiDAI, kovanProvider);
 
   useEffect(() => {
