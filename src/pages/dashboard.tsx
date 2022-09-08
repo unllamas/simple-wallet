@@ -14,11 +14,32 @@ import Heading from '../components/Shared/Heading';
 import Text from '../components/Shared/Text';
 import Button from '../components/Shared/Button';
 
-const Dashboard = () => {
+import { cryptoToUSD } from '../hooks/usePrice';
+
+import { getPrice } from './api/coingecko';
+
+export async function getServerSideProps() {
+  const { success, data } = await getPrice();
+
+  if (success) {
+    return {
+      props: {
+        price: data,
+      },
+    };
+  }
+}
+
+const Dashboard = ({ price }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { wallet } = useAccount();
   const { tokenETH, tokenDAI } = useToken();
+
+  // Component
+  const priceETH = cryptoToUSD(price?.ethereum?.usd, tokenETH);
+  const priceDAI = cryptoToUSD(price?.dai?.usd, tokenDAI);
+  const total = priceETH + priceDAI;
 
   // General
   const [modalType, setModalType] = useState('');
@@ -36,7 +57,7 @@ const Dashboard = () => {
           {/* Balance */}
           <Stat w='100%'>
             <StatLabel>Your balance</StatLabel>
-            <StatNumber fontSize='32px'>$0.00</StatNumber>
+            <StatNumber fontSize='32px'>${total}</StatNumber>
           </Stat>
 
           {/* Botones */}
@@ -69,7 +90,7 @@ const Dashboard = () => {
             <VStack alignItems='flex-end'>
               <Text>{tokenETH || '0.0'}</Text>
               <Text size='sm' mt='0px !important'>
-                ${tokenETH || '0.0'}
+                ${priceETH}
               </Text>
             </VStack>
           </Flex>
@@ -83,7 +104,7 @@ const Dashboard = () => {
             <VStack alignItems='flex-end'>
               <Text>{tokenDAI || '0.0'}</Text>
               <Text size='sm' mt='0px !important'>
-                ${tokenDAI || '0.0'}
+                ${priceDAI}
               </Text>
             </VStack>
           </Flex>
