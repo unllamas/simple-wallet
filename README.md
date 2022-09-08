@@ -1,4 +1,4 @@
-- [CONTRIBUTING](https://github.com/jonallamas/simple-wallet/blob/master/CONTRIBUTING.md) for package management
+- ❤️ [CONTRIBUTING](https://github.com/jonallamas/simple-wallet/blob/master/CONTRIBUTING.md)
 
 ## 💻 Tech Stack
 
