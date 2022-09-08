@@ -1,3 +1,5 @@
+- [CONTRIBUTING](https://github.com/jonallamas/simple-wallet/blob/master/CONTRIBUTING.md) for package management
+
 ## 💻 Tech Stack
 
 - [Yarn]() for package management
