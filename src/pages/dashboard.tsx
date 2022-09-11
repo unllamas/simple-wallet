@@ -14,7 +14,8 @@ import Heading from '../components/Shared/Heading';
 import Text from '../components/Shared/Text';
 import Button from '../components/Shared/Button';
 
-import { cryptoToUSD } from '../hooks/usePrice';
+import cryptoToUSD from '../hooks/usePrice';
+import bigNumberTokenToString from '../hooks/useUtils';
 
 import { getPrice } from './api/coingecko';
 
@@ -44,7 +45,7 @@ const Dashboard = ({ price }) => {
   // General
   const [modalType, setModalType] = useState('');
 
-  const handleOpenModal = async (name) => {
+  const handleOpenModal = (name) => {
     setModalType(name);
     onOpen();
   };
@@ -57,7 +58,7 @@ const Dashboard = ({ price }) => {
           {/* Balance */}
           <Stat w='100%'>
             <StatLabel>Your balance</StatLabel>
-            <StatNumber fontSize='32px'>${total}</StatNumber>
+            <StatNumber fontSize='32px'>${Number(total).toFixed(2)}</StatNumber>
           </Stat>
 
           {/* Botones */}
@@ -88,9 +89,9 @@ const Dashboard = ({ price }) => {
               <Text>ETH</Text>
             </Flex>
             <VStack alignItems='flex-end'>
-              <Text>{tokenETH || '0.0'}</Text>
+              <Text>{bigNumberTokenToString(tokenETH, 7) || '0.00'}</Text>
               <Text size='sm' mt='0px !important'>
-                ${priceETH}
+                ${Number(priceETH).toFixed(2)}
               </Text>
             </VStack>
           </Flex>
@@ -102,9 +103,9 @@ const Dashboard = ({ price }) => {
               <Text>DAI</Text>
             </Flex>
             <VStack alignItems='flex-end'>
-              <Text>{tokenDAI || '0.0'}</Text>
+              <Text>{bigNumberTokenToString(tokenDAI, 2) || '0.00'}</Text>
               <Text size='sm' mt='0px !important'>
-                ${priceDAI}
+                ${Number(priceDAI).toFixed(2)}
               </Text>
             </VStack>
           </Flex>
