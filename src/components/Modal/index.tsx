@@ -18,7 +18,7 @@ const Modal = (props: Modal) => {
     <ModalBox isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false} size={{ base: 'full', md: 'sm' }}>
       <ModalOverlay />
       {type === 'receive' && <Receive />}
-      {type === 'send' && <Send />}
+      {type === 'send' && <Send onClose={onClose} />}
     </ModalBox>
   );
 };

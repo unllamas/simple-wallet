@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Flex,
   Box,
@@ -12,67 +12,86 @@ import {
   InputLeftAddon,
   Spinner,
   useToast,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuOptionGroup,
+  MenuItemOption,
 } from '@chakra-ui/react';
 
-// import { useAccountContext } from '../../../context/Account';
+import { useBlockchain } from '../../../context/Blockchain';
+import { useToken } from '../../../context/Token';
 
 import Button from '../../Shared/Button';
 import Input from '../../Shared/Input';
-// import Polygon from '../../Icon/Polygon';
 
-// import { getPriceMaticToUsd } from '../../../pages/api/coingecko';
+import IconETH from '../../Icons/ETH';
+import IconDAI from '../../Icons/DAI';
 
-const Send = () => {
+import { getPrice } from '../../../pages/api/coingecko';
+
+const Send = ({ onClose }) => {
   // Chakra
   const toast = useToast();
-  const toastIdRef = useRef();
 
   // Context
-  // const { balance, sendTransaction, getGasPrice } = useAccountContext();
+  const { getGasPrice } = useBlockchain();
+  const { sendTransaction } = useToken();
 
+  // Component
   const [loading, setLoading] = useState(false);
   const [toAddress, setToAddress] = useState('');
   const [mount, setMount] = useState();
-  const [price, setPrice] = useState(0);
-  const [gasPrice, setGasPrice] = useState(0);
 
-  // useEffect(() => {
-  //   // setLoading(true);
-  //   async function init() {
-  //     const gasPrice = await getGasPrice();
-  //     const usdPrice = await getPriceMaticToUsd();
-  //     gasPrice && setGasPrice(gasPrice);
-  //     usdPrice && setPrice(usdPrice);
-  //   }
+  const [price, setPrice] = useState({});
+  const [gasPrice, setGasPrice] = useState();
 
-  //   init();
-  // }, [gasPrice, price]);
+  const [defaultToken, setDefaultToken] = useState('ethereum');
+
+  useEffect(() => {
+    // setLoading(true);
+    async function init() {
+      try {
+        const gasPrice = await getGasPrice();
+        const { data } = await getPrice();
+        setGasPrice(gasPrice);
+        setPrice(data);
+      } catch (error) {
+        console.log('err', error);
+      }
+    }
+
+    !gasPrice && init();
+  }, [gasPrice, price]);
+
+  if (!gasPrice) return null;
 
   // Send transaction
   const handleSendTransaction = async () => {
-    // setLoading(true);
-    // if (toAddress && mount) {
-    //   const res = await sendTransaction(toAddress, mount);
-    //   if (res.success) {
-    //     setLoading(false);
-    //     handleCloseModal();
-    //   } else {
-    //     setLoading(false);
-    //     if (res.error.code === 'INSUFFICIENT_FUNDS') {
-    //       toastIdRef.current = toast({
-    //         description: 'No posee fondos suficientes',
-    //         status: 'warning',
-    //       });
-    //     }
-    //   }
-    // }
+    setLoading(true);
+    if (toAddress && mount) {
+      const res = await sendTransaction(toAddress, mount, defaultToken);
+      if (res?.success) {
+        toast({ description: 'Transaccion enviada', status: 'success' });
+        setLoading(false);
+        handleCloseModal();
+      } else {
+        setLoading(false);
+        if (res?.error?.code === 'INSUFFICIENT_FUNDS') {
+          toast({
+            description: 'No posee fondos suficientes',
+            status: 'warning',
+          });
+        }
+      }
+    }
   };
 
-  // const handleCloseModal = () => {
-  //   setMount('');
-  //   setGasPrice('');
-  //   onClose();
-  // };
+  const handleCloseModal = () => {
+    setMount('');
+    setGasPrice(0);
+    onClose();
+  };
 
   const handlePasteAddress = async () => {
     try {
@@ -100,24 +119,41 @@ const Send = () => {
             </Box>
             <Box>
               <InputGroup h='60px'>
-                <InputLeftAddon h='60px' w='60px'>
-                  {/* <Polygon /> */}
-                  <Box w='25px' h='25px' borderRadius={50} bg='#ccc'></Box>
-                </InputLeftAddon>
+                <Menu closeOnSelect={true}>
+                  <MenuButton as={InputLeftAddon} cursor='pointer' h='100%'>
+                    <Box h='32px' w='32px' bg='#fff' borderRadius={50}>
+                      {defaultToken === 'ethereum' ? <IconETH /> : <IconDAI />}
+                    </Box>
+                  </MenuButton>
+                  <MenuList minWidth='240px'>
+                    <MenuOptionGroup defaultValue={defaultToken} title='Token' type='radio' onChange={setDefaultToken}>
+                      <MenuItemOption value='ethereum'>ETH</MenuItemOption>
+                      <MenuItemOption value='dai'>DAI</MenuItemOption>
+                    </MenuOptionGroup>
+                  </MenuList>
+                </Menu>
                 <Input h='60px' type='number' placeholder='0.1' onChange={(e) => setMount(e.target.value)} />
               </InputGroup>
             </Box>
             <Flex justifyContent='space-between'>
               <Text fontWeight='bold'>Fee</Text>
               <Box textAlign='right'>
-                <Text fontWeight='bold'>0 MATIC</Text>
-                <Text>$0.0</Text>
+                <Text fontWeight='bold'>{Number(gasPrice).toFixed(7) || '0.00'} ETH</Text>
+                <Text>${(Number(gasPrice) * Number(price[defaultToken]?.usd)).toFixed(2) || '0.00'}</Text>
               </Box>
             </Flex>
           </Flex>
           <Flex justifyContent='space-between' pt='40px'>
             <Text fontWeight='bold'>Total</Text>
-            <Text fontWeight='bold'>$ 0.00</Text>
+            <Text fontWeight='bold'>
+              $
+              {mount
+                ? (
+                    Number(mount) * Number(price[defaultToken]?.usd) +
+                    Number(gasPrice) * Number(price[defaultToken]?.usd)
+                  ).toFixed(2)
+                : Number(0).toFixed(2)}
+            </Text>
           </Flex>
         </Flex>
       </ModalBody>
