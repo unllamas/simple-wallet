@@ -1,66 +1,110 @@
 // @ts-nocheck
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { ethers } from 'ethers';
+import React, { createContext, useContext, useState } from 'react';
+import { BigNumber, ethers } from 'ethers';
+import { useToast } from '@chakra-ui/react';
 
 import { useBlockchain } from './Blockchain';
 import { useAccount } from './Account';
 
 import abiDAI from '../utils/abi/DAI.json';
 
-const TokenContext = createContext({ tokenETH: '', tokenDAI: '' });
+interface TokenContextInterface {
+  tokenETH: BigNumber;
+  tokenDAI: BigNumber;
+}
+
+const TokenContext = createContext<TokenContextInterface | null>(null);
 
 const addressDAI = '0x4F96Fe3b7A6Cf9725f59d353F723c1bDb64CA6Aa';
 
 export function TokenWrapper({ children }) {
+  // Chakra
+  const toast = useToast();
+
+  // Context
   const { kovanProvider } = useBlockchain();
-  const { wallet, address } = useAccount();
+  const { address, signer } = useAccount();
 
-  const [loading, setLoading] = useState(false);
+  // Component
+  const [tokenETH, setTokenETH] = useState(ethers.constants.Zero);
+  const [tokenDAI, setTokenDAI] = useState(ethers.constants.Zero);
 
-  // const [provider, setProvider] = useState();
-  const [tokenETH, setTokenETH] = useState('');
-  const [tokenDAI, setTokenDAI] = useState('');
+  if (!address) return null;
 
-  const [balance, setBalance] = useState(0);
+  const providerDAI = new ethers.Contract(addressDAI, abiDAI, kovanProvider);
 
-  // Obtener balance de Ethereum
-  // let lastBalance = ethers.constants.Zero;
+  // Obtener balance de Ethereum y DAI
   kovanProvider?.on('block', () => {
-    if (!!address) {
+    if (tokenETH.isZero() && tokenDAI.isZero()) {
       kovanProvider.getBalance(address).then((balance) => {
-        // if (!balance.eq(lastBalance)) {
-        // lastBalance = balance;
-        // convert a currency unit from wei to ether
-        const balanceInEth = ethers.utils.formatEther(balance);
-        setTokenETH(balanceInEth);
-        // }
+        if (!balance?.eq(tokenETH)) {
+          setTokenETH(balance);
+        }
+      });
+
+      providerDAI.balanceOf(address).then((balance) => {
+        if (!balance?.eq(tokenDAI)) {
+          setTokenDAI(balance);
+        }
       });
     }
   });
 
-  const providerDAI = new ethers.Contract(addressDAI, abiDAI, kovanProvider);
+  // Enviar transaccion
+  const sendTransaction = async (toAddress, mount, token) => {
+    const addressIsValid = ethers.utils.isAddress(toAddress);
+    if (addressIsValid) {
+      // Send token DAI
+      if (token === 'dai') {
+        const daiWithSigner = providerDAI.connect(signer);
+        const dai = ethers.utils.parseUnits(String(mount), 18);
 
-  useEffect(() => {
-    async function getBalance() {
-      try {
-        const res = await providerDAI.balanceOf(address);
-        if (res) {
-          const convert = ethers.utils.formatUnits(res, 18);
-          if (convert) {
-            setTokenDAI(convert);
-          }
+        try {
+          await daiWithSigner.transfer(toAddress, dai);
+          return {
+            success: true,
+          };
+        } catch (error) {
+          return {
+            success: false,
+            error,
+          };
         }
-      } catch (error) {
-        console.log('error', error);
+      } else {
+        // Send token ETH
+        const tx = {
+          to: toAddress,
+          value: ethers.utils.parseEther(mount),
+        };
+
+        try {
+          await signer.signTransaction(tx);
+          await signer.sendTransaction(tx);
+
+          return {
+            success: true,
+          };
+        } catch (error) {
+          return {
+            success: false,
+            error,
+          };
+        }
       }
+    } else {
+      toast({
+        description: 'La address parece ser incorrecta.',
+        status: 'warning',
+      });
+
+      return {
+        success: false,
+        error: '',
+      };
     }
+  };
 
-    !tokenDAI && getBalance();
-  }, [tokenDAI, address]);
-
-  if (loading) return 'Cargando...';
-
-  return <TokenContext.Provider value={{ tokenETH, tokenDAI }}>{children}</TokenContext.Provider>;
+  return <TokenContext.Provider value={{ tokenETH, tokenDAI, sendTransaction }}>{children}</TokenContext.Provider>;
 }
 
 export function useToken() {
