@@ -16,7 +16,13 @@ export function BlockchainWrapper({ children }) {
 
   if (!kovanProvider) return;
 
-  return <BlockchainContext.Provider value={{ kovanProvider }}>{children}</BlockchainContext.Provider>;
+  // Obtener precio del gas
+  const getGasPrice = async () => {
+    const gasPrice = await kovanProvider.getGasPrice();
+    return ethers.utils.formatEther(gasPrice);
+  };
+
+  return <BlockchainContext.Provider value={{ kovanProvider, getGasPrice }}>{children}</BlockchainContext.Provider>;
 }
 
 export function useBlockchain() {
