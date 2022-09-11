@@ -61,7 +61,9 @@ export function AccountWrapper({ children }) {
     }
   };
 
-  return <AccountContext.Provider value={{ wallet, address, createWallet }}>{children}</AccountContext.Provider>;
+  return (
+    <AccountContext.Provider value={{ wallet, address, createWallet, signer }}>{children}</AccountContext.Provider>
+  );
 }
 
 export function useAccount() {
