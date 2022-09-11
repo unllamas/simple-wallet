@@ -1,6 +1,8 @@
 // @ts-nocheck
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { ethers } from 'ethers';
+import { useRouter } from 'next/router';
+import { useToast } from '@chakra-ui/react';
 
 import { useBlockchain } from './Blockchain';
 
@@ -12,6 +14,9 @@ const AccountContext = createContext<{ wallet: { address: string }; createWallet
 });
 
 export function AccountWrapper({ children }) {
+  const router = useRouter();
+  const toast = useToast();
+
   const { kovanProvider } = useBlockchain();
 
   const [wallet, setWallet] = useState({});
@@ -61,8 +66,32 @@ export function AccountWrapper({ children }) {
     }
   };
 
+  // Ingresar con mnemonic
+  const signupWallet = (mnemonic) => {
+    const isValid = ethers.utils.isValidMnemonic(mnemonic);
+    if (isValid) {
+      const wallet = ethers.Wallet.fromMnemonic(mnemonic);
+      if (wallet) {
+        const mnemonicEncypt = encrypt(wallet?.mnemonic?.phrase);
+        localStorage.setItem('sw_mnemonic', mnemonicEncypt);
+        localStorage.setItem('isConnected', true);
+
+        setMnemonic(mnemonicEncypt);
+        setIsConnected(true);
+
+        router?.push('/dashboard');
+        return { success: true };
+      }
+    } else {
+      toast({ description: 'Verifique que el mnemonic sea correcto.', status: 'warning' });
+      return { success: false };
+    }
+  };
+
   return (
-    <AccountContext.Provider value={{ wallet, address, createWallet, signer }}>{children}</AccountContext.Provider>
+    <AccountContext.Provider value={{ wallet, address, createWallet, signupWallet, signer, isConnected }}>
+      {children}
+    </AccountContext.Provider>
   );
 }
 
