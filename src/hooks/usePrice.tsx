@@ -1,8 +1,8 @@
-export function cryptoToUSD(price, token) {
-  if (price && token) {
-    const value = (Number(price) * Number(token)).toFixed(2);
+import bigNumberTokenToString from './useUtils';
 
-    return Number(value);
+export default function cryptoToUSD(price, token) {
+  if (price && token) {
+    return Number(price) * Number(bigNumberTokenToString(token, 2));
   } else {
     return 0;
   }
