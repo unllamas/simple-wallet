@@ -33,5 +33,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## 📖 Docs
 
+- ❤️ [CONTRIBUTING](https://github.com/jonallamas/simple-wallet/blob/master/CONTRIBUTING.md)
 - 🖌 [Figma UI Kit](https://www.figma.com/file/1i0831yLWD4XJmjo9iEXvR/Simple-wallet?node-id=21%3A13)
+- 💸 [Faucet](https://faucet.paradigm.xyz/)
 
