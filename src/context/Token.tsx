@@ -29,26 +29,26 @@ export function TokenWrapper({ children }) {
   const [tokenETH, setTokenETH] = useState(ethers.constants.Zero);
   const [tokenDAI, setTokenDAI] = useState(ethers.constants.Zero);
 
-  if (!address) return null;
-
   const providerDAI = new ethers.Contract(addressDAI, abiDAI, kovanProvider);
 
   // Obtener balance de Ethereum y DAI
-  kovanProvider?.on('block', () => {
-    if (tokenETH.isZero() && tokenDAI.isZero()) {
-      kovanProvider.getBalance(address).then((balance) => {
-        if (!balance?.eq(tokenETH)) {
-          setTokenETH(balance);
-        }
-      });
+  if (!!address) {
+    kovanProvider?.on('block', () => {
+      if (tokenETH.isZero() && tokenDAI.isZero()) {
+        kovanProvider.getBalance(address).then((balance) => {
+          if (!balance?.eq(tokenETH)) {
+            setTokenETH(balance);
+          }
+        });
 
-      providerDAI.balanceOf(address).then((balance) => {
-        if (!balance?.eq(tokenDAI)) {
-          setTokenDAI(balance);
-        }
-      });
-    }
-  });
+        providerDAI.balanceOf(address).then((balance) => {
+          if (!balance?.eq(tokenDAI)) {
+            setTokenDAI(balance);
+          }
+        });
+      }
+    });
+  }
 
   // Enviar transaccion
   const sendTransaction = async (toAddress, mount, token) => {
