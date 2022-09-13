@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { Image, Flex, useToast } from '@chakra-ui/react';
+import { Image, Flex, useToast, VStack } from '@chakra-ui/react';
 
 import { useAccount } from '../context/Account';
 
@@ -75,24 +75,26 @@ const Create = () => {
 
   return (
     <Flex height='100vh' w={'100vw'} justifyContent={'center'} alignItems={'center'}>
-      <Container maxW={'md'} px='20px' bg='#fff'>
-        <Flex flexDirection={'column'} gap={4}>
+      <Container maxW={'md'} h='100%' p='20px' bg='#fff'>
+        <Flex flexDirection={'column'} justifyContent={{ base: 'space-between', md: 'center' }} gap={4} h='100%'>
           {!showValidate ? (
             <>
-              <Flex justifyContent={'flex-start'}>
-                <Image src='/75x75.png' />
-              </Flex>
-              <Heading as='h2'>Generate password</Heading>
-              <Text>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure corrupti minus autem, reiciendis libero
-                enim.
-              </Text>
-              <Input
-                h='60px'
-                placeholder='Your password'
-                value={password}
-                onChange={(e) => handleSetPassword(e.target.value)}
-              />
+              <VStack alignItems='flex-start' gap='10px'>
+                <Flex justifyContent={'flex-start'}>
+                  <Image src='/75x75.png' />
+                </Flex>
+                <Heading as='h2'>Generate password</Heading>
+                <Text>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure corrupti minus autem, reiciendis libero
+                  enim.
+                </Text>
+                <Input
+                  h='60px'
+                  placeholder='Your password'
+                  value={password}
+                  onChange={(e) => handleSetPassword(e.target.value)}
+                />
+              </VStack>
               <Flex w='100%' gap='10px' flexDirection={'column'}>
                 <Button disabled={!password} onClick={handleContinue}>
                   Continue
@@ -104,20 +106,22 @@ const Create = () => {
             </>
           ) : (
             <>
-              <Flex justifyContent={'flex-start'}>
-                <Image src='/75x75.png' />
-              </Flex>
-              <Heading as='h2'>Verify password</Heading>
-              <Text>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure corrupti minus autem, reiciendis libero
-                enim.
-              </Text>
-              <Input
-                h='60px'
-                placeholder='Verify your password'
-                value={validatePassword}
-                onChange={(e) => handleSetValidatePass(e.target.value)}
-              />
+              <VStack alignItems='flex-start' gap='10px'>
+                <Flex justifyContent={'flex-start'}>
+                  <Image src='/75x75.png' />
+                </Flex>
+                <Heading as='h2'>Verify password</Heading>
+                <Text>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure corrupti minus autem, reiciendis libero
+                  enim.
+                </Text>
+                <Input
+                  h='60px'
+                  placeholder='Verify your password'
+                  value={validatePassword}
+                  onChange={(e) => handleSetValidatePass(e.target.value)}
+                />
+              </VStack>
               <Flex w='100%' gap='10px' flexDirection={'column'}>
                 <Button variant='solid' disabled={!isValid || loading} onClick={handleConfirm}>
                   {loading ? 'Loading...' : 'Confirm'}
