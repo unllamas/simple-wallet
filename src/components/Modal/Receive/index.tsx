@@ -27,24 +27,31 @@ const Receive = () => {
     <ModalContent bg='#fff'>
       <ModalHeader>Receive</ModalHeader>
       <ModalCloseButton />
-      <ModalBody pt='20px' display='flex' w='100%' h='100%' flexDirection='column' justifyContent='space-between'>
-        <Flex flexDirection='column' gap='20px' pb='40px' flex='1' justifyContent='center'>
-          <Flex flexDirection='column' gap='20px'>
+      <ModalBody
+        p='20px'
+        display='flex'
+        w='100%'
+        h='100%'
+        flexDirection='column'
+        justifyContent='space-between'
+        alignItems='center'
+        gap='20px'
+      >
+        <Flex flexDirection='column' gap='20px' flex='1' justifyContent='center'>
+          <Flex flexDirection='column' alignItems='center' gap='20px'>
             <Flex align='center' justify='center'>
               {wallet?.address && <QRCode value={wallet?.address} />}
             </Flex>
-            <Flex px={{ md: '40px' }} justifyContent='space-between'>
+            <Flex maxW='256px' w='100%' justifyContent='space-between'>
               <Box flex='1'>
                 <Text fontWeight='bold'>Address</Text>
                 <Text>{useTruncatedAddress(wallet?.address)}</Text>
               </Box>
-              <Flex>
-                <Button size='sm' onClick={() => handleCopyAddress()}>
-                  Copy
-                </Button>
-              </Flex>
             </Flex>
           </Flex>
+        </Flex>
+        <Flex maxW={{ base: '100%', md: '256px' }} w='100%'>
+          <Button onClick={handleCopyAddress}>Copy address</Button>
         </Flex>
       </ModalBody>
     </ModalContent>

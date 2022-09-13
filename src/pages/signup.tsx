@@ -90,10 +90,13 @@ const Signup = () => {
       <Flex height='100vh' w={'100vw'} justifyContent={'center'} alignItems={'center'} py='20px'>
         <Container maxW={'md'} h='100%' px='20px' bg='#fff'>
           {showMnemonic ? (
-            <Flex flexDirection={'column'} justifyContent='space-between' h='100%' gap={4}>
-              <VStack gap='20px'>
+            <Flex flexDirection={'column'} justifyContent={{ base: 'space-between', md: 'center' }} h='100%' gap={4}>
+              <VStack gap='10px' alignItems='flex-start'>
+                <Flex justifyContent={'flex-start'}>
+                  <Image src='/75x75.png' />
+                </Flex>
                 <Heading as='h2'>Write your seed phrase</Heading>
-                <Text textAlign='center'>
+                <Text>
                   Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure corrupti minus autem, reiciendis libero
                   enim.
                 </Text>
@@ -112,7 +115,7 @@ const Signup = () => {
               </Flex>
             </Flex>
           ) : (
-            <Flex flexDirection={'column'} justifyContent='space-between' h='100%' gap={4}>
+            <Flex flexDirection={'column'} justifyContent={{ base: 'space-between', md: 'center' }} h='100%' gap={4}>
               {!showValidate ? (
                 <>
                   <VStack gap='20px'>
