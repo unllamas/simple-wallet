@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import NextLink from 'next/link';
-import { Image, Flex, Box, useDisclosure, Tag, Stat, StatLabel, StatNumber, VStack } from '@chakra-ui/react';
-import { RefreshCw, ArrowDownRight, ArrowUpRight } from 'react-feather';
+import { Image, Flex, Box, useDisclosure, Tag, Stat, StatLabel, StatNumber, VStack, HStack } from '@chakra-ui/react';
+import { RefreshCw, ArrowDownRight, ArrowUpRight, Lock, Unlock, ArrowRight, Check } from 'react-feather';
 
 import { useBlockchain } from '../context/Blockchain';
 import { useAccount } from '../context/Account';
@@ -41,6 +41,8 @@ const Dashboard = ({ price }) => {
   const priceETH = cryptoToUSD(price?.ethereum?.usd, tokenETH);
   const priceDAI = cryptoToUSD(price?.dai?.usd, tokenDAI);
   const total = priceETH + priceDAI;
+
+  const hasSaveMnemonic = localStorage.sw_saveMnemonic;
 
   // General
   const [modalType, setModalType] = useState('');
@@ -111,12 +113,37 @@ const Dashboard = ({ price }) => {
           </Flex>
 
           {/* Security */}
-          <Flex w='100%' mt='30px' alignItems={'center'} justifyContent={'space-between'}>
-            <Heading as='h2'>Security</Heading>
-            <Box>
-              <Tag size='md'>Pending</Tag>
-            </Box>
-          </Flex>
+          {hasSaveMnemonic ? (
+            <Flex w='100%' mt='30px' alignItems={'center'} justifyContent={'space-between'}>
+              <HStack>
+                <Lock />
+                <Heading as='h2'>Security</Heading>
+              </HStack>
+              <HStack gap='10px'>
+                <Check />
+              </HStack>
+            </Flex>
+          ) : (
+            <NextLink href={!hasSaveMnemonic && '/settings/backup'}>
+              <Flex
+                w='100%'
+                mt='15px'
+                py='15px'
+                alignItems={'center'}
+                justifyContent={'space-between'}
+                cursor='pointer'
+              >
+                <HStack>
+                  <Unlock opacity={0.35} />
+                  <Heading as='h2'>Security</Heading>
+                </HStack>
+                <HStack gap='10px'>
+                  <Tag size='md'>Pending</Tag>
+                  <ArrowRight />
+                </HStack>
+              </Flex>
+            </NextLink>
+          )}
         </Container>
       </Flex>
 
