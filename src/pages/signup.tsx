@@ -74,10 +74,10 @@ const Signup = () => {
     setTemporalMnemonic(localMnemonic);
   };
 
-  const handleLoginWallet = () => {
+  const handleLoginWallet = async () => {
     setLoading(true);
     const arrayToString = temporalMnemonic.join(' ');
-    const { success } = signupWallet(arrayToString);
+    const { success } = await signupWallet(arrayToString);
     if (success) {
       setLoading(true);
     } else {

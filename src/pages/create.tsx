@@ -54,11 +54,11 @@ const Create = () => {
     }
   };
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     if (password === validatePassword) {
       setLoading(true);
-      const res = createWallet();
-      if (res?.success) {
+      const { success } = await createWallet();
+      if (success) {
         router.push('/dashboard');
         setLoading(false);
       }

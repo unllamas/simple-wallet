@@ -3,14 +3,25 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import { useRouter } from 'next/router';
 import { useToast } from '@chakra-ui/react';
+import { useLiveQuery } from 'dexie-react-hooks';
+import { db } from '../utils/db';
 
 import { useBlockchain } from './Blockchain';
 
 import { encrypt, decrypt } from '../hooks/useCrypto';
 
-const AccountContext = createContext<{ wallet: { address: string }; createWallet: () => { success: boolean } }>({
+interface AccountInterface {
+  wallet: { address: string };
+  createWallet: () => { success: boolean };
+  hasSaveMnemonic: boolean;
+  wallets: Array;
+}
+
+const AccountContext = createContext<AccountInterface>({
   wallet: { address: '' },
   createWallet: () => ({ success: false }),
+  hasSaveMnemonic: false,
+  wallets: [],
 });
 
 export function AccountWrapper({ children }) {
@@ -19,7 +30,12 @@ export function AccountWrapper({ children }) {
 
   const { kovanProvider } = useBlockchain();
 
+  // Dexie
+  const walletsDB = useLiveQuery(() => db.wallets.toArray());
+
+  const [wallets, setWallets] = useState([]);
   const [wallet, setWallet] = useState({});
+  const [hasSaveMnemonic, setHasSaveMnemonic] = useState(false);
   const [address, setAddress] = useState('');
   const [signer, setSigner] = useState();
 
@@ -27,14 +43,13 @@ export function AccountWrapper({ children }) {
 
   const [isConnected, setIsConnected] = useState(localStorage?.isConnected || false);
 
-  // Obtener datos de localStorage
   useEffect(() => {
-    // localStorage.getItem
-    // setIsConnected(localStorage.isConnected);
-    // if (localStorage.isConnected) {
-    setMnemonic(localStorage.sw_mnemonic);
-    // }
-  }, [mnemonic]);
+    if (walletsDB && walletsDB?.length) {
+      setWallets(walletsDB);
+      setHasSaveMnemonic(walletsDB[0]?.saveMn);
+      setMnemonic(walletsDB[0]?.mnemonic);
+    }
+  }, [mnemonic, walletsDB, wallets]);
 
   useEffect(() => {
     if (mnemonic && !signer) {
@@ -51,36 +66,43 @@ export function AccountWrapper({ children }) {
   }, [signer, mnemonic]);
 
   // Crear wallet
-  const createWallet = (): { success: boolean } => {
+  const createWallet = async (): { success: boolean } => {
     const wallet = ethers.Wallet.createRandom();
     if (wallet) {
-      const mnemonicEncypt = encrypt(wallet.mnemonic.phrase);
-      localStorage.setItem('sw_mnemonic', mnemonicEncypt);
+      const mnemonicEncypt = encrypt(wallet?.mnemonic?.phrase);
+      try {
+        await db.wallets.add({ mnemonic: mnemonicEncypt, saveMn: false });
 
-      setMnemonic(mnemonicEncypt);
-      setIsConnected(true);
+        setMnemonic(mnemonicEncypt);
+        setIsConnected(true);
 
-      return { success: true };
+        return { success: true };
+      } catch (error) {
+        return { success: false };
+      }
     } else {
       return { success: false };
     }
   };
 
   // Ingresar con mnemonic
-  const signupWallet = (mnemonic) => {
+  const signupWallet = async (mnemonic) => {
     const isValid = ethers.utils.isValidMnemonic(mnemonic);
     if (isValid) {
       const wallet = ethers.Wallet.fromMnemonic(mnemonic);
       if (wallet) {
         const mnemonicEncypt = encrypt(wallet?.mnemonic?.phrase);
-        localStorage.setItem('sw_mnemonic', mnemonicEncypt);
-        localStorage.setItem('isConnected', true);
+        try {
+          await db.wallets.add({ mnemonic: mnemonicEncypt, saveMn: true });
 
-        setMnemonic(mnemonicEncypt);
-        setIsConnected(true);
+          setMnemonic(mnemonicEncypt);
+          setIsConnected(true);
 
-        router?.push('/dashboard');
-        return { success: true };
+          router?.push('/dashboard');
+          return { success: true };
+        } catch (error) {
+          return { success: false };
+        }
       }
     } else {
       toast({ description: 'Verifique que el mnemonic sea correcto.', status: 'warning' });
@@ -89,7 +111,9 @@ export function AccountWrapper({ children }) {
   };
 
   return (
-    <AccountContext.Provider value={{ wallet, address, createWallet, signupWallet, signer, isConnected }}>
+    <AccountContext.Provider
+      value={{ wallet, wallets, hasSaveMnemonic, address, createWallet, signupWallet, signer, isConnected }}
+    >
       {children}
     </AccountContext.Provider>
   );

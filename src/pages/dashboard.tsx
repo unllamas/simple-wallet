@@ -34,15 +34,13 @@ export async function getServerSideProps() {
 const Dashboard = ({ price }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const { wallet } = useAccount();
+  const { hasSaveMnemonic } = useAccount();
   const { tokenETH, tokenDAI } = useToken();
 
   // Component
   const priceETH = cryptoToUSD(price?.ethereum?.usd, tokenETH);
   const priceDAI = cryptoToUSD(price?.dai?.usd, tokenDAI);
   const total = priceETH + priceDAI;
-
-  const hasSaveMnemonic = localStorage.sw_saveMnemonic;
 
   // General
   const [modalType, setModalType] = useState('');
@@ -54,7 +52,7 @@ const Dashboard = ({ price }) => {
 
   return (
     <>
-      <Box w='100%' h='60px' bg='#eee' position='fixed' top={0} borderBottom='1px solid #ccc'></Box>
+      {/* <Box w='100%' h='60px' bg='#eee' position='fixed' top={0} borderBottom='1px solid #ccc'></Box> */}
       <Flex height='100vh' w={'100vw'} justifyContent={'center'} alignItems={'center'} pt='20px'>
         <Container w='100%' maxW={'md'} px='20px'>
           {/* Balance */}
