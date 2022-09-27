@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { ethers } from 'ethers';
 import { Image, Flex, Box, useDisclosure, VStack, HStack, useToast, Checkbox } from '@chakra-ui/react';
 
+import { useAccount } from '../../context/Account';
+
 import { decrypt } from '../../hooks/useCrypto';
 
 import { Container } from '../../components/Container';
@@ -48,7 +50,8 @@ const ScreenValidate = ({ onSubmit }) => {
 };
 
 const ScreenWrite = ({ onChangeScreen }) => {
-  const mnemonic = decrypt(localStorage.sw_mnemonic);
+  const { wallets } = useAccount();
+  const mnemonic = decrypt(wallets[0]?.mnemonic);
 
   const [hasSave, setHasSave] = useState(false);
 
@@ -63,7 +66,7 @@ const ScreenWrite = ({ onChangeScreen }) => {
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure corrupti minus autem, reiciendis libero enim.
         </Text>
 
-        <Mnemonic mnemonic={mnemonic.split(' ')} readOnly={true} />
+        <Mnemonic mnemonic={mnemonic?.split(' ')} readOnly={true} />
       </VStack>
       <Checkbox size='lg' width='100%' justifyContent='space-between' mb='10px' onChange={() => setHasSave(!hasSave)}>
         I confirm that I have saved them
@@ -123,7 +126,7 @@ const Backup = () => {
                   </Text>
 
                   {/* Steps */}
-                  <Flex justifyContent='center'>
+                  <Flex justifyContent='center' display='none'>
                     <HStack
                       gap='5px'
                       position='relative'
