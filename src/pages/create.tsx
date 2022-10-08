@@ -74,7 +74,7 @@ const Create = () => {
   };
 
   return (
-    <Flex height='100vh' w={'100vw'} justifyContent={'center'} alignItems={'center'}>
+    <Flex height='100%' justifyContent={'center'} alignItems={'center'}>
       <Container maxW={'md'} h='100%' p='20px' bg='#fff'>
         <Flex flexDirection={'column'} justifyContent={{ base: 'space-between', md: 'center' }} gap={4} h='100%'>
           {!showValidate ? (

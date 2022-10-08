@@ -53,32 +53,34 @@ const Dashboard = ({ price }) => {
   return (
     <>
       {/* <Box w='100%' h='60px' bg='#eee' position='fixed' top={0} borderBottom='1px solid #ccc'></Box> */}
-      <Flex height='100vh' w={'100vw'} justifyContent={'center'} alignItems={'center'} pt='20px'>
+      <Flex h='100%' justifyContent={'center'} alignItems={'center'} pt='20px'>
         <Container w='100%' maxW={'md'} px='20px'>
           {/* Balance */}
-          <Stat w='100%'>
-            <StatLabel>Your balance</StatLabel>
-            <StatNumber fontSize='32px'>${Number(total).toFixed(2)}</StatNumber>
-          </Stat>
+          <HStack alignItems='flex-start' justifyContent='space-between' mb='30px'>
+            <Stat flex='1'>
+              <StatLabel>Your balance</StatLabel>
+              <StatNumber fontSize='32px'>${Number(total).toFixed(2)}</StatNumber>
+            </Stat>
 
-          {/* Botones */}
-          <Flex w='100%' my='30px'>
-            <Flex flex={1} justifyContent={'center'}>
-              <Button type='circle' onClick={() => handleOpenModal('receive')} label='Receive'>
-                <ArrowDownRight />
-              </Button>
+            {/* Botones */}
+            <Flex my='30px'>
+              <Flex px='20px' justifyContent={'center'}>
+                <Button type='circle' onClick={() => handleOpenModal('receive')} label='Receive'>
+                  <ArrowDownRight />
+                </Button>
+              </Flex>
+              {/* <Flex justifyContent={'center'}>
+                <Button type='circle' color='secondary' label='Swap'>
+                  <RefreshCw />
+                </Button>
+              </Flex> */}
+              <Flex px='20px' justifyContent={'center'}>
+                <Button type='circle' onClick={() => handleOpenModal('send')} label='Send'>
+                  <ArrowUpRight />
+                </Button>
+              </Flex>
             </Flex>
-            <Flex flex={1} justifyContent={'center'}>
-              <Button type='circle' color='secondary' label='Swap'>
-                <RefreshCw />
-              </Button>
-            </Flex>
-            <Flex flex={1} justifyContent={'center'}>
-              <Button type='circle' onClick={() => handleOpenModal('send')} label='Send'>
-                <ArrowUpRight />
-              </Button>
-            </Flex>
-          </Flex>
+          </HStack>
 
           {/* Tokens */}
           <Flex alignItems={'center'} justifyContent={'space-between'} w='100%' bg='#eee' p='20px'>
