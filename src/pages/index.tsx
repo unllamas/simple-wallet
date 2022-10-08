@@ -22,7 +22,7 @@ const Index = () => {
   }
 
   return (
-    <Flex height='100vh' w={'100vw'} justifyContent={'center'} alignItems={'center'}>
+    <Flex h='100%' justifyContent={'center'} alignItems={'center'}>
       <Container maxW={'md'} h='100%' p='20px' bg='#fff'>
         <Flex flexDirection={'column'} justifyContent={{ base: 'space-between', md: 'center' }} h='100%' gap={4}>
           {/* Content */}

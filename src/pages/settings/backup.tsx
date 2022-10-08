@@ -103,7 +103,7 @@ const Backup = () => {
 
   return (
     <>
-      <Flex height='100vh' w={'100vw'} justifyContent={'center'} alignItems={'center'}>
+      <Flex h='100%' justifyContent={'center'} alignItems={'center'}>
         <Container maxW={'md'} px='20px' bg='#fff'>
           <Flex flexDirection={'column'} justifyContent={{ base: 'space-between', md: 'center' }} h='100%' gap={4}>
             {showMnemonic ? (

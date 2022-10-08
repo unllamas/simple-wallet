@@ -87,7 +87,7 @@ const Signup = () => {
 
   return (
     <>
-      <Flex height='100vh' w={'100vw'} justifyContent={'center'} alignItems={'center'} py='20px'>
+      <Flex h='100%' justifyContent={'center'} alignItems={'center'} py='20px'>
         <Container maxW={'md'} h='100%' px='20px' bg='#fff'>
           {showMnemonic ? (
             <Flex flexDirection={'column'} justifyContent={{ base: 'space-between', md: 'center' }} h='100%' gap={4}>
