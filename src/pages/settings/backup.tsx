@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { useState } from 'react';
 import { ethers } from 'ethers';
+import Head from 'next/head';
 import { Image, Flex, Box, useDisclosure, VStack, HStack, useToast, Checkbox } from '@chakra-ui/react';
 
 import { useAccount } from '../../context/Account';
@@ -103,6 +104,9 @@ const Backup = () => {
 
   return (
     <>
+      <Head>
+        <title>Backup - Wallet</title>
+      </Head>
       <Flex h='100%' justifyContent={'center'} alignItems={'center'}>
         <Container maxW={'md'} px='20px' bg='#fff'>
           <Flex flexDirection={'column'} justifyContent={{ base: 'space-between', md: 'center' }} h='100%' gap={4}>

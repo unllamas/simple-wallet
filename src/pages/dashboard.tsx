@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import NextLink from 'next/link';
+import Head from 'next/head';
 import { Image, Flex, Box, useDisclosure, Tag, Stat, StatLabel, StatNumber, VStack, HStack } from '@chakra-ui/react';
 import { RefreshCw, ArrowDownRight, ArrowUpRight, Lock, Unlock, ArrowRight, Check } from 'react-feather';
 
@@ -38,12 +39,28 @@ const Dashboard = ({ price }) => {
   const { tokenETH, tokenDAI } = useToken();
 
   // Component
+  const [pETH, setPETH] = useState(cryptoToUSD(price?.ethereum?.usd, tokenETH));
+  const [pDAI, setPDAI] = useState(cryptoToUSD(price?.dai?.usd, tokenETH));
+
   const priceETH = cryptoToUSD(price?.ethereum?.usd, tokenETH);
   const priceDAI = cryptoToUSD(price?.dai?.usd, tokenDAI);
   const total = priceETH + priceDAI;
 
   // General
   const [modalType, setModalType] = useState('');
+
+  useEffect(() => {
+    async function handleGetPrice() {
+      const { success, data } = await getPrice();
+
+      if (success) {
+        setPETH(cryptoToUSD(data?.ethereum?.usd, tokenETH));
+        setPDAI(cryptoToUSD(data?.dai?.usd, tokenETH));
+      }
+    }
+
+    handleGetPrice();
+  }, [tokenETH, tokenDAI]);
 
   const handleOpenModal = (name) => {
     setModalType(name);
@@ -52,6 +69,9 @@ const Dashboard = ({ price }) => {
 
   return (
     <>
+      <Head>
+        <title>Dashboard - Wallet</title>
+      </Head>
       {/* <Box w='100%' h='60px' bg='#eee' position='fixed' top={0} borderBottom='1px solid #ccc'></Box> */}
       <Flex h='100%' justifyContent={'center'} alignItems={'center'} pt='20px'>
         <Container w='100%' maxW={'md'} px='20px'>
