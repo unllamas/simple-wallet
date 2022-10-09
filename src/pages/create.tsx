@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Image, Flex, useToast, VStack } from '@chakra-ui/react';
 
@@ -74,67 +75,72 @@ const Create = () => {
   };
 
   return (
-    <Flex height='100%' justifyContent={'center'} alignItems={'center'}>
-      <Container maxW={'md'} h='100%' p='20px' bg='#fff'>
-        <Flex flexDirection={'column'} justifyContent={{ base: 'space-between', md: 'center' }} gap={4} h='100%'>
-          {!showValidate ? (
-            <>
-              <VStack alignItems='flex-start' gap='10px'>
-                <Flex justifyContent={'flex-start'}>
-                  <Image src='/75x75.png' />
+    <>
+      <Head>
+        <title>Create - Wallet</title>
+      </Head>
+      <Flex height='100%' justifyContent={'center'} alignItems={'center'}>
+        <Container maxW={'md'} h='100%' p='20px' bg='#fff'>
+          <Flex flexDirection={'column'} justifyContent={{ base: 'space-between', md: 'center' }} gap={4} h='100%'>
+            {!showValidate ? (
+              <>
+                <VStack alignItems='flex-start' gap='10px'>
+                  <Flex justifyContent={'flex-start'}>
+                    <Image src='/75x75.png' />
+                  </Flex>
+                  <Heading as='h2'>Generate password</Heading>
+                  <Text>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure corrupti minus autem, reiciendis
+                    libero enim.
+                  </Text>
+                  <Input
+                    h='60px'
+                    placeholder='Your password'
+                    value={password}
+                    onChange={(e) => handleSetPassword(e.target.value)}
+                  />
+                </VStack>
+                <Flex w='100%' gap='10px' flexDirection={'column'}>
+                  <Button disabled={!password} onClick={handleContinue}>
+                    Continue
+                  </Button>
+                  <Link color='secondary' href='/' passHref>
+                    Cancel
+                  </Link>
                 </Flex>
-                <Heading as='h2'>Generate password</Heading>
-                <Text>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure corrupti minus autem, reiciendis libero
-                  enim.
-                </Text>
-                <Input
-                  h='60px'
-                  placeholder='Your password'
-                  value={password}
-                  onChange={(e) => handleSetPassword(e.target.value)}
-                />
-              </VStack>
-              <Flex w='100%' gap='10px' flexDirection={'column'}>
-                <Button disabled={!password} onClick={handleContinue}>
-                  Continue
-                </Button>
-                <Link color='secondary' href='/' passHref>
-                  Cancel
-                </Link>
-              </Flex>
-            </>
-          ) : (
-            <>
-              <VStack alignItems='flex-start' gap='10px'>
-                <Flex justifyContent={'flex-start'}>
-                  <Image src='/75x75.png' />
+              </>
+            ) : (
+              <>
+                <VStack alignItems='flex-start' gap='10px'>
+                  <Flex justifyContent={'flex-start'}>
+                    <Image src='/75x75.png' />
+                  </Flex>
+                  <Heading as='h2'>Verify password</Heading>
+                  <Text>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure corrupti minus autem, reiciendis
+                    libero enim.
+                  </Text>
+                  <Input
+                    h='60px'
+                    placeholder='Verify your password'
+                    value={validatePassword}
+                    onChange={(e) => handleSetValidatePass(e.target.value)}
+                  />
+                </VStack>
+                <Flex w='100%' gap='10px' flexDirection={'column'}>
+                  <Button variant='solid' disabled={!isValid || loading} onClick={handleConfirm}>
+                    {loading ? 'Loading...' : 'Confirm'}
+                  </Button>
+                  <Link color='secondary' href='/' passHref>
+                    Cancel
+                  </Link>
                 </Flex>
-                <Heading as='h2'>Verify password</Heading>
-                <Text>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure corrupti minus autem, reiciendis libero
-                  enim.
-                </Text>
-                <Input
-                  h='60px'
-                  placeholder='Verify your password'
-                  value={validatePassword}
-                  onChange={(e) => handleSetValidatePass(e.target.value)}
-                />
-              </VStack>
-              <Flex w='100%' gap='10px' flexDirection={'column'}>
-                <Button variant='solid' disabled={!isValid || loading} onClick={handleConfirm}>
-                  {loading ? 'Loading...' : 'Confirm'}
-                </Button>
-                <Link color='secondary' href='/' passHref>
-                  Cancel
-                </Link>
-              </Flex>
-            </>
-          )}
-        </Flex>
-      </Container>
-    </Flex>
+              </>
+            )}
+          </Flex>
+        </Container>
+      </Flex>
+    </>
   );
 };
 

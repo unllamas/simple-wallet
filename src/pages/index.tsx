@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Code, List, ListIcon, ListItem, Image, Flex, VStack } from '@chakra-ui/react';
 import { CheckCircleIcon, LinkIcon } from '@chakra-ui/icons';
@@ -22,33 +23,38 @@ const Index = () => {
   }
 
   return (
-    <Flex h='100%' justifyContent={'center'} alignItems={'center'}>
-      <Container maxW={'md'} h='100%' p='20px' bg='#fff'>
-        <Flex flexDirection={'column'} justifyContent={{ base: 'space-between', md: 'center' }} h='100%' gap={4}>
-          {/* Content */}
-          <VStack gap='10px' alignItems='flex-start'>
-            <Flex>
-              <Image src='./150x150.png' />
-            </Flex>
-            <Heading>Wallet non-custodial for Ethereum</Heading>
-            <Text>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure corrupti minus autem, reiciendis libero
-              enim.
-            </Text>
-          </VStack>
+    <>
+      <Head>
+        <title>Wallet</title>
+      </Head>
+      <Flex h='100%' justifyContent={'center'} alignItems={'center'}>
+        <Container maxW={'md'} h='100%' p='20px' bg='#fff'>
+          <Flex flexDirection={'column'} justifyContent={{ base: 'space-between', md: 'center' }} h='100%' gap={4}>
+            {/* Content */}
+            <VStack gap='10px' alignItems='flex-start'>
+              <Flex>
+                <Image src='./150x150.png' />
+              </Flex>
+              <Heading>Wallet non-custodial for Ethereum</Heading>
+              <Text>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure corrupti minus autem, reiciendis libero
+                enim.
+              </Text>
+            </VStack>
 
-          {/* Buttons */}
-          <Flex w='100%' flexDirection={'column'} gap='10px'>
-            <Link href='/create' passHref>
-              Create
-            </Link>
-            <Link href='/signup' color='secondary' passHref>
-              Sign up
-            </Link>
+            {/* Buttons */}
+            <Flex w='100%' flexDirection={'column'} gap='10px'>
+              <Link href='/create' passHref>
+                Create
+              </Link>
+              <Link href='/signup' color='secondary' passHref>
+                Sign up
+              </Link>
+            </Flex>
           </Flex>
-        </Flex>
-      </Container>
-    </Flex>
+        </Container>
+      </Flex>
+    </>
   );
 };
 

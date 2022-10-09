@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { useState } from 'react';
+import Head from 'next/head';
 import { Image, Flex, useToast, VStack } from '@chakra-ui/react';
 
 import { useAccount } from '../context/Account';
@@ -87,6 +88,9 @@ const Signup = () => {
 
   return (
     <>
+      <Head>
+        <title>Sign Up - Wallet</title>
+      </Head>
       <Flex h='100%' justifyContent={'center'} alignItems={'center'} py='20px'>
         <Container maxW={'md'} h='100%' px='20px' bg='#fff'>
           {showMnemonic ? (
