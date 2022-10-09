@@ -72,7 +72,6 @@ const Dashboard = ({ price }) => {
       <Head>
         <title>Dashboard - Wallet</title>
       </Head>
-      {/* <Box w='100%' h='60px' bg='#eee' position='fixed' top={0} borderBottom='1px solid #ccc'></Box> */}
       <Flex h='100%' justifyContent={'center'} alignItems={'center'} pt='20px'>
         <Container w='100%' maxW={'md'} px='20px'>
           {/* Balance */}
