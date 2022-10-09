@@ -105,7 +105,7 @@ export function AccountWrapper({ children }) {
         }
       }
     } else {
-      toast({ description: 'Verifique que el mnemonic sea correcto.', status: 'warning' });
+      toast({ description: 'Check that the seed phrase is correct.', status: 'warning' });
       return { success: false };
     }
   };

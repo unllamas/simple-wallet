@@ -8,7 +8,7 @@ const Backup = () => {
   return (
     <ModalContent bg='#fff'>
       <ModalBody
-        p='20px'
+        p='40px 20px'
         display='flex'
         w='100%'
         h='100%'
@@ -23,10 +23,7 @@ const Backup = () => {
               <Image src='/150x150.png' />
             </Flex>
             <Heading as='h2'>Congratulations!</Heading>
-            <Text>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure corrupti minus autem, reiciendis libero
-              enim.
-            </Text>
+            <Text>Make sure you save your seed phrase well, it's the only way to get your funds back.</Text>
           </Flex>
         </Flex>
         <Flex maxW={{ base: '100%', md: '256px' }} w='100%'>

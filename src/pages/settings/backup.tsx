@@ -5,7 +5,7 @@ import Head from 'next/head';
 import { Image, Flex, Box, useDisclosure, VStack, HStack, useToast, Checkbox } from '@chakra-ui/react';
 
 import { useAccount } from '../../context/Account';
-
+import { db } from '../../utils/db';
 import { decrypt } from '../../hooks/useCrypto';
 
 import { Container } from '../../components/Container';
@@ -30,9 +30,9 @@ const ScreenValidate = ({ onSubmit }) => {
         <Flex justifyContent={'flex-start'}>
           <Image src='/75x75.png' />
         </Flex>
-        <Heading as='h2'>Validate your seed phrase</Heading>
+        <Heading as='h2'>Let's check</Heading>
         <Text>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure corrupti minus autem, reiciendis libero enim.
+          Write your seed phrase in the order they were previously to validate that you have done it correctly.
         </Text>
 
         <Mnemonic mnemonic={localMnemonic} onChange={handleChangeMnemonic} />
@@ -43,7 +43,7 @@ const ScreenValidate = ({ onSubmit }) => {
           Confirm
         </Button>
         <Link color='secondary' href='/' passHref>
-          Cancel
+          Later
         </Link>
       </Flex>
     </>
@@ -62,9 +62,9 @@ const ScreenWrite = ({ onChangeScreen }) => {
         <Flex justifyContent={'flex-start'}>
           <Image src='/75x75.png' />
         </Flex>
-        <Heading as='h2'>Write your seed phrase</Heading>
+        <Heading as='h2'>Seed phrase</Heading>
         <Text>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure corrupti minus autem, reiciendis libero enim.
+          It is very important that you save this seed phrase. It is the main key to be able to claim your wallet.
         </Text>
 
         <Mnemonic mnemonic={mnemonic?.split(' ')} readOnly={true} />
@@ -77,7 +77,7 @@ const ScreenWrite = ({ onChangeScreen }) => {
       </Button>
       <Flex w='100%' gap='10px' flexDirection={'column'}>
         <Link color='secondary' href='/' passHref>
-          Cancel
+          Later
         </Link>
       </Flex>
     </>
@@ -92,11 +92,11 @@ const Backup = () => {
   const [showMnemonic, setShowMnemonic] = useState(false);
   const [showValidateMnemonic, setShowValidateMnemonic] = useState(false);
 
-  const handleSubmit = (localMnemonic) => {
+  const handleSubmit = async (localMnemonic) => {
     const isValid = ethers.utils.isValidMnemonic(localMnemonic.join(' '));
     if (isValid) {
       onOpen();
-      localStorage.setItem('sw_saveMnemonic', true);
+      await db.wallets.update(1, { saveMn: true });
     } else {
       toast({ description: 'Verifique que el mnemonic sea correcto.', status: 'warning' });
     }
@@ -123,10 +123,13 @@ const Backup = () => {
                   <Flex>
                     <Image src='/150x150.png' />
                   </Flex>
-                  <Heading>Not your keys, not your coins</Heading>
+                  <Heading>
+                    Not your keys,
+                    <br /> not your coins
+                  </Heading>
                   <Text>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure corrupti minus autem, reiciendis
-                    libero enim.
+                    We simply help you receive payments or donations from anywhere in the world, but in reality you are
+                    the owner.
                   </Text>
 
                   {/* Steps */}
