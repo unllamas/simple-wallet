@@ -75,12 +75,7 @@ const Dashboard = ({ price }) => {
       <Flex h='100%' justifyContent={'center'} alignItems={'center'} pt='20px'>
         <Container w='100%' maxW={'md'} px='20px'>
           {/* Balance */}
-          <Flex
-            flexDirection={{ base: 'column', md: 'row' }}
-            alignItems='flex-start'
-            justifyContent='space-between'
-            mb='30px'
-          >
+          <Flex flexDirection={{ base: 'column', md: 'row' }} alignItems='center' justifyContent='center' mb='30px'>
             <Stat flex='1'>
               <StatLabel>Your balance</StatLabel>
               <StatNumber fontSize='32px'>${Number(total).toFixed(2)}</StatNumber>
