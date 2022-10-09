@@ -2,7 +2,19 @@ import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import NextLink from 'next/link';
 import Head from 'next/head';
-import { Image, Flex, Box, useDisclosure, Tag, Stat, StatLabel, StatNumber, VStack, HStack } from '@chakra-ui/react';
+import {
+  Image,
+  Flex,
+  Box,
+  useDisclosure,
+  Tag,
+  Stat,
+  StatLabel,
+  StatNumber,
+  VStack,
+  HStack,
+  Link,
+} from '@chakra-ui/react';
 import { RefreshCw, ArrowDownRight, ArrowUpRight, Lock, Unlock, ArrowRight, Check } from 'react-feather';
 
 import { useBlockchain } from '../context/Blockchain';
@@ -130,6 +142,14 @@ const Dashboard = ({ price }) => {
               </Text>
             </VStack>
           </Flex>
+          <Text mt='8px' size='sm' textAlign='right'>
+            Powered by{' '}
+            <NextLink rel='nofollow' href='https://www.coingecko.com/' passHref>
+              <Link fontWeight={600} target='_blank'>
+                Coingecko
+              </Link>
+            </NextLink>
+          </Text>
 
           {/* Security */}
           {hasSaveMnemonic ? (

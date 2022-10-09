@@ -50,7 +50,7 @@ const Receive = () => {
             </Flex>
           </Flex>
         </Flex>
-        <Flex maxW={{ base: '100%', md: '256px' }} w='100%'>
+        <Flex w='100%' mt='20px'>
           <Button onClick={handleCopyAddress}>Copy address</Button>
         </Flex>
       </ModalBody>
