@@ -35,11 +35,12 @@ const Index = () => {
               <Flex>
                 <Image src='./150x150.png' />
               </Flex>
-              <Heading>Wallet non-custodial for Ethereum</Heading>
-              <Text>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure corrupti minus autem, reiciendis libero
-                enim.
-              </Text>
+              <Heading>
+                Wallet <br />
+                non-custodial <br />
+                for Ethereum
+              </Heading>
+              <Text>Be the owner of your money, start receiving payments or donations in a totally easy way</Text>
             </VStack>
 
             {/* Buttons */}

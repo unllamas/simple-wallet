@@ -88,11 +88,8 @@ const Create = () => {
                   <Flex justifyContent={'flex-start'}>
                     <Image src='/75x75.png' />
                   </Flex>
-                  <Heading as='h2'>Generate password</Heading>
-                  <Text>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure corrupti minus autem, reiciendis
-                    libero enim.
-                  </Text>
+                  <Heading as='h2'>Generate</Heading>
+                  <Text>Generate a password, in the future it will be useful. We promise you :)</Text>
                   <Input
                     h='60px'
                     placeholder='Your password'
@@ -115,14 +112,11 @@ const Create = () => {
                   <Flex justifyContent={'flex-start'}>
                     <Image src='/75x75.png' />
                   </Flex>
-                  <Heading as='h2'>Verify password</Heading>
-                  <Text>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure corrupti minus autem, reiciendis
-                    libero enim.
-                  </Text>
+                  <Heading as='h2'>Check</Heading>
+                  <Text>Let's check that you remember the password.</Text>
                   <Input
                     h='60px'
-                    placeholder='Verify your password'
+                    placeholder='Enter your password again'
                     value={validatePassword}
                     onChange={(e) => handleSetValidatePass(e.target.value)}
                   />

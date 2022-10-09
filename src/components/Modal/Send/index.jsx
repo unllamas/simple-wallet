@@ -72,14 +72,14 @@ const Send = ({ onClose }) => {
     if (toAddress && mount) {
       const res = await sendTransaction(toAddress, mount, defaultToken);
       if (res?.success) {
-        toast({ description: 'Transaccion enviada', status: 'success' });
+        toast({ description: 'Transaction sent', status: 'success' });
         setLoading(false);
         handleCloseModal();
       } else {
         setLoading(false);
         if (res?.error?.code === 'INSUFFICIENT_FUNDS') {
           toast({
-            description: 'No posee fondos suficientes',
+            description: "You don't have enough funds",
             status: 'warning',
           });
         }
