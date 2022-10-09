@@ -27,7 +27,7 @@ import Heading from '../components/Shared/Heading';
 import Text from '../components/Shared/Text';
 import Button from '../components/Shared/Button';
 
-import cryptoToUSD from '../hooks/usePrice';
+import { cryptoToUSD, formatPrice } from '../hooks/usePrice';
 import bigNumberTokenToString from '../hooks/useUtils';
 
 import { getPrice } from './api/coingecko';
@@ -90,7 +90,7 @@ const Dashboard = ({ price }) => {
           <Flex flexDirection={{ base: 'column', md: 'row' }} alignItems='center' justifyContent='center' mb='30px'>
             <Stat flex='1'>
               <StatLabel>Your balance</StatLabel>
-              <StatNumber fontSize='32px'>${Number(total).toFixed(2)}</StatNumber>
+              <StatNumber fontSize='32px'>${formatPrice(Number(total).toFixed(2), 2)}</StatNumber>
             </Stat>
 
             {/* Botones */}
