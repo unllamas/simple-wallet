@@ -32,6 +32,8 @@ import bigNumberTokenToString from '../hooks/useUtils';
 
 import { getPrice } from './api/coingecko';
 
+import { execute } from "../../.graphclient";
+
 export async function getServerSideProps() {
   const { success, data } = await getPrice();
 
@@ -78,6 +80,41 @@ const Dashboard = ({ price }) => {
     setModalType(name);
     onOpen();
   };
+
+  //Graphql
+  const PairQuery= `
+  query{
+	  pair(id: "0xa478c2975ab1ea89e8196811f51a7b7ade33eb11"){
+		  token0 {
+			  id
+			  symbol
+			  name
+			  derivedETH
+		  }
+		  token1 {
+			  id
+			  symbol
+			  name
+			  derivedETH
+		  }
+		  reserve0
+		  reserve1
+		  reserveUSD
+		  trackedReserveETH
+		  token0Price
+		  token1Price
+		  volumeUSD
+		  txCount
+	  }
+  }
+  `;
+
+  async function getPair() {
+	  const { data } = await execute(PairQuery, {});
+	  console.log(data);
+  }
+
+  getPair();
 
   return (
     <>
@@ -144,10 +181,8 @@ const Dashboard = ({ price }) => {
           </Flex>
           <Text mt='8px' size='sm' textAlign='right'>
             Powered by{' '}
-            <NextLink rel='nofollow' href='https://www.coingecko.com/' passHref>
-              <Link fontWeight={600} target='_blank'>
+            <NextLink rel='nofollow' href='https://www.coingecko.com/' fontWeight={600} target='_blank' passHref>
                 Coingecko
-              </Link>
             </NextLink>
           </Text>
 
