@@ -1,5 +1,5 @@
 import { BigNumber, ethers } from 'ethers';
 
-export default function bigNumberTokenToString(bigNumber: BigNumber, lenght: number): string {
-  return Number(ethers.utils.formatEther(bigNumber)).toFixed(lenght);
+export default function bigNumberTokenToString(bigNumber: BigNumber): string {
+  return ethers.utils.formatEther(bigNumber);
 }

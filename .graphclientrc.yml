@@ -1,0 +1,9 @@
+sources:
+  - name: ENS
+    handler:
+      graphql:
+        endpoint: https://api.thegraph.com/subgraphs/name/ensdomains/ens
+  - name: uniswapv2
+    handler:
+      graphql:
+        endpoint: https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2
