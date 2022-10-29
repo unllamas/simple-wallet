@@ -30,9 +30,7 @@ import Button from '../components/Shared/Button';
 import { cryptoToUSD, formatPrice } from '../hooks/usePrice';
 import bigNumberTokenToString from '../hooks/useUtils';
 
-import { getPrice } from './api/coingecko';
-
-import { execute } from "../../.graphclient";
+import { getPrice } from './api/thegraph';
 
 export async function getServerSideProps() {
   const { success, data } = await getPrice();
@@ -53,12 +51,9 @@ const Dashboard = ({ price }) => {
   const { tokenETH, tokenDAI } = useToken();
 
   // Component
-  const [pETH, setPETH] = useState(cryptoToUSD(price?.ethereum?.usd, tokenETH));
-  const [pDAI, setPDAI] = useState(cryptoToUSD(price?.dai?.usd, tokenETH));
-
-  const priceETH = cryptoToUSD(price?.ethereum?.usd, tokenETH);
-  const priceDAI = cryptoToUSD(price?.dai?.usd, tokenDAI);
-  const total = priceETH + priceDAI;
+  const [priceETH, setPETH] = useState(cryptoToUSD(price?.eth?.usd, tokenETH));
+  const [priceDAI, setPDAI] = useState(cryptoToUSD(price?.dai?.usd, tokenETH));
+  const [total, setTotal] = useState(priceETH + priceDAI);
 
   // General
   const [modalType, setModalType] = useState('');
@@ -66,10 +61,16 @@ const Dashboard = ({ price }) => {
   useEffect(() => {
     async function handleGetPrice() {
       const { success, data } = await getPrice();
+  
+      if(success) {
+        const { eth, dai } = data
+        const priceETH = cryptoToUSD(eth?.usd, tokenETH)
+        const priceDAI = cryptoToUSD(dai?.usd, tokenDAI)
 
-      if (success) {
-        setPETH(cryptoToUSD(data?.ethereum?.usd, tokenETH));
-        setPDAI(cryptoToUSD(data?.dai?.usd, tokenETH));
+        setPETH(priceETH);
+        setPDAI(priceDAI);
+
+        setTotal(priceETH + priceDAI)
       }
     }
 
@@ -80,41 +81,6 @@ const Dashboard = ({ price }) => {
     setModalType(name);
     onOpen();
   };
-
-  //Graphql
-  const PairQuery= `
-  query{
-	  pair(id: "0xa478c2975ab1ea89e8196811f51a7b7ade33eb11"){
-		  token0 {
-			  id
-			  symbol
-			  name
-			  derivedETH
-		  }
-		  token1 {
-			  id
-			  symbol
-			  name
-			  derivedETH
-		  }
-		  reserve0
-		  reserve1
-		  reserveUSD
-		  trackedReserveETH
-		  token0Price
-		  token1Price
-		  volumeUSD
-		  txCount
-	  }
-  }
-  `;
-
-  async function getPair() {
-	  const { data } = await execute(PairQuery, {});
-	  console.log(data);
-  }
-
-  getPair();
 
   return (
     <>
@@ -159,7 +125,7 @@ const Dashboard = ({ price }) => {
               <Text>ETH</Text>
             </Flex>
             <VStack alignItems='flex-end'>
-              <Text>{bigNumberTokenToString(tokenETH, 7) || '0.00'}</Text>
+              <Text>{bigNumberTokenToString(tokenETH) || '0.00'}</Text>
               <Text size='sm' mt='0px !important'>
                 ${Number(priceETH).toFixed(2)}
               </Text>
@@ -173,18 +139,12 @@ const Dashboard = ({ price }) => {
               <Text>DAI</Text>
             </Flex>
             <VStack alignItems='flex-end'>
-              <Text>{bigNumberTokenToString(tokenDAI, 2) || '0.00'}</Text>
+              <Text>{bigNumberTokenToString(tokenDAI) || '0.00'}</Text>
               <Text size='sm' mt='0px !important'>
                 ${Number(priceDAI).toFixed(2)}
               </Text>
             </VStack>
           </Flex>
-          <Text mt='8px' size='sm' textAlign='right'>
-            Powered by{' '}
-            <NextLink rel='nofollow' href='https://www.coingecko.com/' fontWeight={600} target='_blank' passHref>
-                Coingecko
-            </NextLink>
-          </Text>
 
           {/* Security */}
           {hasSaveMnemonic ? (

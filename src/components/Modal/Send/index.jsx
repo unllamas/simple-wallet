@@ -28,7 +28,7 @@ import Input from '../../Shared/Input';
 import IconETH from '../../Icons/ETH';
 import IconDAI from '../../Icons/DAI';
 
-import { getPrice } from '../../../pages/api/coingecko';
+import { getPrice } from '../../../pages/api/thegraph';
 
 const Send = ({ onClose }) => {
   // Chakra
@@ -46,7 +46,7 @@ const Send = ({ onClose }) => {
   const [price, setPrice] = useState({});
   const [gasPrice, setGasPrice] = useState();
 
-  const [defaultToken, setDefaultToken] = useState('ethereum');
+  const [defaultToken, setDefaultToken] = useState('eth');
 
   useEffect(() => {
     // setLoading(true);
@@ -54,6 +54,7 @@ const Send = ({ onClose }) => {
       try {
         const gasPrice = await getGasPrice();
         const { data } = await getPrice();
+
         setGasPrice(gasPrice);
         setPrice(data);
       } catch (error) {
@@ -122,12 +123,12 @@ const Send = ({ onClose }) => {
                 <Menu closeOnSelect={true}>
                   <MenuButton as={InputLeftAddon} cursor='pointer' h='100%'>
                     <Box h='32px' w='32px' bg='#fff' borderRadius={50}>
-                      {defaultToken === 'ethereum' ? <IconETH /> : <IconDAI />}
+                      {defaultToken === 'eth' ? <IconETH /> : <IconDAI />}
                     </Box>
                   </MenuButton>
                   <MenuList minWidth='240px'>
                     <MenuOptionGroup defaultValue={defaultToken} title='Token' type='radio' onChange={setDefaultToken}>
-                      <MenuItemOption value='ethereum'>ETH</MenuItemOption>
+                      <MenuItemOption value='eth'>ETH</MenuItemOption>
                       <MenuItemOption value='dai'>DAI</MenuItemOption>
                     </MenuOptionGroup>
                   </MenuList>
@@ -139,7 +140,7 @@ const Send = ({ onClose }) => {
               <Text fontWeight='bold'>Fee</Text>
               <Box textAlign='right'>
                 <Text fontWeight='bold'>{Number(gasPrice).toFixed(7) || '0.00'} ETH</Text>
-                <Text>${(Number(gasPrice) * Number(price[defaultToken]?.usd)).toFixed(2) || '0.00'}</Text>
+                <Text>${(Number(gasPrice) * price[defaultToken].usd).toFixed(2) || '0.00'}</Text>
               </Box>
             </Flex>
           </Flex>
@@ -149,8 +150,8 @@ const Send = ({ onClose }) => {
               $
               {mount
                 ? (
-                    Number(mount) * Number(price[defaultToken]?.usd) +
-                    Number(gasPrice) * Number(price[defaultToken]?.usd)
+                    Number(mount) * price[defaultToken]?.usd +
+                    Number(gasPrice) * price[defaultToken]?.usd
                   ).toFixed(2)
                 : Number(0).toFixed(2)}
             </Text>
