@@ -2,7 +2,7 @@ import bigNumberTokenToString from './useUtils';
 
 export function cryptoToUSD(price, token) {
   if (price && token) {
-    return Number(price) * Number(bigNumberTokenToString(token, 2));
+    return Number(price) * Number(bigNumberTokenToString(token));
   } else {
     return 0;
   }
