@@ -93,7 +93,7 @@ export function TokenWrapper({ children }) {
       }
     } else {
       toast({
-        description: 'The address seems to be wrong.',
+        description: 'La address parece ser incorrecta.',
         status: 'warning',
       });
 

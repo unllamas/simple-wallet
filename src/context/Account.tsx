@@ -105,7 +105,7 @@ export function AccountWrapper({ children }) {
         }
       }
     } else {
-      toast({ description: 'Check that the seed phrase is correct.', status: 'warning' });
+      toast({ description: 'Comprueba que la frase semilla sea correcta.', status: 'warning' });
       return { success: false };
     }
   };

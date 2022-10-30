@@ -11,11 +11,17 @@ const Item = (props) => {
       </Box>
       <Input
         border='none'
-        borderBottom='1px solid'
+        borderBottom='1px solid #ccc'
         borderRadius={0}
         px='4px'
         py='10px'
         boxShadow='none !important'
+        _hover={{
+          borderColor: '#242424',
+        }}
+        _focus={{
+          borderColor: '#242424',
+        }}
         {...props}
       />
     </Flex>

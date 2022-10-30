@@ -6,22 +6,22 @@ const Heading = (props) => {
   const variants = {
     h1: {
       fontSize: {
-        base: '32px',
-        md: '42px',
+        base: '48px',
+        md: '68px',
       },
       lineHeight: {
-        base: '38px',
-        md: '48px',
+        base: '48px',
+        md: '68px',
       },
     },
     h2: {
       fontSize: {
-        base: '26px',
-        md: '32px',
+        base: '42px',
+        md: '54px',
       },
       lineHeight: {
-        base: '32px',
-        md: '38px',
+        base: '42px',
+        md: '54px',
       },
     },
     h3: {
@@ -41,7 +41,7 @@ const Heading = (props) => {
   };
 
   return (
-    <HeadingBox color='#333' {...props} {...variants[as]}>
+    <HeadingBox color='#242424' {...props} {...variants[as]}>
       {children}
     </HeadingBox>
   );
