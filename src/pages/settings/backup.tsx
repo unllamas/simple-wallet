@@ -27,12 +27,10 @@ const ScreenValidate = ({ onSubmit }) => {
   return (
     <>
       <VStack gap='10px' alignItems='flex-start'>
-        <Flex justifyContent={'flex-start'}>
-          <Image src='/75x75.png' />
-        </Flex>
-        <Heading as='h2'>Let's check</Heading>
-        <Text>
-          Write your seed phrase in the order they were previously to validate that you have done it correctly.
+        <Image src='/img/6.png' h='200px' />
+        <Heading as='h2'>Revisémoslo nuevamente</Heading>
+        <Text size='lg'>
+          Escribe tu frase semilla en el orden en que estaban anteriormente para validar que lo has hecho bien :)
         </Text>
 
         <Mnemonic mnemonic={localMnemonic} onChange={handleChangeMnemonic} />
@@ -40,10 +38,10 @@ const ScreenValidate = ({ onSubmit }) => {
 
       <Flex w='100%' gap='10px' flexDirection={'column'}>
         <Button variant='solid' onClick={() => onSubmit(localMnemonic)}>
-          Confirm
+          Confirmar
         </Button>
         <Link color='secondary' href='/' passHref>
-          Later
+          Más tarde
         </Link>
       </Flex>
     </>
@@ -59,25 +57,23 @@ const ScreenWrite = ({ onChangeScreen }) => {
   return (
     <>
       <VStack gap='10px' alignItems='flex-start'>
-        <Flex justifyContent={'flex-start'}>
-          <Image src='/75x75.png' />
-        </Flex>
-        <Heading as='h2'>Seed phrase</Heading>
-        <Text>
-          It is very important that you save this seed phrase. It is the main key to be able to claim your wallet.
+        <Image src='/img/34.png' h='200px' />
+        <Heading as='h2'>Frase semilla</Heading>
+        <Text size='lg'>
+          Es muy importante que guardes esta frase semilla. Es la clave principal para poder reclamar tus activos.
         </Text>
 
         <Mnemonic mnemonic={mnemonic?.split(' ')} readOnly={true} />
       </VStack>
       <Checkbox size='lg' width='100%' justifyContent='space-between' mb='10px' onChange={() => setHasSave(!hasSave)}>
-        I confirm that I have saved them
+        Confirmo haberlas guardado
       </Checkbox>
       <Button variant='solid' disabled={!hasSave} onClick={onChangeScreen}>
-        Continue
+        Continuar
       </Button>
       <Flex w='100%' gap='10px' flexDirection={'column'}>
         <Link color='secondary' href='/' passHref>
-          Later
+          Más tarde
         </Link>
       </Flex>
     </>
@@ -98,7 +94,7 @@ const Backup = () => {
       onOpen();
       await db.wallets.update(1, { saveMn: true });
     } else {
-      toast({ description: 'Verifique que el mnemonic sea correcto.', status: 'warning' });
+      toast({ description: 'Verifique que la frase semilla sea correcta.', status: 'warning' });
     }
   };
 
@@ -107,9 +103,9 @@ const Backup = () => {
       <Head>
         <title>Backup - Wallet</title>
       </Head>
-      <Flex h='100%' justifyContent={'center'} alignItems={'center'}>
-        <Container maxW={'md'} px='20px' bg='#fff'>
-          <Flex flexDirection={'column'} justifyContent={{ base: 'space-between', md: 'center' }} h='100%' gap={4}>
+      <Flex justifyContent={'center'} alignItems={'center'} pt={{ base: '50px', md: '60px' }}>
+        <Container maxW={'md'} px='20px'>
+          <Flex flexDirection={'column'} justifyContent={{ base: 'space-between', md: 'center' }} py='20px' gap={4}>
             {showMnemonic ? (
               showValidateMnemonic ? (
                 <ScreenValidate onSubmit={handleSubmit} />
@@ -121,15 +117,12 @@ const Backup = () => {
                 <VStack gap='10px' alignItems='flex-start'>
                   {/* Content */}
                   <Flex>
-                    <Image src='/150x150.png' />
+                    <Image src='/img/26.png' maxW='250px' />
                   </Flex>
-                  <Heading>
-                    Not your keys,
-                    <br /> not your coins
-                  </Heading>
-                  <Text>
-                    We simply help you receive payments or donations from anywhere in the world, but in reality you are
-                    the owner.
+                  <Heading>Not your keys, not your coins</Heading>
+                  <Text size='lg'>
+                    Nosotros te ayudamos a recibir pagos o donaciones desde cualquier parte del mundo, pero en realidad
+                    eres tú el dueño de los activos.
                   </Text>
 
                   {/* Steps */}
@@ -155,11 +148,9 @@ const Backup = () => {
 
                 {/* Buttons */}
                 <Flex w='100%' flexDirection={'column'} gap='10px'>
-                  <Button disabled={''} onClick={() => setShowMnemonic(true)}>
-                    Continue
-                  </Button>
+                  <Button onClick={() => setShowMnemonic(true)}>Continuar</Button>
                   <Link href='/dashboard' color='secondary' passHref>
-                    Later
+                    Más tarde
                   </Link>
                 </Flex>
               </>

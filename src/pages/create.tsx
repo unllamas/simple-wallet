@@ -65,8 +65,8 @@ const Create = () => {
       }
     } else {
       toast({
-        title: 'Incorrect password',
-        description: 'Passwords do not match.',
+        title: 'Contraseña incorrecta',
+        description: 'Las contraseñas no coinciden.',
         status: 'warning',
         duration: 9000,
         isClosable: true,
@@ -79,30 +79,32 @@ const Create = () => {
       <Head>
         <title>Create - Wallet</title>
       </Head>
-      <Flex height='100%' justifyContent={'center'} alignItems={'center'}>
-        <Container maxW={'md'} h='100%' p='20px' bg='#fff'>
-          <Flex flexDirection={'column'} justifyContent={{ base: 'space-between', md: 'center' }} gap={4} h='100%'>
+      <Flex justifyContent={'center'} alignItems={'center'} pt={{ base: '50px', md: '60px' }}>
+        <Container maxW={'md'} p='20px'>
+          <Flex flexDirection={'column'} justifyContent={{ base: 'space-between', md: 'center' }} gap={4}>
             {!showValidate ? (
               <>
                 <VStack alignItems='flex-start' gap='10px'>
                   <Flex justifyContent={'flex-start'}>
-                    <Image src='/75x75.png' />
+                    <Image src='/img/35.png' h='200px' margin='0 auto' />
                   </Flex>
-                  <Heading as='h2'>Generate</Heading>
-                  <Text>Generate a password, in the future it will be useful. We promise you :)</Text>
+                  <Heading as='h2'>Genera</Heading>
+                  <Text size='lg'>
+                    Necesitas un respaldo para saber que eres realmente tú quien maneja la cuenta :)
+                  </Text>
                   <Input
                     h='60px'
-                    placeholder='Your password'
+                    placeholder='Su contraseña'
                     value={password}
                     onChange={(e) => handleSetPassword(e.target.value)}
                   />
                 </VStack>
                 <Flex w='100%' gap='10px' flexDirection={'column'}>
                   <Button disabled={!password} onClick={handleContinue}>
-                    Continue
+                    Continuar
                   </Button>
                   <Link color='secondary' href='/' passHref>
-                    Cancel
+                    Cancelar
                   </Link>
                 </Flex>
               </>
@@ -110,23 +112,23 @@ const Create = () => {
               <>
                 <VStack alignItems='flex-start' gap='10px'>
                   <Flex justifyContent={'flex-start'}>
-                    <Image src='/75x75.png' />
+                    <Image src='/img/31.png' h='200px' margin='0 auto' />
                   </Flex>
-                  <Heading as='h2'>Check</Heading>
-                  <Text>Let's check that you remember the password.</Text>
+                  <Heading as='h2'>Verifica</Heading>
+                  <Text size='lg'>Comprobemos que recuerdas la contraseña.</Text>
                   <Input
                     h='60px'
-                    placeholder='Enter your password again'
+                    placeholder='Ingrese nuevamente su contraseña'
                     value={validatePassword}
                     onChange={(e) => handleSetValidatePass(e.target.value)}
                   />
                 </VStack>
                 <Flex w='100%' gap='10px' flexDirection={'column'}>
                   <Button variant='solid' disabled={!isValid || loading} onClick={handleConfirm}>
-                    {loading ? 'Loading...' : 'Confirm'}
+                    {loading ? 'Cargando...' : 'Confirmar'}
                   </Button>
                   <Link color='secondary' href='/' passHref>
-                    Cancel
+                    Cancelar
                   </Link>
                 </Flex>
               </>

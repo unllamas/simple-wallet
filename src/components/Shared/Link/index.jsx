@@ -1,17 +1,13 @@
 import NextLink from 'next/link';
-import { Link as LinkBox } from '@chakra-ui/react';
+import { Text } from '@chakra-ui/react';
 
 const Link = (props) => {
   const { children, isBlock, color = 'primary', size = 'md' } = props;
 
   const variants = {
     primary: {
-      width: {
-        base: '100%',
-        md: isBlock && '100%',
-      },
-      height: size === 'md' ? '60px' : '30px',
-      padding: size === 'md' ? '22px' : '8px',
+      height: size === 'md' ? '60px' : '40px',
+      padding: size === 'md' ? '22px' : '16px',
       backgroundColor: '#333',
       color: '#fff',
       fontSize: size === 'md' ? '16px' : '14px',
@@ -21,17 +17,14 @@ const Link = (props) => {
       },
     },
     secondary: {
-      width: {
-        base: '100%',
-        md: isBlock && '100%',
-      },
       height: size === 'md' ? '60px' : '30px',
       padding: size === 'md' ? '22px' : '8px',
-      backgroundColor: '#EFEFEF',
+      backgroundColor: '#F8F1E8',
+      border: '1px solid #ccc',
       color: '#333',
       fontSize: size === 'md' ? '16px' : '14px',
       _hover: {
-        backgroundColor: '#D6D6D6',
+        backgroundColor: '#fff',
         textDecoration: 'none',
       },
     },
@@ -39,16 +32,17 @@ const Link = (props) => {
 
   return (
     <NextLink {...props} passHref>
-      <LinkBox
+      <Text
         display='flex'
         justifyContent='center'
         alignItems='center'
-        borderRadius='4px'
+        borderRadius='0'
         fontWeight={600}
+        width='100%'
         {...variants[color]}
       >
         {children}
-      </LinkBox>
+      </Text>
     </NextLink>
   );
 };

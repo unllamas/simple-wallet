@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import {
   Flex,
   Box,
-  Text,
   ModalContent,
   ModalHeader,
   ModalFooter,
@@ -24,6 +23,7 @@ import { useToken } from '../../../context/Token';
 
 import Button from '../../Shared/Button';
 import Input from '../../Shared/Input';
+import Text from '../../Shared/Text';
 
 import IconETH from '../../Icons/ETH';
 import IconDAI from '../../Icons/DAI';
@@ -73,14 +73,14 @@ const Send = ({ onClose }) => {
     if (toAddress && mount) {
       const res = await sendTransaction(toAddress, mount, defaultToken);
       if (res?.success) {
-        toast({ description: 'Transaction sent', status: 'success' });
+        toast({ description: 'Transacción enviada', status: 'success' });
         setLoading(false);
         handleCloseModal();
       } else {
         setLoading(false);
         if (res?.error?.code === 'INSUFFICIENT_FUNDS') {
           toast({
-            description: "You don't have enough funds",
+            description: 'No tienes fondos suficientes',
             status: 'warning',
           });
         }
@@ -105,7 +105,7 @@ const Send = ({ onClose }) => {
 
   return (
     <ModalContent bg='#fff'>
-      <ModalHeader>Send</ModalHeader>
+      <ModalHeader fontFamily='"Merriweather", serif'>Enviar</ModalHeader>
       <ModalCloseButton />
       <ModalBody pt='20px' display='flex' w='100%' h='100%' flexDirection='column' justifyContent='space-between'>
         <Flex flexDirection='column' justifyContent='space-between' flex='1'>
@@ -114,14 +114,14 @@ const Send = ({ onClose }) => {
               <Input pr='80px' placeholder='Address' value={toAddress} onChange={(e) => setToAddress(e.target.value)} />
               <Flex position='absolute' zIndex={1} right='10px' top='0' h='100%' alignItems={'center'}>
                 <Button color='secondary' size='sm' onClick={() => handlePasteAddress()} disabled={toAddress}>
-                  Paste
+                  Pegar
                 </Button>
               </Flex>
             </Box>
             <Box>
               <InputGroup h='60px'>
                 <Menu closeOnSelect={true}>
-                  <MenuButton as={InputLeftAddon} cursor='pointer' h='100%'>
+                  <MenuButton as={InputLeftAddon} h='100%' borderRadius='0' bg='#F8F1E8' cursor='pointer'>
                     <Box h='32px' w='32px' bg='#fff' borderRadius={50}>
                       {defaultToken === 'eth' ? <IconETH /> : <IconDAI />}
                     </Box>
@@ -137,10 +137,10 @@ const Send = ({ onClose }) => {
               </InputGroup>
             </Box>
             <Flex justifyContent='space-between'>
-              <Text fontWeight='bold'>Fee</Text>
+              <Text fontWeight='bold'>Gas (comisión de red)</Text>
               <Box textAlign='right'>
                 <Text fontWeight='bold'>{Number(gasPrice).toFixed(7) || '0.00'} ETH</Text>
-                <Text>${(Number(gasPrice) * price[defaultToken].usd).toFixed(2) || '0.00'}</Text>
+                <Text size='sm'>${(Number(gasPrice) * price[defaultToken].usd).toFixed(2) || '0.00'}</Text>
               </Box>
             </Flex>
           </Flex>
@@ -149,10 +149,7 @@ const Send = ({ onClose }) => {
             <Text fontWeight='bold'>
               $
               {mount
-                ? (
-                    Number(mount) * price[defaultToken]?.usd +
-                    Number(gasPrice) * price[defaultToken]?.usd
-                  ).toFixed(2)
+                ? (Number(mount) * price[defaultToken]?.usd + Number(gasPrice) * price[defaultToken]?.usd).toFixed(2)
                 : Number(0).toFixed(2)}
             </Text>
           </Flex>
@@ -160,7 +157,7 @@ const Send = ({ onClose }) => {
       </ModalBody>
       <ModalFooter>
         <Button onClick={() => handleSendTransaction()} disabled={loading || !mount || !toAddress}>
-          {loading ? <Spinner /> : 'Send'}
+          {loading ? <Spinner /> : 'Enviar'}
         </Button>
       </ModalFooter>
     </ModalContent>
