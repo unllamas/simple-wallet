@@ -27,6 +27,9 @@ import Heading from '../components/Shared/Heading';
 import Text from '../components/Shared/Text';
 import Button from '../components/Shared/Button';
 
+import IconETH from '../components/Icons/ETH';
+import IconDAI from '../components/Icons/DAI';
+
 import { cryptoToUSD, formatPrice } from '../hooks/usePrice';
 import bigNumberTokenToString from '../hooks/useUtils';
 
@@ -61,16 +64,16 @@ const Dashboard = ({ price }) => {
   useEffect(() => {
     async function handleGetPrice() {
       const { success, data } = await getPrice();
-  
-      if(success) {
-        const { eth, dai } = data
-        const priceETH = cryptoToUSD(eth?.usd, tokenETH)
-        const priceDAI = cryptoToUSD(dai?.usd, tokenDAI)
+
+      if (success) {
+        const { eth, dai } = data;
+        const priceETH = cryptoToUSD(eth?.usd, tokenETH);
+        const priceDAI = cryptoToUSD(dai?.usd, tokenDAI);
 
         setPETH(priceETH);
         setPDAI(priceDAI);
 
-        setTotal(priceETH + priceDAI)
+        setTotal(priceETH + priceDAI);
       }
     }
 
@@ -88,18 +91,22 @@ const Dashboard = ({ price }) => {
         <title>Dashboard - Wallet</title>
       </Head>
       <Flex h='100%' justifyContent={'center'} alignItems={'center'} pt='20px'>
-        <Container w='100%' maxW={'md'} px='20px'>
+        <Container w='100%' justifyContent='center' maxW={'md'} px='20px'>
           {/* Balance */}
-          <Flex flexDirection={{ base: 'column', md: 'row' }} alignItems='center' justifyContent='center' mb='30px'>
+          <Flex flexDirection={{ base: 'column', md: 'row' }} alignItems='center' justifyContent='center'>
             <Stat flex='1'>
-              <StatLabel>Your balance</StatLabel>
-              <StatNumber fontSize='32px'>${formatPrice(Number(total).toFixed(2), 2)}</StatNumber>
+              <Text size='sm' textAlign={{ base: 'center', md: 'left' }}>
+                Su balance
+              </Text>
+              <Text size='xl' fontWeight='bold' textAlign={{ base: 'center', md: 'left' }}>
+                ${formatPrice(Number(total).toFixed(2), 2)}
+              </Text>
             </Stat>
 
             {/* Botones */}
             <Flex my='30px'>
               <Flex px='20px' justifyContent={'center'}>
-                <Button type='circle' onClick={() => handleOpenModal('receive')} label='Receive'>
+                <Button type='circle' onClick={() => handleOpenModal('receive')} label='Recibir'>
                   <ArrowDownRight />
                 </Button>
               </Flex>
@@ -109,7 +116,7 @@ const Dashboard = ({ price }) => {
                 </Button>
               </Flex> */}
               <Flex px='20px' justifyContent={'center'}>
-                <Button type='circle' onClick={() => handleOpenModal('send')} label='Send'>
+                <Button type='circle' onClick={() => handleOpenModal('send')} label='Enviar'>
                   <ArrowUpRight />
                 </Button>
               </Flex>
@@ -117,12 +124,12 @@ const Dashboard = ({ price }) => {
           </Flex>
 
           {/* Tokens */}
-          <Flex alignItems={'center'} justifyContent={'space-between'} w='100%' bg='#eee' p='20px'>
+          <Flex alignItems={'center'} justifyContent={'space-between'} w='100%' bg='#fff' p='20px'>
             <Flex alignItems={'center'} gap='10px'>
               <Box>
-                <Image src='./75x75.png' maxW='35px' borderRadius='50%' />
+                <IconETH />
               </Box>
-              <Text>ETH</Text>
+              <Text fontWeight='bold'>ETH</Text>
             </Flex>
             <VStack alignItems='flex-end'>
               <Text>{bigNumberTokenToString(tokenETH) || '0.00'}</Text>
@@ -131,12 +138,12 @@ const Dashboard = ({ price }) => {
               </Text>
             </VStack>
           </Flex>
-          <Flex mt='2px' alignItems={'center'} justifyContent={'space-between'} w='100%' bg='#eee' p='20px'>
+          <Flex mt='2px' alignItems={'center'} justifyContent={'space-between'} w='100%' bg='#fff' p='20px'>
             <Flex alignItems={'center'} gap='10px'>
               <Box>
-                <Image src='./75x75.png' maxW='35px' borderRadius='50%' />
+                <IconDAI />
               </Box>
-              <Text>DAI</Text>
+              <Text fontWeight='bold'>DAI</Text>
             </Flex>
             <VStack alignItems='flex-end'>
               <Text>{bigNumberTokenToString(tokenDAI) || '0.00'}</Text>
@@ -151,7 +158,7 @@ const Dashboard = ({ price }) => {
             <Flex w='100%' mt='30px' alignItems={'center'} justifyContent={'space-between'}>
               <HStack>
                 <Lock />
-                <Heading as='h2'>Security</Heading>
+                <Heading as='h3'>Seguridad</Heading>
               </HStack>
               <HStack gap='10px'>
                 <Check />
@@ -168,12 +175,14 @@ const Dashboard = ({ price }) => {
                 cursor='pointer'
               >
                 <HStack>
-                  <Unlock opacity={0.35} />
-                  <Heading as='h2'>Security</Heading>
+                  <Unlock color='#2B2A2B' opacity={0.65} />
+                  <Heading as='h3'>Seguridad</Heading>
                 </HStack>
                 <HStack gap='10px'>
-                  <Tag size='md'>Pending</Tag>
-                  <ArrowRight />
+                  <Tag size='md' bg='#2B2A2B' color='#F8F1E8'>
+                    Pendiente
+                  </Tag>
+                  <ArrowRight color='#2B2A2B' />
                 </HStack>
               </Flex>
             </NextLink>

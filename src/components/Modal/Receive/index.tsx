@@ -17,7 +17,7 @@ const Receive = () => {
   const handleCopyAddress = async () => {
     try {
       await navigator.clipboard.writeText(wallet?.address);
-      toast({ description: 'Copied address', status: 'success' });
+      toast({ description: 'Address copiada', status: 'success' });
     } catch (err) {
       console.error('Failed to copy: ', err);
     }
@@ -25,7 +25,7 @@ const Receive = () => {
 
   return (
     <ModalContent bg='#fff'>
-      <ModalHeader>Receive</ModalHeader>
+      <ModalHeader fontFamily='"Merriweather", serif'>Recibir</ModalHeader>
       <ModalCloseButton />
       <ModalBody
         p='20px'
@@ -44,14 +44,14 @@ const Receive = () => {
             </Flex>
             <Flex maxW='256px' w='100%' justifyContent='space-between'>
               <Box flex='1'>
-                <Text fontWeight='bold'>Address</Text>
-                <Text>{useTruncatedAddress(wallet?.address)}</Text>
+                <Text size='sm'>Address</Text>
+                <Text size='lg'>{useTruncatedAddress(wallet?.address)}</Text>
               </Box>
             </Flex>
           </Flex>
         </Flex>
         <Flex w='100%' mt='20px'>
-          <Button onClick={handleCopyAddress}>Copy address</Button>
+          <Button onClick={handleCopyAddress}>Copiar</Button>
         </Flex>
       </ModalBody>
     </ModalContent>

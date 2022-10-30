@@ -57,8 +57,8 @@ const Signup = () => {
       setShowMnemonic(true);
     } else {
       toast({
-        title: 'Incorrect password',
-        description: 'Passwords do not match.',
+        title: 'Contraseña incorrecta',
+        description: 'Las contraseñas no coinciden.',
         status: 'warning',
         duration: 9000,
         isClosable: true,
@@ -91,18 +91,15 @@ const Signup = () => {
       <Head>
         <title>Sign Up - Wallet</title>
       </Head>
-      <Flex h='100%' justifyContent={'center'} alignItems={'center'} py='20px'>
-        <Container maxW={'md'} h='100%' px='20px' bg='#fff'>
+      <Flex justifyContent={'center'} alignItems={'center'} pb='20px' pt={{ base: '50px', md: '60px' }}>
+        <Container maxW={'md'} px='20px'>
           {showMnemonic ? (
-            <Flex flexDirection={'column'} justifyContent={{ base: 'space-between', md: 'center' }} h='100%' gap={4}>
+            <Flex flexDirection={'column'} justifyContent={{ base: 'flex-start', md: 'center' }} gap={4}>
               <VStack gap='10px' alignItems='flex-start'>
-                <Flex justifyContent={'flex-start'}>
-                  <Image src='/75x75.png' />
-                </Flex>
-                <Heading as='h2'>Write your seed phrase</Heading>
-                <Text>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure corrupti minus autem, reiciendis libero
-                  enim.
+                <Image src='/img/34.png' h='200px' />
+                <Heading as='h2'>Frase semilla</Heading>
+                <Text size='lg'>
+                  Tienes tu frase semilla creada por alguna otra wallet non-custodial? Perfecto! Funciona para todas :)
                 </Text>
 
                 {/* Mnemonic */}
@@ -111,10 +108,10 @@ const Signup = () => {
 
               <Flex w='100%' gap='10px' flexDirection={'column'}>
                 <Button variant='solid' onClick={handleLoginWallet} disabled={loading}>
-                  {loading ? 'Loading...' : 'Log in'}
+                  {loading ? 'Cargando...' : 'Ingresar'}
                 </Button>
                 <Link color='secondary' href='/' passHref>
-                  Cancel
+                  Cancelar
                 </Link>
               </Flex>
             </Flex>
@@ -125,12 +122,11 @@ const Signup = () => {
                   <VStack gap='20px'>
                     <VStack gap='10px' alignItems='flex-start'>
                       <Flex justifyContent={'flex-start'}>
-                        <Image src='/75x75.png' />
+                        <Image src='/img/35.png' h='200px' />
                       </Flex>
-                      <Heading as='h2'>Generate password</Heading>
-                      <Text>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure corrupti minus autem, reiciendis
-                        libero enim.
+                      <Heading as='h2'>Genera</Heading>
+                      <Text size='lg'>
+                        Necesitas un respaldo para saber que eres realmente tú quien maneja la cuenta.
                       </Text>
                     </VStack>
                     <Input
@@ -142,10 +138,10 @@ const Signup = () => {
                   </VStack>
                   <Flex w='100%' gap='10px' flexDirection={'column'}>
                     <Button disabled={!password} onClick={handleContinue}>
-                      Continue
+                      Continuar
                     </Button>
                     <Link color='secondary' href='/' passHref>
-                      Cancel
+                      Cancelar
                     </Link>
                   </Flex>
                 </>
@@ -154,13 +150,10 @@ const Signup = () => {
                   <VStack gap='20px'>
                     <VStack gap='10px' alignItems='flex-start'>
                       <Flex justifyContent={'flex-start'}>
-                        <Image src='/75x75.png' />
+                        <Image src='/img/31.png' h='200px' />
                       </Flex>
-                      <Heading as='h2'>Verify password</Heading>
-                      <Text>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure corrupti minus autem, reiciendis
-                        libero enim.
-                      </Text>
+                      <Heading as='h2'>Verifica</Heading>
+                      <Text size='lg'>Comprobemos que recuerdas la contraseña.</Text>
                     </VStack>
                     <Input
                       h='60px'
@@ -171,10 +164,10 @@ const Signup = () => {
                   </VStack>
                   <Flex w='100%' gap='10px' flexDirection={'column'}>
                     <Button variant='solid' disabled={!isValid || loading} onClick={handleConfirm}>
-                      {loading ? 'Loading...' : 'Confirm'}
+                      {loading ? 'Cargando...' : 'Confirmar'}
                     </Button>
                     <Link color='secondary' href='/' passHref>
-                      Cancel
+                      Cancelar
                     </Link>
                   </Flex>
                 </>
