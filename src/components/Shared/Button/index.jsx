@@ -12,7 +12,7 @@ const Button = (props) => {
       },
       height: size === 'md' ? '60px' : '30px',
       padding: size === 'md' ? '22px' : '8px',
-      backgroundColor: size === 'md' ? '#333' : '#EFEFEF',
+      backgroundColor: size === 'md' ? '#242424' : '#EFEFEF',
       color: size === 'md' ? '#fff' : '#333',
       fontSize: size === 'md' ? '16px' : '14px',
       _hover: {
@@ -26,7 +26,7 @@ const Button = (props) => {
       },
       height: size === 'md' ? '60px' : '30px',
       padding: size === 'md' ? '22px' : '8px',
-      backgroundColor: size === 'md' ? '#EFEFEF' : '#fff',
+      backgroundColor: size === 'md' ? '#EFEFEF' : '#F8F1E8',
       color: '#333',
       fontSize: size === 'md' ? '16px' : '14px',
       _hover: {
@@ -53,13 +53,13 @@ const Button = (props) => {
               {children}
             </Box>
           </ButtonBox>
-          {label && <Text>{label}</Text>}
+          {label && <Text size='sm'>{label}</Text>}
         </VStack>
       </>
     );
   } else {
     return (
-      <ButtonBox borderRadius='4px' fontWeight={600} alignItems='center' {...variants[color]} {...props}>
+      <ButtonBox borderRadius='0' fontWeight={600} alignItems='center' {...variants[color]} {...props}>
         {children}
       </ButtonBox>
     );
