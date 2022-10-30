@@ -47,10 +47,10 @@ const Index = () => {
 
             {/* Icons mobile */}
             <HStack display={{ base: 'flex', md: 'none' }} w='100%' justifyContent='flex-end'>
-              <Link href='https://twitter.com/SalletApp' size='sm'>
+              <Link href='https://twitter.com/SalletApp' target='_blank' size='sm'>
                 <Twitter />
               </Link>
-              <Link href='https://discord.gg/VCQuJ7cq' size='sm'>
+              <Link href='https://discord.gg/VCQuJ7cq' target='_blank' size='sm'>
                 <Discord />
               </Link>
             </HStack>
@@ -69,10 +69,10 @@ const Index = () => {
 
             {/* Icons desktop */}
             <HStack display={{ base: 'none', md: 'flex' }} w='100%' justifyContent='center' gap='10px' mt='10px'>
-              <Link href='https://twitter.com/SalletApp'>
+              <Link href='https://twitter.com/SalletApp' target='_blank'>
                 <Twitter />
               </Link>
-              <Link href='https://discord.gg/VCQuJ7cq'>
+              <Link href='https://discord.gg/VCQuJ7cq' target='_blank'>
                 <Discord />
               </Link>
             </HStack>
