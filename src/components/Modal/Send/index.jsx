@@ -108,7 +108,7 @@ const Send = ({ onClose }) => {
       <ModalHeader fontFamily='"Merriweather", serif'>Enviar</ModalHeader>
       <ModalCloseButton />
       <ModalBody pt='20px' display='flex' w='100%' flexDirection='column'>
-        <Flex flexDirection='column' flex='1' bg='red'>
+        <Flex flexDirection='column' mb={{ base: '40px', md: '20px' }} flex='1'>
           <Flex flexDirection='column' gap='10px'>
             <Box position='relative'>
               <Input pr='80px' placeholder='Address' value={toAddress} onChange={(e) => setToAddress(e.target.value)} />
