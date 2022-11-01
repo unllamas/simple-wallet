@@ -107,8 +107,8 @@ const Send = ({ onClose }) => {
     <ModalContent bg='#fff'>
       <ModalHeader fontFamily='"Merriweather", serif'>Enviar</ModalHeader>
       <ModalCloseButton />
-      <ModalBody pt='20px' display='flex' w='100%' h='100%' flexDirection='column' justifyContent='space-between'>
-        <Flex flexDirection='column' justifyContent='space-between' flex='1'>
+      <ModalBody pt='20px' display='flex' w='100%' flexDirection='column'>
+        <Flex flexDirection='column' justifyContent='center' flex='1'>
           <Flex flexDirection='column' gap='10px'>
             <Box position='relative'>
               <Input pr='80px' placeholder='Address' value={toAddress} onChange={(e) => setToAddress(e.target.value)} />
@@ -153,13 +153,13 @@ const Send = ({ onClose }) => {
                 : Number(0).toFixed(2)}
             </Text>
           </Flex>
+          <Box mt='40px'>
+            <Button onClick={() => handleSendTransaction()} disabled={loading || !mount || !toAddress}>
+              {loading ? <Spinner /> : 'Enviar'}
+            </Button>
+          </Box>
         </Flex>
       </ModalBody>
-      <ModalFooter>
-        <Button onClick={() => handleSendTransaction()} disabled={loading || !mount || !toAddress}>
-          {loading ? <Spinner /> : 'Enviar'}
-        </Button>
-      </ModalFooter>
     </ModalContent>
   );
 };
