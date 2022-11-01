@@ -32,7 +32,7 @@ const Receive = () => {
         display='flex'
         w='100%'
         flexDirection='column'
-        justifyContent='space-between'
+        justifyContent='center'
         alignItems='center'
         gap='20px'
       >
@@ -48,8 +48,6 @@ const Receive = () => {
               </Box>
             </Flex>
           </Flex>
-        </Flex>
-        <Flex w='100%'>
           <Button onClick={handleCopyAddress}>Copiar</Button>
         </Flex>
       </ModalBody>
