@@ -65,9 +65,11 @@ const ScreenWrite = ({ onChangeScreen }) => {
 
         <Mnemonic mnemonic={mnemonic?.split(' ')} readOnly={true} />
       </VStack>
-      <Checkbox size='lg' width='100%' justifyContent='space-between' mb='10px' onChange={() => setHasSave(!hasSave)}>
-        Confirmo haberlas guardado
-      </Checkbox>
+      <Box bg='#fff' pt='12px' pb='2px' px='20px'>
+        <Checkbox size='lg' width='100%' justifyContent='space-between' mb='10px' onChange={() => setHasSave(!hasSave)}>
+          Confirmo haberlas guardado
+        </Checkbox>
+      </Box>
       <Button variant='solid' disabled={!hasSave} onClick={onChangeScreen}>
         Continuar
       </Button>
