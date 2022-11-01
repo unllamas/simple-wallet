@@ -31,7 +31,6 @@ const Receive = () => {
         p='20px'
         display='flex'
         w='100%'
-        h='100%'
         flexDirection='column'
         justifyContent='space-between'
         alignItems='center'
