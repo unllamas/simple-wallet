@@ -36,7 +36,7 @@ const Receive = () => {
         alignItems='center'
         gap='20px'
       >
-        <Flex flexDirection='column' gap='20px' flex='1' justifyContent='center'>
+        <Flex flexDirection='column' gap='20px' justifyContent='center'>
           <Flex flexDirection='column' alignItems='center' gap='20px'>
             <Flex align='center' justify='center'>
               {wallet?.address && <QRCode value={wallet?.address} />}
@@ -49,7 +49,7 @@ const Receive = () => {
             </Flex>
           </Flex>
         </Flex>
-        <Flex w='100%' mt='20px'>
+        <Flex w='100%'>
           <Button onClick={handleCopyAddress}>Copiar</Button>
         </Flex>
       </ModalBody>
