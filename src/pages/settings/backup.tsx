@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { ethers } from 'ethers';
 import Head from 'next/head';
-import { Image, Flex, Box, useDisclosure, VStack, HStack, useToast, Checkbox } from '@chakra-ui/react';
+import { Flex, Box, useDisclosure, VStack, HStack, useToast, Checkbox } from '@chakra-ui/react';
 
 import { useAccount } from '../../context/Account';
 import { db } from '../../utils/db';
@@ -11,6 +11,7 @@ import { decrypt } from '../../hooks/useCrypto';
 import { Container } from '../../components/Container';
 import Modal from '../../components/Modal';
 import Heading from '../../components/Shared/Heading';
+import Image from '../../components/Shared/Image';
 import Text from '../../components/Shared/Text';
 import Link from '../../components/Shared/Link';
 import Button from '../../components/Shared/Button';
@@ -27,7 +28,9 @@ const ScreenValidate = ({ onSubmit }) => {
   return (
     <>
       <VStack gap='10px' alignItems='flex-start'>
-        <Image src='/img/6.png' h='200px' />
+        <Box maxW='200px'>
+          <Image src='/img/6.png' alt='Verifica' />
+        </Box>
         <Heading as='h2'>Revisémoslo nuevamente</Heading>
         <Text size='lg'>
           Escribe tu frase semilla en el orden en que estaban anteriormente para validar que lo has hecho bien :)
@@ -57,7 +60,9 @@ const ScreenWrite = ({ onChangeScreen }) => {
   return (
     <>
       <VStack gap='10px' alignItems='flex-start'>
-        <Image src='/img/34.png' h='200px' />
+        <Box maxW='200px'>
+          <Image src='/img/34.png' alt='Frase semilla' />
+        </Box>
         <Heading as='h2'>Frase semilla</Heading>
         <Text size='lg'>
           Es muy importante que guardes esta frase semilla. Es la clave principal para poder reclamar tus activos.
@@ -118,8 +123,8 @@ const Backup = () => {
               <>
                 <VStack gap='10px' alignItems='flex-start'>
                   {/* Content */}
-                  <Flex>
-                    <Image src='/img/26.png' maxW='250px' />
+                  <Flex maxH='250px'>
+                    <Image src='/img/26.png' />
                   </Flex>
                   <Heading>Not your keys, not your coins</Heading>
                   <Text size='lg'>

@@ -1,6 +1,7 @@
 import Head from 'next/head';
+// import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { Code, List, ListIcon, ListItem, Image, Flex, VStack, HStack, Box } from '@chakra-ui/react';
+import { Code, List, ListIcon, ListItem, Flex, VStack, HStack, Box } from '@chakra-ui/react';
 import { CheckCircleIcon, LinkIcon } from '@chakra-ui/icons';
 
 import { useAccount } from '../context/Account';
@@ -10,6 +11,7 @@ import Button from '../components/Shared/Button';
 import Heading from '../components/Shared/Heading';
 import Text from '../components/Shared/Text';
 import Link from '../components/Shared/Link';
+import Image from '../components/Shared/Image';
 
 import Twitter from '../components/Shared/Icons/Twitter';
 import Discord from '../components/Shared/Icons/Discord';
@@ -30,7 +32,9 @@ const Index = () => {
       <Flex justifyContent={'center'} alignItems={'center'}>
         <Container maxW={'700px'} p='20px'>
           <Flex w='100%' alignItems='center' justifyContent='space-between'>
-            <Image src='/logo.png' h='100%' m={{ base: '0 auto', md: '0' }} />
+            <Box h='100%' m={{ base: '0 auto', md: '0' }}>
+              <Image src='/logo.svg' alt='Sallet.app' width={150} />
+            </Box>
 
             {/* Buttons desktop */}
             <Flex display={{ base: 'none', md: 'flex' }} flexDirection={{ base: 'column', md: 'row' }} gap='10px'>
@@ -55,7 +59,9 @@ const Index = () => {
           <Flex flexDirection={'column'} justifyContent='center' gap={4}>
             {/* Content */}
             <VStack gap='10px' alignItems='center' textAlign='center' mt='60px'>
-              <Image src='/img/5.png' maxW={{ base: '200px', md: '300px' }} margin='0 auto' />
+              <Box maxW={{ base: '200px', md: '300px' }} margin='0 auto'>
+                <Image src='/img/5.png' alt='Home' />
+              </Box>
               <Heading as='h1' fontSize='48px'>
                 Aceptar cripto-activos nunca fue tan fácil.
               </Heading>

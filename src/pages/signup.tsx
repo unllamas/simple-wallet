@@ -1,13 +1,15 @@
 // @ts-nocheck
 import { useState } from 'react';
 import Head from 'next/head';
-import { Image, Flex, useToast, VStack } from '@chakra-ui/react';
+// import Image from 'next/image';
+import { Flex, useToast, VStack, Box } from '@chakra-ui/react';
 
 import { useAccount } from '../context/Account';
 
 import { Container } from '../components/Container';
 import Button from '../components/Shared/Button';
 import Link from '../components/Shared/Link';
+import Image from '../components/Shared/Image';
 import Input from '../components/Shared/Input';
 import Text from '../components/Shared/Text';
 import Heading from '../components/Shared/Heading';
@@ -96,7 +98,9 @@ const Signup = () => {
           {showMnemonic ? (
             <Flex flexDirection={'column'} justifyContent={{ base: 'flex-start', md: 'center' }} gap={4}>
               <VStack gap='10px' alignItems='flex-start'>
-                <Image src='/img/34.png' h='200px' />
+                <Box maxW='200px'>
+                  <Image src='/img/34.png' alt='Frase semilla' />
+                </Box>
                 <Heading as='h2'>Frase semilla</Heading>
                 <Text size='lg'>
                   Tienes tu frase semilla creada por alguna otra wallet non-custodial? Perfecto! Funciona para todas :)
@@ -121,8 +125,8 @@ const Signup = () => {
                 <>
                   <VStack gap='20px'>
                     <VStack gap='10px' alignItems='flex-start'>
-                      <Flex justifyContent={'flex-start'}>
-                        <Image src='/img/35.png' h='200px' />
+                      <Flex justifyContent={'flex-start'} maxH='200px'>
+                        <Image src='/img/35.png' alt='Genera' />
                       </Flex>
                       <Heading as='h2'>Genera</Heading>
                       <Text size='lg'>
@@ -149,8 +153,8 @@ const Signup = () => {
                 <>
                   <VStack gap='20px'>
                     <VStack gap='10px' alignItems='flex-start'>
-                      <Flex justifyContent={'flex-start'}>
-                        <Image src='/img/31.png' h='200px' />
+                      <Flex justifyContent={'flex-start'} maxH='200px'>
+                        <Image src='/img/31.png' alt='Verifica' />
                       </Flex>
                       <Heading as='h2'>Verifica</Heading>
                       <Text size='lg'>Comprobemos que recuerdas la contraseña.</Text>

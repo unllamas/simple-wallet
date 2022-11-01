@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import Head from 'next/head';
+// import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { Image, Flex, useToast, VStack } from '@chakra-ui/react';
+import { Flex, useToast, VStack } from '@chakra-ui/react';
 
 import { useAccount } from '../context/Account';
 
@@ -11,6 +12,7 @@ import Link from '../components/Shared/Link';
 import Input from '../components/Shared/Input';
 import Text from '../components/Shared/Text';
 import Heading from '../components/Shared/Heading';
+import Image from '../components/Shared/Image';
 
 const Create = () => {
   const router = useRouter();
@@ -85,8 +87,8 @@ const Create = () => {
             {!showValidate ? (
               <>
                 <VStack alignItems='flex-start' gap='10px'>
-                  <Flex justifyContent={'flex-start'}>
-                    <Image src='/img/35.png' h='200px' margin='0 auto' />
+                  <Flex justifyContent={'flex-start'} maxH='200px' margin='0 auto'>
+                    <Image src='/img/35.png' alt='Genera' />
                   </Flex>
                   <Heading as='h2'>Genera</Heading>
                   <Text size='lg'>
@@ -111,8 +113,8 @@ const Create = () => {
             ) : (
               <>
                 <VStack alignItems='flex-start' gap='10px'>
-                  <Flex justifyContent={'flex-start'}>
-                    <Image src='/img/31.png' h='200px' margin='0 auto' />
+                  <Flex justifyContent={'flex-start'} maxH='200px'>
+                    <Image src='/img/31.png' alt='Verifica' />
                   </Flex>
                   <Heading as='h2'>Verifica</Heading>
                   <Text size='lg'>Comprobemos que recuerdas la contraseña.</Text>
