@@ -108,7 +108,7 @@ const Send = ({ onClose }) => {
       <ModalHeader fontFamily='"Merriweather", serif'>Enviar</ModalHeader>
       <ModalCloseButton />
       <ModalBody pt='20px' display='flex' w='100%' flexDirection='column'>
-        <Flex flexDirection='column' mb={{ base: '40px', md: '20px' }} bg='red' flex='1'>
+        <Flex flexDirection='column' mb={{ base: '40px', md: '20px' }} flex='1'>
           <Flex flexDirection='column' gap='10px'>
             <Box position='relative'>
               <Input pr='80px' placeholder='Address' value={toAddress} onChange={(e) => setToAddress(e.target.value)} />
@@ -153,7 +153,7 @@ const Send = ({ onClose }) => {
                 : Number(0).toFixed(2)}
             </Text>
           </Flex>
-          <Box mt='40px'>
+          <Box mt='60px'>
             <Button onClick={() => handleSendTransaction()} disabled={loading || !mount || !toAddress}>
               {loading ? <Spinner /> : 'Enviar'}
             </Button>
