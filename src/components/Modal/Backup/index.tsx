@@ -11,13 +11,12 @@ const Backup = () => {
         p='40px 20px'
         display='flex'
         w='100%'
-        h='100%'
         flexDirection='column'
-        justifyContent='space-between'
+        justifyContent='center'
         alignItems='center'
         gap='20px'
       >
-        <Flex flexDirection='column' gap='20px' flex='1' justifyContent='center'>
+        <Flex flexDirection='column' gap='20px' justifyContent='center' mb='20px'>
           <Flex flexDirection='column' alignItems='center' gap='20px' textAlign='center'>
             <Flex>
               <Image src='/img/37.png' h='200px' />
