@@ -103,7 +103,7 @@ const Backup = () => {
   return (
     <>
       <Head>
-        <title>Backup - Wallet</title>
+        <title>Backup - Sallet</title>
       </Head>
       <Flex justifyContent={'center'} alignItems={'center'} pt={{ base: '50px', md: '60px' }}>
         <Container maxW={'md'} px='20px'>

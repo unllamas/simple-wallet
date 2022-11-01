@@ -77,7 +77,7 @@ const Create = () => {
   return (
     <>
       <Head>
-        <title>Create - Wallet</title>
+        <title>Crear - Sallet</title>
       </Head>
       <Flex justifyContent={'center'} alignItems={'center'} pt={{ base: '50px', md: '60px' }}>
         <Container maxW={'md'} p='20px'>

@@ -27,13 +27,10 @@ const Index = () => {
 
   return (
     <>
-      <Head>
-        <title>Wallet</title>
-      </Head>
       <Flex justifyContent={'center'} alignItems={'center'}>
         <Container maxW={'700px'} p='20px'>
           <Flex w='100%' alignItems='center' justifyContent='space-between'>
-            <Image src='./logo.png' h='100%' m={{ base: '0 auto', md: '0' }} />
+            <Image src='/logo.png' h='100%' m={{ base: '0 auto', md: '0' }} />
 
             {/* Buttons desktop */}
             <Flex display={{ base: 'none', md: 'flex' }} flexDirection={{ base: 'column', md: 'row' }} gap='10px'>

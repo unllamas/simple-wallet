@@ -88,7 +88,7 @@ const Dashboard = ({ price }) => {
   return (
     <>
       <Head>
-        <title>Dashboard - Wallet</title>
+        <title>Wallet - Sallet</title>
       </Head>
       <Flex h='100%' justifyContent={'center'} alignItems={'center'} pt='20px'>
         <Container w='100%' justifyContent='center' maxW={'md'} px='20px'>
