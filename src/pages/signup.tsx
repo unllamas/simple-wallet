@@ -89,7 +89,7 @@ const Signup = () => {
   return (
     <>
       <Head>
-        <title>Sign Up - Wallet</title>
+        <title>Ingresar - Sallet</title>
       </Head>
       <Flex justifyContent={'center'} alignItems={'center'} pb='20px' pt={{ base: '50px', md: '60px' }}>
         <Container maxW={'md'} px='20px'>
