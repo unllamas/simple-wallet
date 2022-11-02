@@ -1,6 +1,5 @@
 ## 💻 Tech Stack
 
-- [Yarn]() for package management
 - [Next.js](https://nextjs.org/) for web app
 - [ChakraUI](https://chakra-ui.com/) for style components
 - [Ethers.js](https://ethers.org/) for client blockchain
@@ -13,7 +12,6 @@
 ```bash
 git clone ...
 cd ...
-yarn
 ```
 
 ##### 2. Create `.env.local` file:
