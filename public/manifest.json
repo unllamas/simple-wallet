@@ -1,0 +1,13 @@
+{
+  "theme_color": "#1fd4c0",
+  "background_color": "#259409",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
+  "name": "Sallet",
+  "short_name": "Sallet",
+  "description": "Simple web application to create a non-custodial wallet for ETH with: NextJS, Ethers and ChakraUI",
+  "icons": [
+    { "src": "/img/150x150.png", "sizes": "150x150", "type": "image/png" }
+  ]
+}
