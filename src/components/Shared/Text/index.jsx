@@ -24,7 +24,7 @@ const Text = (props) => {
   };
 
   return (
-    <TextBox m='0px' color='#333' {...props} {...variants[size]}>
+    <TextBox m='0px' color='#fff' {...props} {...variants[size]}>
       {children}
     </TextBox>
   );

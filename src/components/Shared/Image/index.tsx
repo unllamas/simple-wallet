@@ -5,7 +5,7 @@ const Image = (props) => {
 
   return (
     <Box position='relative'>
-      <ImageBox {...props} src={src} alt={alt} h='100%' />
+      <ImageBox {...props} src={src} alt={alt} h='100%' maxH={{ base: '200px', md: '300px' }} />
     </Box>
   );
 };
