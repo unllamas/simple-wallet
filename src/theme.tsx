@@ -11,7 +11,8 @@ const theme = extendTheme({
         width: '100%',
         height: '100%',
         overflowX: 'hidden',
-        backgroundColor: '#F8F1E8',
+        backgroundColor: '#111111',
+        color: '#fff',
       },
       '#__next': {
         height: '100%',
