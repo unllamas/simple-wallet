@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Head from 'next/head';
 // import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { Flex, useToast, VStack } from '@chakra-ui/react';
+import { Flex, useToast, VStack, Spinner } from '@chakra-ui/react';
 
 import { useAccount } from '../context/Account';
 
@@ -107,7 +107,7 @@ const Create = () => {
               </VStack>
               <Flex w='100%' gap='10px' flexDirection={'column'}>
                 <Button variant='solid' disabled={!isValid || loading} onClick={handleConfirm}>
-                  {loading ? 'Cargando...' : 'Confirmar'}
+                  {loading ? <Spinner /> : 'Confirmar'}
                 </Button>
                 <Link color='default' href='/' passHref>
                   Cancelar
