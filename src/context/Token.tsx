@@ -9,8 +9,10 @@ import { useAccount } from './Account';
 import abiDAI from '../utils/abi/DAI.json';
 
 interface TokenContextInterface {
-  tokenETH: BigNumber;
-  tokenDAI: BigNumber;
+  tokens: {
+    eth: BigNumber;
+    dai: BigNumber;
+  };
 }
 
 const TokenContext = createContext<TokenContextInterface | null>(null);
@@ -26,24 +28,26 @@ export function TokenWrapper({ children }) {
   const { address, signer } = useAccount();
 
   // Component
-  const [tokenETH, setTokenETH] = useState(ethers.constants.Zero);
-  const [tokenDAI, setTokenDAI] = useState(ethers.constants.Zero);
+  const [tokens, setTokens] = useState({
+    dai: ethers.constants.Zero,
+    eth: ethers.constants.Zero,
+  });
 
   const providerDAI = new ethers.Contract(addressDAI, abiDAI, kovanProvider);
 
   // Obtener balance de Ethereum y DAI
   if (!!address) {
     kovanProvider?.on('block', () => {
-      if (tokenETH.isZero() && tokenDAI.isZero()) {
+      if (tokens?.eth?.isZero() && tokens?.dai?.isZero()) {
         kovanProvider.getBalance(address).then((balance) => {
-          if (!balance?.eq(tokenETH)) {
-            setTokenETH(balance);
+          if (!balance?.eq(tokens?.eth)) {
+            setTokens({ ...tokens, eth: balance });
           }
         });
 
         providerDAI.balanceOf(address).then((balance) => {
-          if (!balance?.eq(tokenDAI)) {
-            setTokenDAI(balance);
+          if (!balance?.eq(tokens?.dai)) {
+            setTokens({ ...tokens, dai: balance });
           }
         });
       }
@@ -74,7 +78,7 @@ export function TokenWrapper({ children }) {
         // Send token ETH
         const tx = {
           to: toAddress,
-          value: ethers.utils.parseEther(mount),
+          value: ethers.utils.parseUnits(String(mount.toFixed(18))),
         };
 
         try {
@@ -104,7 +108,7 @@ export function TokenWrapper({ children }) {
     }
   };
 
-  return <TokenContext.Provider value={{ tokenETH, tokenDAI, sendTransaction }}>{children}</TokenContext.Provider>;
+  return <TokenContext.Provider value={{ tokens, sendTransaction }}>{children}</TokenContext.Provider>;
 }
 
 export function useToken() {
