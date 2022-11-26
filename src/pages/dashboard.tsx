@@ -2,20 +2,8 @@ import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import NextLink from 'next/link';
 import Head from 'next/head';
-import {
-  Image,
-  Flex,
-  Box,
-  useDisclosure,
-  Tag,
-  Stat,
-  StatLabel,
-  StatNumber,
-  VStack,
-  HStack,
-  Link,
-} from '@chakra-ui/react';
-import { RefreshCw, ArrowDownRight, ArrowUpRight, Lock, Unlock, ArrowRight, Check } from 'react-feather';
+import { Image, Flex, Box, useDisclosure, Tag, Stat, StatLabel, StatNumber, VStack, HStack } from '@chakra-ui/react';
+import { RefreshCw, ArrowDown, ArrowUp, Lock, Unlock, ArrowRight, Check } from 'react-feather';
 
 import { useBlockchain } from '../context/Blockchain';
 import { useAccount } from '../context/Account';
@@ -26,9 +14,12 @@ import Modal from '../components/Modal';
 import Heading from '../components/Shared/Heading';
 import Text from '../components/Shared/Text';
 import Button from '../components/Shared/Button';
+import Link from '../components/Shared/Link';
 
 import IconETH from '../components/Icons/ETH';
 import IconDAI from '../components/Icons/DAI';
+
+import Token from '../components/Token';
 
 import { cryptoToUSD, formatPrice } from '../hooks/usePrice';
 import bigNumberTokenToString from '../hooks/useUtils';
@@ -51,11 +42,11 @@ const Dashboard = ({ price }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { hasSaveMnemonic } = useAccount();
-  const { tokenETH, tokenDAI } = useToken();
+  const { tokens } = useToken();
 
   // Component
-  const [priceETH, setPETH] = useState(cryptoToUSD(price?.eth?.usd, tokenETH));
-  const [priceDAI, setPDAI] = useState(cryptoToUSD(price?.dai?.usd, tokenETH));
+  const [priceETH, setPETH] = useState(cryptoToUSD(price?.eth?.usd, tokens?.eth));
+  const [priceDAI, setPDAI] = useState(cryptoToUSD(price?.dai?.usd, tokens?.dai));
   const [total, setTotal] = useState(priceETH + priceDAI);
 
   // General
@@ -67,8 +58,8 @@ const Dashboard = ({ price }) => {
 
       if (success) {
         const { eth, dai } = data;
-        const priceETH = cryptoToUSD(eth?.usd, tokenETH);
-        const priceDAI = cryptoToUSD(dai?.usd, tokenDAI);
+        const priceETH = cryptoToUSD(eth?.usd, tokens?.eth);
+        const priceDAI = cryptoToUSD(dai?.usd, tokens?.dai);
 
         setPETH(priceETH);
         setPDAI(priceDAI);
@@ -78,7 +69,7 @@ const Dashboard = ({ price }) => {
     }
 
     handleGetPrice();
-  }, [tokenETH, tokenDAI]);
+  }, [tokens?.eth, tokens?.dai]);
 
   const handleOpenModal = (name) => {
     setModalType(name);
@@ -90,7 +81,7 @@ const Dashboard = ({ price }) => {
       <Head>
         <title>Wallet - Sallet</title>
       </Head>
-      <Flex h='100%' justifyContent={'center'} alignItems={'center'} pt='20px'>
+      <VStack h='100%' justifyContent={'center'} alignItems={'center'} pt='20px'>
         <Container w='100%' justifyContent='center' maxW={'md'} px='20px'>
           {/* Balance */}
           <Flex flexDirection={{ base: 'column', md: 'row' }} alignItems='center' justifyContent='center'>
@@ -106,8 +97,13 @@ const Dashboard = ({ price }) => {
             {/* Botones */}
             <Flex my='30px'>
               <Flex px='20px' justifyContent={'center'}>
+                <Button color='secondary' type='circle' onClick={() => handleOpenModal('send')} label='Enviar'>
+                  <ArrowUp />
+                </Button>
+              </Flex>
+              <Flex px='20px' justifyContent={'center'}>
                 <Button type='circle' onClick={() => handleOpenModal('receive')} label='Recibir'>
-                  <ArrowDownRight />
+                  <ArrowDown />
                 </Button>
               </Flex>
               {/* <Flex justifyContent={'center'}>
@@ -115,80 +111,47 @@ const Dashboard = ({ price }) => {
                   <RefreshCw />
                 </Button>
               </Flex> */}
-              <Flex px='20px' justifyContent={'center'}>
-                <Button type='circle' onClick={() => handleOpenModal('send')} label='Enviar'>
-                  <ArrowUpRight />
-                </Button>
-              </Flex>
             </Flex>
           </Flex>
 
           {/* Tokens */}
-          <Flex alignItems={'center'} justifyContent={'space-between'} w='100%' bg='#fff' p='20px'>
-            <Flex alignItems={'center'} gap='10px'>
-              <Box>
-                <IconETH />
-              </Box>
-              <Text fontWeight='bold'>ETH</Text>
-            </Flex>
-            <VStack alignItems='flex-end'>
-              <Text>{bigNumberTokenToString(tokenETH) || '0.00'}</Text>
-              <Text size='sm' mt='0px !important'>
-                ${Number(priceETH).toFixed(2)}
-              </Text>
-            </VStack>
-          </Flex>
-          <Flex mt='2px' alignItems={'center'} justifyContent={'space-between'} w='100%' bg='#fff' p='20px'>
-            <Flex alignItems={'center'} gap='10px'>
-              <Box>
-                <IconDAI />
-              </Box>
-              <Text fontWeight='bold'>DAI</Text>
-            </Flex>
-            <VStack alignItems='flex-end'>
-              <Text>{bigNumberTokenToString(tokenDAI) || '0.00'}</Text>
-              <Text size='sm' mt='0px !important'>
-                ${Number(priceDAI).toFixed(2)}
-              </Text>
-            </VStack>
-          </Flex>
-
-          {/* Security */}
-          {hasSaveMnemonic ? (
-            <Flex w='100%' mt='30px' alignItems={'center'} justifyContent={'space-between'}>
-              <HStack>
-                <Lock />
-                <Heading as='h3'>Seguridad</Heading>
-              </HStack>
-              <HStack gap='10px'>
-                <Check />
-              </HStack>
-            </Flex>
-          ) : (
-            <NextLink href={!hasSaveMnemonic && '/settings/backup'}>
-              <Flex
-                w='100%'
-                mt='15px'
-                py='15px'
-                alignItems={'center'}
-                justifyContent={'space-between'}
-                cursor='pointer'
-              >
-                <HStack>
-                  <Unlock color='#2B2A2B' opacity={0.65} />
-                  <Heading as='h3'>Seguridad</Heading>
-                </HStack>
-                <HStack gap='10px'>
-                  <Tag size='md' bg='#2B2A2B' color='#F8F1E8'>
-                    Pendiente
-                  </Tag>
-                  <ArrowRight color='#2B2A2B' />
-                </HStack>
-              </Flex>
-            </NextLink>
-          )}
+          <VStack backgroundColor='#1F1F1F' borderRadius='8px'>
+            <Token name='ETH' token={tokens?.eth} price={priceETH} />
+            <Box borderTop='2px solid #111111' w='100%' mt='0 !important'>
+              <Token name='DAI' token={tokens?.dai} price={priceDAI} />
+            </Box>
+          </VStack>
         </Container>
-      </Flex>
+
+        {/* Security */}
+        {!hasSaveMnemonic && (
+          <VStack
+            gap='20px'
+            w='100%'
+            maxW={{ base: '100%', md: '448px' }}
+            p='20px'
+            alignItems='initial'
+            mt='20px !important'
+            bgImage='url(./background-backup.png)'
+            bgSize='cover'
+          >
+            <VStack gap='10px'>
+              <Flex w='100%' gap='10px' alignItems='center'>
+                <Unlock color='#DBA2A3' opacity={0.65} />
+                <Heading as='h2' fontWeight='bold'>
+                  Seguridad
+                </Heading>
+              </Flex>
+              <Text opacity='.65' size='lg' mt='0'>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              </Text>
+            </VStack>
+            <Link href='/settings/backup' color='terciary' passHref>
+              Guardar frase semilla
+            </Link>
+          </VStack>
+        )}
+      </VStack>
 
       <Modal type={modalType} isOpen={isOpen} onClose={onClose} />
     </>
