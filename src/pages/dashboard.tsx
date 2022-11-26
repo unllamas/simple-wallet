@@ -2,7 +2,19 @@ import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import NextLink from 'next/link';
 import Head from 'next/head';
-import { Image, Flex, Box, useDisclosure, Tag, Stat, StatLabel, StatNumber, VStack, HStack } from '@chakra-ui/react';
+import {
+  Image,
+  Flex,
+  Box,
+  useDisclosure,
+  Tag,
+  Stat,
+  StatLabel,
+  StatNumber,
+  VStack,
+  HStack,
+  Text as TextBox,
+} from '@chakra-ui/react';
 import { RefreshCw, ArrowDown, ArrowUp, Lock, Unlock, ArrowRight, Check } from 'react-feather';
 
 import { useBlockchain } from '../context/Blockchain';
@@ -128,8 +140,8 @@ const Dashboard = ({ price }) => {
           <VStack
             gap='20px'
             w='100%'
-            maxW={{ base: '100%', md: '448px' }}
-            p='20px'
+            maxW={{ base: '100%', md: '408px' }}
+            p='30px'
             alignItems='initial'
             mt='20px !important'
             bgImage='url(./background-backup.png)'
@@ -139,11 +151,12 @@ const Dashboard = ({ price }) => {
               <Flex w='100%' gap='10px' alignItems='center'>
                 <Unlock color='#DBA2A3' opacity={0.65} />
                 <Heading as='h2' fontWeight='bold'>
-                  Seguridad
+                  Frase semilla
                 </Heading>
               </Flex>
-              <Text opacity='.65' size='lg' mt='0'>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              <Text size='lg' mt='0'>
+                Es muy importante que guardes bien esta <TextBox as='b'>frase semilla</TextBox>, ya que es la{' '}
+                <TextBox as='b'>llave principal a sus cripto-activos</TextBox>.
               </Text>
             </VStack>
             <Link href='/settings/backup' color='terciary' passHref>

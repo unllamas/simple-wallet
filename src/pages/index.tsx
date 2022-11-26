@@ -68,7 +68,7 @@ const Index = () => {
               <Heading as='h1' fontSize='48px'>
                 Aceptar cripto-activos nunca fue tan fácil.
               </Heading>
-              <Text maxW={{ base: '100%', md: '400px' }} m='0 auto' size='lg'>
+              <Text maxW={{ base: '100%', md: '400px' }} m='0 auto' size='lg' opacity='.65'>
                 Ten el control total de tus finanzas. <strong>Wallet non-custodial</strong> para <strong>ETH</strong>.
               </Text>
             </VStack>

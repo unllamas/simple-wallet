@@ -86,9 +86,10 @@ const Create = () => {
                 <Flex justifyContent={'flex-start'} maxH='150px' margin='0 auto'>
                   <Image src='/password.png' alt='Genera' />
                 </Flex>
-                <Heading as='h2'>Contraseña</Heading>
-                <Text size='lg'>
-                  Si bien somos localfirst, necesitamos saber que eres realmente tu quien mueve fondos.
+                <Heading as='h2'>Seguridad</Heading>
+                <Text size='lg' opacity='.65'>
+                  Si bien toda informacion queda almacenada en su dispotivo, necesita un metodo de seguridad minimo para
+                  retirar fondos.
                 </Text>
                 <Input
                   h='60px'
