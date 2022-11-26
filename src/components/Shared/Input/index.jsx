@@ -1,9 +1,8 @@
 import { Input as InputBox } from '@chakra-ui/react';
+import { style } from './style';
 
 const Input = (props) => {
-  return (
-    <InputBox zIndex={0} h='60px' backgroundColor='#fff' borderRadius='0' padding='20px' color='#333' {...props} />
-  );
+  return <InputBox padding='20px' borderRadius='8px' {...props} {...style} />;
 };
 
 export default Input;

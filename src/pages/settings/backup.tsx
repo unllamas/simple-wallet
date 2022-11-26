@@ -28,11 +28,11 @@ const ScreenValidate = ({ onSubmit }) => {
   return (
     <>
       <VStack gap='10px' alignItems='flex-start'>
-        <Box maxW='200px'>
-          <Image src='/img/6.png' alt='Verifica' />
-        </Box>
+        <Flex justifyContent={'flex-start'} maxH='150px'>
+          <Image src='/seed-phrase.png' alt='Verifica' />
+        </Flex>
         <Heading as='h2'>Revisémoslo nuevamente</Heading>
-        <Text size='lg'>
+        <Text size='lg' opacity='.65'>
           Escribe tu frase semilla en el orden en que estaban anteriormente para validar que lo has hecho bien :)
         </Text>
 
@@ -43,7 +43,7 @@ const ScreenValidate = ({ onSubmit }) => {
         <Button variant='solid' onClick={() => onSubmit(localMnemonic)}>
           Confirmar
         </Button>
-        <Link color='secondary' href='/' passHref>
+        <Link color='default' href='/' passHref>
           Más tarde
         </Link>
       </Flex>
@@ -60,26 +60,34 @@ const ScreenWrite = ({ onChangeScreen }) => {
   return (
     <>
       <VStack gap='10px' alignItems='flex-start'>
-        <Box maxW='200px'>
-          <Image src='/img/34.png' alt='Frase semilla' />
-        </Box>
+        <Flex justifyContent={'flex-start'} maxH='150px'>
+          <Image src='/save-seed-phrase.png' />
+        </Flex>
         <Heading as='h2'>Frase semilla</Heading>
-        <Text size='lg'>
-          Es muy importante que guardes esta frase semilla. Es la clave principal para poder reclamar tus activos.
+        <Text size='lg' opacity='.65'>
+          Es muy importante que guardes esta frase semilla. Es la clave principal para poder reclamar tus activos en
+          cualquier wallet non-custodial.
         </Text>
 
         <Mnemonic mnemonic={mnemonic?.split(' ')} readOnly={true} />
       </VStack>
-      <Box bg='#fff' pt='12px' pb='2px' px='20px'>
-        <Checkbox size='lg' width='100%' justifyContent='space-between' mb='10px' onChange={() => setHasSave(!hasSave)}>
-          Confirmo haberlas guardado
-        </Checkbox>
-      </Box>
+      <Checkbox
+        size='lg'
+        width='100%'
+        justifyContent='space-between'
+        color='#fff'
+        bg='#1F1F1F'
+        p='20px'
+        borderRadius='4px'
+        onChange={() => setHasSave(!hasSave)}
+      >
+        Confirmo haberlas guardado
+      </Checkbox>
       <Button variant='solid' disabled={!hasSave} onClick={onChangeScreen}>
         Continuar
       </Button>
       <Flex w='100%' gap='10px' flexDirection={'column'}>
-        <Link color='secondary' href='/' passHref>
+        <Link color='default' href='/' passHref>
           Más tarde
         </Link>
       </Flex>
@@ -123,11 +131,11 @@ const Backup = () => {
               <>
                 <VStack gap='10px' alignItems='flex-start'>
                   {/* Content */}
-                  <Flex maxH='250px'>
-                    <Image src='/img/26.png' />
+                  <Flex justifyContent={'flex-start'} maxH='250px'>
+                    <Image src='/backup.png' />
                   </Flex>
                   <Heading>Not your keys, not your coins</Heading>
-                  <Text size='lg'>
+                  <Text size='lg' opacity='.65'>
                     Nosotros te ayudamos a recibir pagos o donaciones desde cualquier parte del mundo, pero en realidad
                     eres tú el dueño de los activos.
                   </Text>
@@ -156,7 +164,7 @@ const Backup = () => {
                 {/* Buttons */}
                 <Flex w='100%' flexDirection={'column'} gap='10px'>
                   <Button onClick={() => setShowMnemonic(true)}>Continuar</Button>
-                  <Link href='/dashboard' color='secondary' passHref>
+                  <Link href='/dashboard' color='default' passHref>
                     Más tarde
                   </Link>
                 </Flex>

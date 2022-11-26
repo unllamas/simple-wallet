@@ -41,7 +41,7 @@ const Heading = (props) => {
   };
 
   return (
-    <HeadingBox color='#242424' {...props} {...variants[as]}>
+    <HeadingBox color='#fff' {...props} {...variants[as]}>
       {children}
     </HeadingBox>
   );
