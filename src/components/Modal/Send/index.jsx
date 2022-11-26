@@ -223,7 +223,7 @@ const Send = ({ onClose }) => {
 
                 {/* Gas fee */}
                 <Flex justifyContent='space-between' mt='20px'>
-                  <VStack gap='4px'>
+                  <VStack>
                     <Flex gap='8px' w='100%'>
                       <IconGas />
                       <Text fontWeight='bold'>Gas</Text>
