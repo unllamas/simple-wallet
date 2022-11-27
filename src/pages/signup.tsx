@@ -1,8 +1,7 @@
 // @ts-nocheck
 import { useState } from 'react';
 import Head from 'next/head';
-// import Image from 'next/image';
-import { Flex, useToast, VStack, Box } from '@chakra-ui/react';
+import { Flex, useToast, VStack, Box, Link as LinkBox } from '@chakra-ui/react';
 
 import { useAccount } from '../context/Account';
 
@@ -35,12 +34,9 @@ const Signup = () => {
   // Pass
   const handleSetPassword = (value) => {
     // TO-DO: añadir validaciones min/max
-    setPassword(value);
-  };
-
-  const handleContinue = () => {
-    if (password) {
+    if (value) {
       setShowValidate(true);
+      setPassword(value);
     }
   };
 
@@ -99,11 +95,14 @@ const Signup = () => {
             <Flex flexDirection={'column'} justifyContent={{ base: 'flex-start', md: 'center' }} gap={4}>
               <VStack gap='10px' alignItems='flex-start'>
                 <Box maxW='200px'>
-                  <Image src='/img/34.png' alt='Frase semilla' />
+                  <Image src='/seed-phrase.png' alt='Frase semilla' />
                 </Box>
                 <Heading as='h2'>Frase semilla</Heading>
                 <Text size='lg'>
-                  Tienes tu frase semilla creada por alguna otra wallet non-custodial? Perfecto! Funciona para todas :)
+                  Ingresa tu frase semilla o reutiliza alguna de otras wallets non-custodial.{' '}
+                  <LinkBox color='#B3E0B8' textDecoration='underline'>
+                    Te gustaria conocer las alternativas?
+                  </LinkBox>
                 </Text>
 
                 {/* Mnemonic */}
@@ -112,70 +111,49 @@ const Signup = () => {
 
               <Flex w='100%' gap='10px' flexDirection={'column'}>
                 <Button variant='solid' onClick={handleLoginWallet} disabled={loading}>
-                  {loading ? 'Cargando...' : 'Ingresar'}
+                  {loading ? 'Cargando...' : 'Validar'}
                 </Button>
-                <Link color='secondary' href='/' passHref>
+                <Link color='default' href='/' passHref>
                   Cancelar
                 </Link>
               </Flex>
             </Flex>
           ) : (
             <Flex flexDirection={'column'} justifyContent={{ base: 'space-between', md: 'center' }} h='100%' gap={4}>
-              {!showValidate ? (
-                <>
-                  <VStack gap='20px'>
-                    <VStack gap='10px' alignItems='flex-start'>
-                      <Flex justifyContent={'flex-start'} maxH='200px'>
-                        <Image src='/img/35.png' alt='Genera' />
-                      </Flex>
-                      <Heading as='h2'>Genera</Heading>
-                      <Text size='lg'>
-                        Necesitas un respaldo para saber que eres realmente tú quien maneja la cuenta.
-                      </Text>
-                    </VStack>
-                    <Input
-                      h='60px'
-                      placeholder='Your password'
-                      value={password}
-                      onChange={(e) => handleSetPassword(e.target.value)}
-                    />
-                  </VStack>
-                  <Flex w='100%' gap='10px' flexDirection={'column'}>
-                    <Button disabled={!password} onClick={handleContinue}>
-                      Continuar
-                    </Button>
-                    <Link color='secondary' href='/' passHref>
-                      Cancelar
-                    </Link>
+              <VStack gap='20px'>
+                <VStack gap='10px' alignItems='flex-start'>
+                  <Flex justifyContent={'flex-start'} maxH='150px' margin='0 auto'>
+                    <Image src='/password.png' alt='Genera' />
                   </Flex>
-                </>
-              ) : (
-                <>
-                  <VStack gap='20px'>
-                    <VStack gap='10px' alignItems='flex-start'>
-                      <Flex justifyContent={'flex-start'} maxH='200px'>
-                        <Image src='/img/31.png' alt='Verifica' />
-                      </Flex>
-                      <Heading as='h2'>Verifica</Heading>
-                      <Text size='lg'>Comprobemos que recuerdas la contraseña.</Text>
-                    </VStack>
-                    <Input
-                      h='60px'
-                      placeholder='Verify your password'
-                      value={validatePassword}
-                      onChange={(e) => handleSetValidatePass(e.target.value)}
-                    />
-                  </VStack>
-                  <Flex w='100%' gap='10px' flexDirection={'column'}>
-                    <Button variant='solid' disabled={!isValid || loading} onClick={handleConfirm}>
-                      {loading ? 'Cargando...' : 'Confirmar'}
-                    </Button>
-                    <Link color='secondary' href='/' passHref>
-                      Cancelar
-                    </Link>
-                  </Flex>
-                </>
-              )}
+                  <Heading as='h2'>Contraseña</Heading>
+                  <Text size='lg'>
+                    Si bien somos localfirst, necesitamos saber que eres realmente tu quien mueve fondos.
+                  </Text>
+                </VStack>
+                <VStack gap='10px' w='100%'>
+                  <Input
+                    h='60px'
+                    placeholder='Escriba su contraseña'
+                    value={password}
+                    onChange={(e) => handleSetPassword(e.target.value)}
+                  />
+                  <Input
+                    h='60px'
+                    placeholder='Verifique su contraseña'
+                    value={validatePassword}
+                    onChange={(e) => handleSetValidatePass(e.target.value)}
+                    disabled={!showValidate}
+                  />
+                </VStack>
+              </VStack>
+              <Flex w='100%' gap='10px' flexDirection={'column'}>
+                <Button variant='solid' disabled={!isValid || loading} onClick={handleConfirm}>
+                  {loading ? 'Cargando...' : 'Confirmar'}
+                </Button>
+                <Link color='default' href='/' passHref>
+                  Cancelar
+                </Link>
+              </Flex>
             </Flex>
           )}
         </Container>

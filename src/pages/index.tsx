@@ -38,11 +38,11 @@ const Index = () => {
 
             {/* Buttons desktop */}
             <Flex display={{ base: 'none', md: 'flex' }} flexDirection={{ base: 'column', md: 'row' }} gap='10px'>
-              <Link href='/create' passHref>
-                Crear
+              <Link href='/signup' color='default' passHref>
+                Ingresar con frase semilla
               </Link>
-              <Link href='/signup' color='secondary' passHref>
-                Ingresar
+              <Link href='/create' passHref>
+                Crear wallet
               </Link>
             </Flex>
 
@@ -58,14 +58,17 @@ const Index = () => {
           </Flex>
           <Flex flexDirection={'column'} justifyContent='center' gap={4}>
             {/* Content */}
-            <VStack gap='10px' alignItems='center' textAlign='center' mt='60px'>
-              <Box maxW={{ base: '200px', md: '300px' }} margin='0 auto'>
-                <Image src='/img/5.png' alt='Home' />
-              </Box>
+            <VStack
+              alignItems={{ base: 'flex-start', md: 'center' }}
+              textAlign={{ base: 'left', md: 'center' }}
+              gap='10px'
+              mt='60px'
+            >
+              <Image src='/home.png' alt='Home' />
               <Heading as='h1' fontSize='48px'>
                 Aceptar cripto-activos nunca fue tan fácil.
               </Heading>
-              <Text maxW={{ base: '270px', md: '400px' }} m='o auto' size='lg'>
+              <Text maxW={{ base: '100%', md: '400px' }} m='0 auto' size='lg' opacity='.65'>
                 Ten el control total de tus finanzas. <strong>Wallet non-custodial</strong> para <strong>ETH</strong>.
               </Text>
             </VStack>
@@ -83,10 +86,10 @@ const Index = () => {
             {/* Buttons mobile */}
             <Flex display={{ base: 'flex', md: 'none' }} flexDirection={{ base: 'column', md: 'row' }} gap='10px'>
               <Link href='/create' passHref>
-                Crear
+                Crear wallet
               </Link>
-              <Link href='/signup' color='secondary' passHref>
-                Ingresar
+              <Link href='/signup' color='default' passHref>
+                Ingresar con frase semilla
               </Link>
             </Flex>
           </Flex>

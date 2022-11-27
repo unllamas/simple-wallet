@@ -6,6 +6,9 @@ import useTruncatedAddress from '../../../hooks/useTruncatedAddress';
 
 import Button from '../../Shared/Button';
 import Text from '../../Shared/Text';
+import Heading from '../../Shared/Heading';
+
+import AddressBox from '../../AddressBox';
 
 const Receive = () => {
   // Chakra
@@ -24,31 +27,42 @@ const Receive = () => {
   };
 
   return (
-    <ModalContent bg='#fff'>
-      <ModalHeader fontFamily='"Merriweather", serif'>Recibir</ModalHeader>
-      <ModalCloseButton />
-      <ModalBody
-        p='20px'
-        display='flex'
+    <ModalContent bg='#111111' overflow='hidden'>
+      {/* Heading */}
+      <Flex
         w='100%'
-        flexDirection='column'
-        justifyContent='center'
+        h='60px'
+        justifyContent='space-between'
         alignItems='center'
-        gap='20px'
+        px='20px'
+        backgroundColor='#1A1A1A'
+        borderBottom='1px solid #202020'
       >
-        <Flex flexDirection='column' gap='20px' justifyContent='center'>
+        <Text>
+          <strong>Recibir</strong>
+        </Text>
+        <ModalCloseButton position='relative' top='0' left='0' />
+      </Flex>
+
+      {/* Body */}
+      <ModalBody p='20px' display='flex' w='100%' flexDirection='column' gap='20px'>
+        <Flex flexDirection='column' gap='20px' flex='1' h='100%' justifyContent='center'>
           <Flex flexDirection='column' alignItems='center' gap='20px'>
-            <Flex align='center' justify='center'>
+            <Flex align='center' justify='center' bg='#fff' p='20px'>
               {wallet?.address && <QRCode value={wallet?.address} />}
             </Flex>
-            <Flex maxW='256px' w='100%' justifyContent='space-between'>
-              <Box flex='1'>
-                <Text size='sm'>Address</Text>
-                <Text size='lg'>{useTruncatedAddress(wallet?.address)}</Text>
-              </Box>
+            <Flex w='100%' justifyContent='space-between' alignItems='center'>
+              <AddressBox title='Address' address={wallet?.address} />
+              <Button size='sm' onClick={handleCopyAddress}>
+                Copiar
+              </Button>
             </Flex>
+            {/* <Text opacity='.65'>Lorem ipsum dolor sit amet consectetur adipisicing elit.</Text> */}
+
+            <Button color='default' isBlock disabled={true}>
+              Compartir
+            </Button>
           </Flex>
-          <Button onClick={handleCopyAddress}>Copiar</Button>
         </Flex>
       </ModalBody>
     </ModalContent>
