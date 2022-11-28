@@ -14,7 +14,7 @@ import { TokenWrapper } from '../context/Token';
 function MyApp({ Component, pageProps }: AppProps) {
   // Init Hotjar
   useEffect(() => {
-    hotjar.initialize(process.env.HOTJAR_ID, process.env.HOTJAR_SV);
+    hotjar.initialize(3238996, 6);
   }, []);
 
   return (
