@@ -177,7 +177,7 @@ const Send = ({ onClose }) => {
               style={{ height: '100%' }}
               onError={handleError}
               onScan={handleScan}
-              facingMode='rear'
+              facingMode='front'
             />
           </Box>
         ) : (
