@@ -177,14 +177,7 @@ const Send = ({ onClose }) => {
               style={{ height: '100%' }}
               onError={handleError}
               onScan={handleScan}
-              facingMode='front'
-            />
-            <QrReader
-              delay={100}
-              style={{ height: '100%' }}
-              onError={handleError}
-              onScan={handleScan}
-              facingMode='rear'
+              facingMode='environment'
             />
           </Box>
         ) : (
