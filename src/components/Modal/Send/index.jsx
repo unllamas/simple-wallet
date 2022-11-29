@@ -174,7 +174,7 @@ const Send = ({ onClose }) => {
                     onClick={setToAddress}
                   />
                   <Box display={{ base: 'block', md: 'none' }}>
-                    <Button color='default'>
+                    <Button color='default' disabled>
                       <IconQR />
                     </Button>
                   </Box>
