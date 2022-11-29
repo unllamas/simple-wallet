@@ -172,7 +172,13 @@ const Send = ({ onClose }) => {
       <ModalBody pt='20px' p='0' display='flex' w='100%' flexDirection='column'>
         {openScanQR && !toAddress ? (
           <Box h='100%' flex='1' objectFit='fill'>
-            <QrReader delay={100} style={{ height: '100%' }} onError={handleError} onScan={handleScan} />
+            <QrReader
+              delay={100}
+              style={{ height: '100%' }}
+              onError={handleError}
+              onScan={handleScan}
+              facingMode='rear'
+            />
           </Box>
         ) : (
           <Flex flexDirection='column' justifyContent='space-between' flex='1'>
