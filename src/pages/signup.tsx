@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { useState } from 'react';
 import Head from 'next/head';
-import { Flex, useToast, VStack, Box, Link as LinkBox } from '@chakra-ui/react';
+import { Flex, useToast, VStack, Box, Link as LinkBox, Spinner } from '@chakra-ui/react';
 
 import { useAccount } from '../context/Account';
 
@@ -83,6 +83,14 @@ const Signup = () => {
       setLoading(false);
     }
   };
+
+  if (loading) {
+    return (
+      <Flex w='100%' h='100%' justifyContent='center' alignItems='center'>
+        <Spinner />
+      </Flex>
+    );
+  }
 
   return (
     <>
