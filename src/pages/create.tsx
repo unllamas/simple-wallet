@@ -55,8 +55,8 @@ const Create = () => {
   };
 
   const handleConfirm = async () => {
+    setLoading(true);
     if (password === validatePassword) {
-      setLoading(true);
       const { success } = await createWallet();
       if (success) {
         router.push('/dashboard');
@@ -72,6 +72,14 @@ const Create = () => {
       });
     }
   };
+
+  if (loading) {
+    return (
+      <Flex w='100%' h='100%' justifyContent='center' alignItems='center'>
+        <Spinner />
+      </Flex>
+    );
+  }
 
   return (
     <>
