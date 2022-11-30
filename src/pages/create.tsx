@@ -3,6 +3,7 @@ import Head from 'next/head';
 // import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { Flex, useToast, VStack, Spinner } from '@chakra-ui/react';
+import { hotjar } from 'react-hotjar';
 
 import { useAccount } from '../context/Account';
 
@@ -58,6 +59,8 @@ const Create = () => {
     setLoading(true);
     if (password === validatePassword) {
       const { success } = await createWallet();
+      // Event for Hotjar
+      hotjar.event('create-wallet');
       if (success) {
         router.push('/dashboard');
         setLoading(false);

@@ -1,5 +1,6 @@
 import { Flex, Box, ModalContent, ModalHeader, ModalBody, ModalCloseButton, useToast } from '@chakra-ui/react';
 import QRCode from 'react-qr-code';
+import { hotjar } from 'react-hotjar';
 
 import { useAccount } from '../../../context/Account';
 import useTruncatedAddress from '../../../hooks/useTruncatedAddress';
@@ -20,6 +21,8 @@ const Receive = () => {
   const handleCopyAddress = async () => {
     try {
       await navigator.clipboard.writeText(wallet?.address);
+      // Event for Hotjar
+      hotjar.event('copy-address-button');
       toast({ description: 'Address copiada', status: 'success' });
     } catch (err) {
       console.error('Failed to copy: ', err);
