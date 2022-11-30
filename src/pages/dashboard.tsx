@@ -38,7 +38,7 @@ import bigNumberTokenToString from '../hooks/useUtils';
 
 import { getPrice } from './api/thegraph';
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const { success, data } = await getPrice();
 
   if (success) {
