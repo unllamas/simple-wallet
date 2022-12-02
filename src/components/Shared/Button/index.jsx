@@ -7,31 +7,71 @@ const Button = (props) => {
   const variants = {
     primary: {
       width: {
-        base: '100%',
-        md: isBlock && '100%',
+        base: !!isBlock ? '100%' : 'auto',
+        md: !!isBlock && '100%',
       },
       height: size === 'md' ? '60px' : '30px',
-      padding: size === 'md' ? '22px' : '8px',
-      backgroundColor: size === 'md' ? '#242424' : '#EFEFEF',
-      color: size === 'md' ? '#fff' : '#333',
+      padding: size === 'md' ? '18px' : '8px',
+      backgroundColor: '#B3E0B8',
+      border: '2px solid #B3E0B8',
+      color: '#141318',
       fontSize: size === 'md' ? '16px' : '14px',
       _hover: {
-        backgroundColor: '#191919',
+        backgroundColor: '#8FD196',
+        _disabled: {
+          backgroundColor: '#B3E0B8',
+        },
+      },
+      _active: {
+        backgroundColor: '#6bc273',
       },
     },
     secondary: {
       width: {
-        base: '100%',
-        md: isBlock && '100%',
+        base: !!isBlock ? '100%' : 'auto',
+        md: !!isBlock && '100%',
       },
       height: size === 'md' ? '60px' : '30px',
-      padding: size === 'md' ? '22px' : '8px',
-      backgroundColor: size === 'md' ? '#EFEFEF' : '#F8F1E8',
-      color: '#333',
+      padding: size === 'md' ? '18px' : '8px',
+      backgroundColor: '#F5C365',
+      border: '2px solid #F2B136',
+      color: '#111111',
       fontSize: size === 'md' ? '16px' : '14px',
       _hover: {
-        backgroundColor: '#D6D6D6',
+        backgroundColor: '#F2B136',
+        _disabled: {
+          backgroundColor: '#F5C365',
+        },
       },
+      _active: {
+        backgroundColor: '#E69B0F',
+      },
+    },
+    default: {
+      width: {
+        base: !!isBlock ? '100%' : 'auto',
+        md: !!isBlock && '100%',
+      },
+      height: size === 'md' ? '60px' : '30px',
+      backgroundColor: type === 'circle' ? '#F5C365' : '#111',
+      border: '2px solid #2C2C2C',
+      color: '#fff',
+      fontSize: size === 'md' ? '16px' : '14px',
+      _hover: {
+        backgroundColor: type === 'circle' ? '#F2B136' : '#2C2C2C',
+        _disabled: {
+          backgroundColor: '#111',
+        },
+      },
+    },
+    blank: {
+      width: 'inherit',
+      height: 'inherit',
+      padding: 'initial',
+      backgroundColor: 'inherit !important',
+      border: 'inherit',
+      color: 'inherit',
+      borderRadius: 'inherit',
     },
   };
 
@@ -59,7 +99,7 @@ const Button = (props) => {
     );
   } else {
     return (
-      <ButtonBox borderRadius='0' fontWeight={600} alignItems='center' {...variants[color]} {...props}>
+      <ButtonBox borderRadius='0' minW='60px' fontWeight={600} alignItems='center' {...variants[color]} {...props}>
         {children}
       </ButtonBox>
     );

@@ -17,7 +17,7 @@ const Modal = (props: Modal) => {
 
   return (
     <ModalBox isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false} size={{ base: 'full', md: 'sm' }}>
-      <ModalOverlay />
+      <ModalOverlay bgColor='rgba(1,1,1,.9)' />
       {type === 'receive' && <Receive />}
       {type === 'send' && <Send onClose={onClose} />}
       {type === 'backup' && <Backup />}

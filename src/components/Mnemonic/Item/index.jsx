@@ -7,20 +7,23 @@ const Item = (props) => {
   return (
     <Flex flex={1} gap='4px' pr='8px'>
       <Box minW='14px'>
-        <Text size='sm'>{number}</Text>
+        <Text size='sm' opacity={0.35}>
+          {number}
+        </Text>
       </Box>
       <Input
         border='none'
-        borderBottom='1px solid #ccc'
+        borderBottom='1px solid #2B2A2B'
         borderRadius={0}
         px='4px'
         py='10px'
         boxShadow='none !important'
+        color='#fff'
         _hover={{
-          borderColor: '#242424',
+          borderColor: '#B3E0B8',
         }}
         _focus={{
-          borderColor: '#242424',
+          borderColor: '#6bc273',
         }}
         {...props}
       />
