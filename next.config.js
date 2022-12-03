@@ -1,14 +1,15 @@
 /** @type {import('next').NextConfig} */
 const runtimeCaching = require("next-pwa/cache");
-const withPWA = require("next-pwa");
-
-const nextConfig = {
-  reactStrictMode: false,
-  trailingSlash: true,
+const withPWA = require("next-pwa")({
   dest: "public",
   runtimeCaching,
   skipWaiting: true,
   register: true,
+});
+
+const nextConfig = {
+  reactStrictMode: false,
+  trailingSlash: true,
   env: {
     SECRET_KEY: process.env.CRYPTO_SECRET_KEY,
   },
