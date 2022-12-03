@@ -1,7 +1,7 @@
 {
   "theme_color": "#ffffff",
   "background_color": "#111111",
-  "display": "browser",
+  "display": "standalone",
   "scope": "/",
   "start_url": "/",
   "name": "Sallet Wallet",
@@ -21,12 +21,14 @@
     {
       "src": "/icon-384x384.png",
       "sizes": "384x384",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
       "src": "/icon-512x512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }
