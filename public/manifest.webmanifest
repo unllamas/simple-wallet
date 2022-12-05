@@ -4,7 +4,7 @@
   "display": "standalone",
   "scope": "/",
   "start_url": "/",
-  "name": "Sallet Wallet",
+  "name": "Sallet.app",
   "short_name": "Sallet",
   "description": "Aceptar cripto-activos nunca fue tan facil. Recibe pagos internacionales en tan solo 30 segundos.",
   "icons": [
