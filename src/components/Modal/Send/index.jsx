@@ -20,6 +20,7 @@ import {
 } from '@chakra-ui/react';
 import { BigNumber, ethers, FixedNumber } from 'ethers';
 import { ArrowRight } from 'react-feather';
+import { hotjar } from 'react-hotjar';
 
 import { useBlockchain } from '../../../context/Blockchain';
 import { useToken } from '../../../context/Token';
@@ -100,6 +101,9 @@ const Send = ({ onClose }) => {
     if (toAddress && mount) {
       const res = await sendTransaction(toAddress, mountToToken, tokenSelected);
       if (res?.success) {
+        // Event for Hotjar
+        hotjar.event(`send-${tokenSelected}`);
+        hotjar.event(`${tokenSelected}-${Number(mount) * price.dai.usd}`);
         toast({ description: 'Transacción enviada', status: 'success' });
         setLoading(false);
         handleCloseModal();

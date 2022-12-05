@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { ethers } from 'ethers';
 import Head from 'next/head';
 import { Flex, Box, useDisclosure, VStack, HStack, useToast, Checkbox } from '@chakra-ui/react';
+import { hotjar } from 'react-hotjar';
 
 import { useAccount } from '../../context/Account';
 import { db } from '../../utils/db';
@@ -106,6 +107,8 @@ const Backup = () => {
   const handleSubmit = async (localMnemonic) => {
     const isValid = ethers.utils.isValidMnemonic(localMnemonic.join(' '));
     if (isValid) {
+      // Event for Hotjar
+      hotjar.event('backup-seed-phrase');
       onOpen();
       await db.wallets.update(1, { saveMn: true });
     } else {

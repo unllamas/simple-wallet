@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import Head from 'next/head';
 import { Flex, useToast, VStack, Box, Link as LinkBox, Spinner } from '@chakra-ui/react';
+import { hotjar } from 'react-hotjar';
 
 import { useAccount } from '../context/Account';
 
@@ -77,6 +78,8 @@ const Signup = () => {
     setLoading(true);
     const arrayToString = temporalMnemonic.join(' ');
     const { success } = await signupWallet(arrayToString);
+    // Event for Hotjar
+    hotjar.event('login-wallet');
     if (success) {
       setLoading(true);
     } else {
