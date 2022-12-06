@@ -144,7 +144,7 @@ const Dashboard = ({ price }) => {
             p='30px'
             alignItems='initial'
             mt='20px !important'
-            bgImage='url(./background-backup.png)'
+            bgImage='url(/background-backup.png)'
             bgSize='cover'
           >
             <VStack gap='10px'>
