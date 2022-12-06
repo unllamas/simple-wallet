@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState } from 'react';
 import Head from 'next/head';
 // import Image from 'next/image';
@@ -13,6 +14,8 @@ import Input from '../components/Shared/Input';
 import Text from '../components/Shared/Text';
 import Heading from '../components/Shared/Heading';
 import Image from '../components/Shared/Image';
+
+import * as gtag from '../lib/gtag';
 
 const Create = () => {
   const router = useRouter();
@@ -59,6 +62,14 @@ const Create = () => {
     if (password === validatePassword) {
       const { success } = await createWallet();
       if (success) {
+        const options = {
+          action: 'create',
+          cateogry: 'form',
+          label: 'wallet_account',
+          value: '',
+        };
+
+        gtag.event(options);
         router.push('/dashboard');
         setLoading(false);
       }
