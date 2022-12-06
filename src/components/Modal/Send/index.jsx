@@ -243,7 +243,7 @@ const Send = ({ onClose }) => {
 
           {/* Total */}
           {tokenSelected && (
-            <VStack p='20px 20px' gap='20px' bgImage='url(./background-send.png)' bgSize='cover'>
+            <VStack p='20px 20px' gap='20px' bgImage='url(/background-send.png)' bgSize='cover'>
               <Flex w='100%' justifyContent='space-between'>
                 <Text fontWeight='bold'>Total</Text>
                 <Text fontWeight='bold'>
