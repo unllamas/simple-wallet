@@ -60,7 +60,7 @@ export function AccountWrapper({ children }) {
 
   useEffect(() => {
     if (wallet && !signer) {
-      const mnemonic = decrypt(wallet?.mnemonic).replaceAll('"', '');
+      const mnemonic = decrypt(wallet?.mnemonic?.eth).replaceAll('"', '');
       const walletAccount = ethers.Wallet.fromMnemonic(mnemonic);
 
       const signer = walletAccount.connect(kovanProvider);
@@ -70,11 +70,18 @@ export function AccountWrapper({ children }) {
 
   // Create a new wallet
   const createWallet = async (password) => {
-    const wallet = ethers.Wallet.createRandom();
-    if (wallet) {
+    const walletETH = ethers.Wallet.createRandom();
+    if (walletETH) {
       const instanceWallet = {
-        address: wallet?.address,
-        mnemonic: encrypt(wallet?.mnemonic?.phrase),
+        address: walletETH?.address,
+        mnemonic: {
+          eth: encrypt(walletETH?.mnemonic?.phrase),
+          btc: '',
+        },
+        privateKey: {
+          eth: '',
+          btc: '',
+        },
         password: encrypt(password),
         saveMn: false,
       };
@@ -97,11 +104,18 @@ export function AccountWrapper({ children }) {
   const signupWallet = async (mnemonic, password) => {
     const isValid = ethers.utils.isValidMnemonic(mnemonic);
     if (isValid) {
-      const wallet = ethers.Wallet.fromMnemonic(mnemonic);
-      if (wallet) {
+      const walletETH = ethers.Wallet.fromMnemonic(mnemonic);
+      if (walletETH) {
         const instanceWallet = {
-          address: wallet?.address,
-          mnemonic: encrypt(wallet?.mnemonic?.phrase),
+          address: walletETH?.address,
+          mnemonic: {
+            eth: encrypt(walletETH?.mnemonic?.phrase),
+            btc: '',
+          },
+          privateKey: {
+            eth: '',
+            btc: '',
+          },
           password: encrypt(password),
           saveMn: true,
         };
@@ -119,8 +133,6 @@ export function AccountWrapper({ children }) {
       return { success: false, error: null };
     }
   };
-
-  // owner vintage account predict negative random debris goat tunnel admit filter vendor
 
   return (
     <AccountContext.Provider value={{ wallet, createWallet, signupWallet, signer }}>{children}</AccountContext.Provider>
