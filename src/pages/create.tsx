@@ -60,18 +60,17 @@ const Create = () => {
   const handleConfirm = async () => {
     setLoading(true);
     if (password === validatePassword) {
-      const { success } = await createWallet();
+      const { success } = await createWallet(password);
       if (success) {
         const options = {
           action: 'create',
-          cateogry: 'form',
+          category: 'form',
           label: 'wallet_account',
           value: '',
         };
 
         gtag.event(options);
         router.push('/dashboard');
-        setLoading(false);
       }
     } else {
       toast({
@@ -81,6 +80,8 @@ const Create = () => {
         duration: 9000,
         isClosable: true,
       });
+
+      setLoading(false);
     }
   };
 

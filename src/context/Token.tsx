@@ -25,7 +25,7 @@ export function TokenWrapper({ children }) {
 
   // Context
   const { kovanProvider } = useBlockchain();
-  const { address, signer } = useAccount();
+  const { wallet, signer } = useAccount();
 
   // Component
   const [tokens, setTokens] = useState({
@@ -36,16 +36,16 @@ export function TokenWrapper({ children }) {
   const providerDAI = new ethers.Contract(addressDAI, abiDAI, kovanProvider);
 
   // Obtener balance de Ethereum y DAI
-  if (!!address) {
+  if (!!wallet?.address) {
     kovanProvider?.on('block', () => {
       if (tokens?.eth?.isZero() && tokens?.dai?.isZero()) {
-        kovanProvider.getBalance(address).then((balance) => {
+        kovanProvider.getBalance(wallet?.address).then((balance) => {
           if (!balance?.eq(tokens?.eth)) {
             setTokens({ ...tokens, eth: balance });
           }
         });
 
-        providerDAI.balanceOf(address).then((balance) => {
+        providerDAI.balanceOf(wallet?.address).then((balance) => {
           if (!balance?.eq(tokens?.dai)) {
             setTokens({ ...tokens, dai: balance });
           }
