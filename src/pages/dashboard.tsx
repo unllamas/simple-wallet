@@ -53,7 +53,7 @@ export async function getStaticProps() {
 const Dashboard = ({ price }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const { hasSaveMnemonic } = useAccount();
+  const { wallet } = useAccount();
   const { tokens } = useToken();
 
   // Component
@@ -93,7 +93,12 @@ const Dashboard = ({ price }) => {
       <Head>
         <title>Wallet - Sallet</title>
       </Head>
-      <VStack h='100%' justifyContent={hasSaveMnemonic ? 'center' : 'flex-start'} alignItems={'center'} pt='20px'>
+      <VStack
+        h='100%'
+        justifyContent={wallet && !wallet?.saveMn ? 'flex-start' : 'center'}
+        alignItems={'center'}
+        pt='20px'
+      >
         <Container w='100%' justifyContent='center' maxW={'md'} px='20px'>
           {/* Balance */}
           <Flex flexDirection={{ base: 'column', md: 'row' }} alignItems='center' justifyContent='center'>
@@ -136,7 +141,7 @@ const Dashboard = ({ price }) => {
         </Container>
 
         {/* Security */}
-        {!hasSaveMnemonic && (
+        {wallet && !wallet?.saveMn && (
           <VStack
             gap='20px'
             w='100%'

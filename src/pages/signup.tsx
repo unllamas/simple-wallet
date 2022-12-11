@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { useState } from 'react';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { Flex, useToast, VStack, Box, Link as LinkBox, Spinner } from '@chakra-ui/react';
 
 import { useAccount } from '../context/Account';
@@ -14,7 +15,10 @@ import Text from '../components/Shared/Text';
 import Heading from '../components/Shared/Heading';
 import Mnemonic from '../components/Mnemonic';
 
+import * as gtag from '../lib/gtag';
+
 const Signup = () => {
+  const router = useRouter();
   const toast = useToast();
 
   // Context
@@ -75,11 +79,29 @@ const Signup = () => {
 
   const handleLoginWallet = async () => {
     setLoading(true);
-    const arrayToString = temporalMnemonic.join(' ');
-    const { success } = await signupWallet(arrayToString);
-    if (success) {
-      setLoading(true);
+    if (password === validatePassword) {
+      const arrayToString = temporalMnemonic.join(' ');
+      const { success } = await signupWallet(arrayToString, password);
+      if (success) {
+        const options = {
+          action: 'login',
+          category: 'form',
+          label: 'wallet_account',
+          value: '',
+        };
+
+        gtag.event(options);
+        router?.push('/dashboard');
+      }
     } else {
+      toast({
+        title: 'Contraseña incorrecta',
+        description: 'Las contraseñas no coinciden.',
+        status: 'warning',
+        duration: 9000,
+        isClosable: true,
+      });
+
       setLoading(false);
     }
   };

@@ -52,8 +52,8 @@ const ScreenValidate = ({ onSubmit }) => {
 };
 
 const ScreenWrite = ({ onChangeScreen }) => {
-  const { wallets } = useAccount();
-  const mnemonic = decrypt(wallets[0]?.mnemonic);
+  const { wallet } = useAccount();
+  const mnemonic = decrypt(wallet?.mnemonic).replaceAll('"', '');
 
   const [hasSave, setHasSave] = useState(false);
 

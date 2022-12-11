@@ -11,111 +11,131 @@ import { useBlockchain } from './Blockchain';
 import { encrypt, decrypt } from '../hooks/useCrypto';
 
 interface AccountInterface {
-  wallet: { address: string };
-  createWallet: () => { success: boolean };
-  hasSaveMnemonic: boolean;
-  wallets: Array;
+  signer: any;
+  wallet: { address: string; mnemonic: string; password: string | number; saveMn: boolean };
+  createWallet: (password: string | number) => { success: boolean; error: any };
+  signupWallet: (mnemonic: string, password: string | number) => { success: boolean; error: any };
 }
 
 const AccountContext = createContext<AccountInterface>({
-  wallet: { address: '' },
-  createWallet: () => ({ success: false }),
-  hasSaveMnemonic: false,
-  wallets: [],
+  signer: {},
+  wallet: { address: '', mnemonic: '', password: '', saveMn: true },
+  createWallet: () => ({ success: false, error: null }),
+  signupWallet: () => ({ success: false, error: null }),
 });
 
 export function AccountWrapper({ children }) {
-  const router = useRouter();
+  // Chakra
   const toast = useToast();
 
+  // Provider
   const { kovanProvider } = useBlockchain();
 
   // Dexie
   const walletsDB = useLiveQuery(() => db.wallets.toArray());
 
-  const [wallets, setWallets] = useState([]);
-  const [wallet, setWallet] = useState({});
-  const [hasSaveMnemonic, setHasSaveMnemonic] = useState(false);
-  const [address, setAddress] = useState('');
-  const [signer, setSigner] = useState();
+  // Component
+  const [wallet, setWallet] = useState(null);
+  const [signer, setSigner] = useState(null);
 
-  const [mnemonic, setMnemonic] = useState('');
-
-  const [isConnected, setIsConnected] = useState(localStorage?.isConnected || false);
-
+  // POC:
+  // Removed old data structure for localfirst
   useEffect(() => {
-    if (walletsDB && walletsDB?.length) {
-      setWallets(walletsDB);
-      setHasSaveMnemonic(walletsDB[0]?.saveMn);
-      setMnemonic(walletsDB[0]?.mnemonic);
+    async function init() {
+      await db.wallets.delete(1);
     }
-  }, [mnemonic, walletsDB, wallets]);
+
+    if (walletsDB && walletsDB?.length && !!walletsDB[0]?.mnemonic) {
+      init();
+    }
+  });
+
+  // Get new created data structure for localfirst
+  useEffect(() => {
+    if (!wallet && walletsDB && walletsDB?.length > 0) {
+      const localWallet = JSON.parse(decrypt(walletsDB[0]?.wallet));
+      setWallet(localWallet);
+    }
+  }, [walletsDB, wallet]);
 
   useEffect(() => {
-    if (mnemonic && !signer) {
-      // Datos sobre la wallet
-      const mnemonicEncypt = decrypt(mnemonic);
-      const wallet = ethers.Wallet.fromMnemonic(mnemonicEncypt);
-      setWallet(wallet);
-      setAddress(wallet?.address);
+    if (wallet && !signer) {
+      const mnemonic = decrypt(wallet?.mnemonic?.eth).replaceAll('"', '');
+      const walletAccount = ethers.Wallet.fromMnemonic(mnemonic);
 
-      // Datos sobre la wallet contactada al provider
-      const signer = wallet.connect(kovanProvider);
+      const signer = walletAccount.connect(kovanProvider);
       setSigner(signer);
     }
-  }, [signer, mnemonic]);
+  }, [wallet, signer]);
 
-  // Crear wallet
-  const createWallet = async (): { success: boolean } => {
-    const wallet = ethers.Wallet.createRandom();
-    if (wallet) {
-      const mnemonicEncypt = encrypt(wallet?.mnemonic?.phrase);
+  // Create a new wallet
+  const createWallet = async (password) => {
+    const walletETH = ethers.Wallet.createRandom();
+    if (walletETH) {
+      const instanceWallet = {
+        address: walletETH?.address,
+        mnemonic: {
+          eth: encrypt(walletETH?.mnemonic?.phrase),
+          btc: '',
+        },
+        privateKey: {
+          eth: '',
+          btc: '',
+        },
+        password: encrypt(password),
+        saveMn: false,
+      };
+
       try {
-        await db.wallets.add({ mnemonic: mnemonicEncypt, saveMn: false });
+        await db.wallets.add({ wallet: encrypt(instanceWallet) });
 
-        setMnemonic(mnemonicEncypt);
-        setIsConnected(true);
+        setWallet(instanceWallet);
 
-        return { success: true };
+        return { success: true, error: null };
       } catch (error) {
-        return { success: false };
+        return { success: false, error: error };
       }
     } else {
-      return { success: false };
+      return { success: false, error: null };
     }
   };
 
-  // Ingresar con mnemonic
-  const signupWallet = async (mnemonic) => {
+  // Login with seedphrase
+  const signupWallet = async (mnemonic, password) => {
     const isValid = ethers.utils.isValidMnemonic(mnemonic);
     if (isValid) {
-      const wallet = ethers.Wallet.fromMnemonic(mnemonic);
-      if (wallet) {
-        const mnemonicEncypt = encrypt(wallet?.mnemonic?.phrase);
+      const walletETH = ethers.Wallet.fromMnemonic(mnemonic);
+      if (walletETH) {
+        const instanceWallet = {
+          address: walletETH?.address,
+          mnemonic: {
+            eth: encrypt(walletETH?.mnemonic?.phrase),
+            btc: '',
+          },
+          privateKey: {
+            eth: '',
+            btc: '',
+          },
+          password: encrypt(password),
+          saveMn: true,
+        };
+
         try {
-          await db.wallets.add({ mnemonic: mnemonicEncypt, saveMn: true });
+          await db.wallets.add({ wallet: encrypt(instanceWallet) });
 
-          setMnemonic(mnemonicEncypt);
-          setIsConnected(true);
-
-          router?.push('/dashboard');
-          return { success: true };
+          return { success: true, error: null };
         } catch (error) {
-          return { success: false };
+          return { success: false, error: error };
         }
       }
     } else {
       toast({ description: 'Comprueba que la frase semilla sea correcta.', status: 'warning' });
-      return { success: false };
+      return { success: false, error: null };
     }
   };
 
   return (
-    <AccountContext.Provider
-      value={{ wallet, wallets, hasSaveMnemonic, address, createWallet, signupWallet, signer, isConnected }}
-    >
-      {children}
-    </AccountContext.Provider>
+    <AccountContext.Provider value={{ wallet, createWallet, signupWallet, signer }}>{children}</AccountContext.Provider>
   );
 }
 
