@@ -1,7 +1,7 @@
 {
   "name": "simple-wallet",
   "version": "0.1.1",
-  "license": "MIT",
+  "license": "GPL-3.0-or-later",
   "scripts": {
     "dev": "next",
     "build": "next build",
