@@ -59,8 +59,8 @@ const Send = ({ onClose }) => {
 
   // Component
   const [loading, setLoading] = useState(false);
-  const [toAddress, setToAddress] = useState('');
-  const [mount, setMount] = useState('');
+  const [toAddress, setToAddress] = useState(null);
+  const [mount, setMount] = useState(null);
 
   // Price
   const [price, setPrice] = useState();
@@ -116,7 +116,7 @@ const Send = ({ onClose }) => {
   };
 
   const handleCloseModal = () => {
-    setMount('');
+    setMount(null);
     setGasPrice(0);
     onClose();
   };
@@ -124,7 +124,7 @@ const Send = ({ onClose }) => {
   const handleChangeAddress = () => {
     setTokenSelected('');
     setToAddress('');
-    setMount('');
+    setMount(null);
   };
 
   return (
