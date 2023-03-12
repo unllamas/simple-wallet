@@ -99,6 +99,7 @@ const Send = ({ onClose }) => {
     setLoading(true);
     if (toAddress && mount) {
       const res = await sendTransaction(toAddress, mountToToken, tokenSelected);
+      console.log('res sendTransaction', res);
       if (res?.success) {
         toast({ description: 'Transacción enviada', status: 'success' });
         setLoading(false);
