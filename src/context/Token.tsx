@@ -83,7 +83,8 @@ export function TokenWrapper({ children }) {
 
         try {
           await signer.signTransaction(tx);
-          await signer.sendTransaction(tx);
+          const { hash } = await signer.sendTransaction(tx);
+          console.log('hash', hash);
 
           return {
             success: true,
