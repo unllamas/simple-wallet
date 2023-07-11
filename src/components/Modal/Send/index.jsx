@@ -59,8 +59,8 @@ const Send = ({ onClose }) => {
 
   // Component
   const [loading, setLoading] = useState(false);
-  const [toAddress, setToAddress] = useState('');
-  const [mount, setMount] = useState('');
+  const [toAddress, setToAddress] = useState(null);
+  const [mount, setMount] = useState(null);
 
   // Price
   const [price, setPrice] = useState();
@@ -99,6 +99,7 @@ const Send = ({ onClose }) => {
     setLoading(true);
     if (toAddress && mount) {
       const res = await sendTransaction(toAddress, mountToToken, tokenSelected);
+      console.log('res sendTransaction', res);
       if (res?.success) {
         toast({ description: 'Transacción enviada', status: 'success' });
         setLoading(false);
@@ -116,7 +117,7 @@ const Send = ({ onClose }) => {
   };
 
   const handleCloseModal = () => {
-    setMount('');
+    setMount(null);
     setGasPrice(0);
     onClose();
   };
@@ -124,7 +125,7 @@ const Send = ({ onClose }) => {
   const handleChangeAddress = () => {
     setTokenSelected('');
     setToAddress('');
-    setMount('');
+    setMount(null);
   };
 
   return (

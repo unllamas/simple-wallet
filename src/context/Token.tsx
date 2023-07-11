@@ -17,7 +17,7 @@ interface TokenContextInterface {
 
 const TokenContext = createContext<TokenContextInterface | null>(null);
 
-const addressDAI = '0x73967c6a0904aA032C103b4104747E88c566B1A2';
+const addressDAI = '0x6B175474E89094C44Da98b954EedeAC495271d0F';
 
 export function TokenWrapper({ children }) {
   // Chakra
@@ -83,7 +83,8 @@ export function TokenWrapper({ children }) {
 
         try {
           await signer.signTransaction(tx);
-          await signer.sendTransaction(tx);
+          const { hash } = await signer.sendTransaction(tx);
+          console.log('hash', hash);
 
           return {
             success: true,
