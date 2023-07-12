@@ -6,7 +6,7 @@ const ecc = require('tiny-secp256k1');
 
 import { ethers } from 'ethers';
 
-export default async function (req, res) {
+export default function (req, res) {
   if (req.method === 'GET') {
     // Define the network
     const network = bitcoin?.networks?.bitcoin;
