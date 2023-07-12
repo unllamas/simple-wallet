@@ -33,7 +33,7 @@ const createAccount = async (req, res) => {
 
       const walletETH = ethers.Wallet.fromMnemonic(mnemonic);
 
-      return res.status(200).json({
+      res.status(200).json({
         account: {
           security: {
             mnemonic,
@@ -45,7 +45,7 @@ const createAccount = async (req, res) => {
         },
       });
     } catch (error) {
-      return res.status(501).json({ error: error.message });
+      res.status(501).json({ error: error.message });
     }
   }
 };
