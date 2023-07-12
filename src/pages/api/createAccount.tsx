@@ -1,8 +1,7 @@
-const { BIP32Factory } = require('bip32');
-const bip39 = require('bip39');
-const bitcoin = require('bitcoinjs-lib');
-
-const ecc = require('tiny-secp256k1');
+import { BIP32Factory } from 'bip32';
+import bip39 from 'bip39';
+import bitcoin from 'bitcoinjs-lib';
+import * as ecc from 'tiny-secp256k1';
 
 import { ethers } from 'ethers';
 
