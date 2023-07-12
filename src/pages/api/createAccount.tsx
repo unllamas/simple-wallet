@@ -1,7 +1,7 @@
 import { BIP32Factory } from 'bip32';
 import bip39 from 'bip39';
 import bitcoin from 'bitcoinjs-lib';
-import ecc from 'tiny-secp256k1';
+import * as ecc from 'tiny-secp256k1';
 
 import { ethers } from 'ethers';
 
