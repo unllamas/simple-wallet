@@ -16,7 +16,6 @@
 
 ```bash
 git clone ...
-
 ```
 
 ##### 2. Create `.env.local` file:
