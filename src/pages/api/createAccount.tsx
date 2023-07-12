@@ -37,7 +37,7 @@ export default function (req, res) {
         security: {
           mnemonic,
         },
-        wallets: {
+        wallet: {
           btc: walletBTC,
           eth: walletETH?.address,
         },
