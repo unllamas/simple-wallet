@@ -9,7 +9,7 @@ export function BlockchainWrapper({ children }) {
 
   useEffect(() => {
     if (!kovanProvider) {
-      const kovan = new ethers.providers.InfuraProvider('goerli', process.env.INFURA_TOKEN_API);
+      const kovan = new ethers.providers.InfuraProvider('homestead', process.env.INFURA_TOKEN_API);
       setKovanProvider(kovan);
     }
   }, [kovanProvider]);
