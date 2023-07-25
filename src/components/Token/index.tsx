@@ -35,7 +35,7 @@ const Component = (props) => {
   return (
     <Box {...style} onClick={() => !readOnly && onClick(name)} tabIndex={readOnly ? -1 : 1}>
       <Flex align='center' gap={8}>
-        {name === 'ethereum' ? <IconETH /> : <IconDAI />}
+        {name === 'eth' ? <IconETH /> : <IconDAI />}
         <Text fontWeight='bold'>{name.toUpperCase()}</Text>
       </Flex>
       <Flex direction='column' align='flex-end'>
