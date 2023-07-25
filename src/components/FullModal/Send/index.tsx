@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState, useEffect } from 'react';
 import { Spinner, useToast } from '@chakra-ui/react';
 
@@ -21,7 +22,7 @@ import Divider from 'src/components/Shared/Divider';
 import { cryptoToUSD } from 'src/hooks/usePrice';
 
 // import { getPrice } from 'src/pages/api/thegraph';
-import { getTest } from 'src/pages/api/coingecko';
+import { getPrices } from 'src/pages/api/prices';
 
 import useKeyPress from 'src/hooks/useKeyPress';
 import useTruncatedAddress from 'src/hooks/useTruncatedAddress';
@@ -37,7 +38,7 @@ const Component = ({ onClose }) => {
   // Tokens
   const [tokenSelected, setTokenSelected] = useState(null);
   const [totalTokensUSD, setTotalTokensUSD] = useState({
-    ethereum: 0.0,
+    eth: 0.0,
     dai: 0.0,
   });
 
@@ -47,7 +48,7 @@ const Component = ({ onClose }) => {
   const [mount, setMount] = useState(null);
 
   // Price
-  const [price, setPrice] = useState();
+  const [price, setPrice] = useState({ eth: 0, dai: 0 });
   const [gasPrice, setGasPrice] = useState();
 
   useEffect(() => {
@@ -55,17 +56,21 @@ const Component = ({ onClose }) => {
     async function init() {
       try {
         const gasPrice = await getGasPrice();
-        const { success, data } = await getTest();
+        const { success, data } = await getPrices();
 
         if (success) {
-          const { ethereum, dai } = data;
+          const prices = {
+            eth: data.find((token) => token.name === 'eth'),
+            dai: data.find((token) => token.name === 'dai'),
+          };
+
           setGasPrice(gasPrice);
-          setPrice(data);
+          setPrice({ eth: prices?.eth?.values?.bid, dai: prices?.dai?.values?.bid });
           // setPriceETH(eth?.usd);
 
           setTotalTokensUSD({
-            ethereum: cryptoToUSD(ethereum?.usd, tokens.eth),
-            dai: cryptoToUSD(dai?.usd, tokens.dai),
+            eth: cryptoToUSD(prices?.eth?.values?.bid, tokens.eth),
+            dai: cryptoToUSD(prices?.dai?.values?.bid, tokens.dai),
           });
         }
       } catch (error) {
@@ -78,19 +83,18 @@ const Component = ({ onClose }) => {
 
   // Send transaction
   const handleSendTransaction = async () => {
-    const mountToToken = (Number(mount) * price.dai.usd) / price[tokenSelected].usd;
+    const mountToToken = (Number(mount) * price.dai) / price[tokenSelected];
 
     setLoading(true);
     if (toAddress && mount) {
-      const res = await sendTransaction(toAddress, mountToToken, tokenSelected);
-      console.log('res sendTransaction', res);
-      if (res?.success) {
+      const { success, error } = await sendTransaction(toAddress, mountToToken, tokenSelected);
+      if (success) {
         toast({ description: 'Transacción enviada', status: 'success' });
         setLoading(false);
         handleCloseModal();
       } else {
         setLoading(false);
-        if (res?.error?.code === 'INSUFFICIENT_FUNDS') {
+        if (error?.code === 'INSUFFICIENT_FUNDS') {
           toast({
             description: 'No tienes fondos suficientes',
             status: 'warning',
@@ -134,7 +138,7 @@ const Component = ({ onClose }) => {
   const handleCloseModal = () => {
     setMount(null);
     setToAddress(null);
-    setGasPrice(0);
+    setGasPrice(null);
     setLoading(false);
     setTokenSelected('');
     setStep('address');
@@ -209,12 +213,12 @@ const Component = ({ onClose }) => {
                 </Text>
                 <Divider y={16} />
                 <Token
-                  name='ethereum'
+                  name='eth'
                   token={tokens?.eth}
-                  price={totalTokensUSD?.ethereum}
+                  price={totalTokensUSD?.eth}
                   disabled={!toAddress}
                   onClick={setTokenSelected}
-                  active={tokenSelected === 'ethereum'}
+                  active={tokenSelected === 'eth'}
                 />
                 <Divider y={8} />
                 <Token
@@ -258,7 +262,13 @@ const Component = ({ onClose }) => {
                       Max
                     </Button>
                   </div>
-                  <Input autoFocus placeholder='0.00' iconLeft={'USD'} value={mount} handleChange={setMount} />
+                  <Input
+                    autoFocus
+                    placeholder='0.00'
+                    iconLeft={'USD'}
+                    value={mount}
+                    onChange={(e) => setMount(e.target.value)}
+                  />
                   {/* <InputWithToken value={mount} onChange={(e) => setMount(e.target.value)} /> */}
                 </Flex>
                 <Divider y={8} />
@@ -294,7 +304,7 @@ const Component = ({ onClose }) => {
                       Total
                     </Text>
                     <Text size='large' isBold>
-                      ${(Number(mount) * price.dai.usd + Number(gasPrice) * price[tokenSelected].usd).toFixed(2)}
+                      ${(Number(mount) * price.dai + Number(gasPrice) * price[tokenSelected]).toFixed(2)}
                     </Text>
                   </Flex>
                 </>

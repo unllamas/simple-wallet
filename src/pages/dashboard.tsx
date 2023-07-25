@@ -22,16 +22,18 @@ import Token from '../components/Token';
 import { cryptoToUSD, formatPrice } from '../hooks/usePrice';
 
 // import { getPrice } from './api/thegraph';
-import { getTest } from './api/coingecko';
+import { getPrices } from './api/prices';
 
 export async function getStaticProps() {
-  // const { success, data } = await getPrice();
-  const { success, data } = await getTest();
+  const { success, data } = await getPrices();
 
   if (success) {
     return {
       props: {
-        price: data,
+        price: {
+          eth: data.find((token) => token.name === 'eth'),
+          dai: data.find((token) => token.name === 'dai'),
+        },
       },
     };
   }
@@ -41,34 +43,12 @@ const Dashboard = ({ price }) => {
   const { wallet } = useAccount();
   const { tokens } = useToken();
 
-  // Component
-  const [priceETH, setPETH] = useState(cryptoToUSD(price?.ethereum?.usd, tokens?.eth));
-  const [priceDAI, setPDAI] = useState(cryptoToUSD(price?.dai?.usd, tokens?.dai));
-  const [total, setTotal] = useState(priceETH + priceDAI);
+  if (!tokens || !price) return null;
 
   // General
   const [modalType, setModalType] = useState('');
   const [openModal, setOpenModal] = useState(false);
   const [typeModal, setTypeModal] = useState('');
-
-  useEffect(() => {
-    async function handleGetPrice() {
-      const { success, data } = await getTest();
-
-      if (success) {
-        const { ethereum, dai } = data;
-        const priceETH = cryptoToUSD(ethereum?.usd, tokens?.eth);
-        const priceDAI = cryptoToUSD(dai?.usd, tokens?.dai);
-
-        setPETH(priceETH);
-        setPDAI(priceDAI);
-
-        setTotal(priceETH + priceDAI);
-      }
-    }
-
-    handleGetPrice();
-  }, [tokens?.eth, tokens?.dai]);
 
   const handleOpenFullModal = (type) => {
     setTypeModal(type);
@@ -108,7 +88,13 @@ const Dashboard = ({ price }) => {
             </Flex>
             <Divider y={16} />
             <Text fontSize={32} isBold>
-              ${formatPrice(Number(total).toFixed(2), 2)}
+              $
+              {formatPrice(
+                Number(
+                  cryptoToUSD(price?.eth?.values?.bid, tokens?.eth) + cryptoToUSD(price?.dai?.values?.bid, tokens?.dai),
+                ).toFixed(2),
+                2,
+              )}
             </Text>
           </Flex>
 
@@ -128,8 +114,8 @@ const Dashboard = ({ price }) => {
           <Divider y={32} />
 
           {/* Tokens */}
-          <Token name='ethereum' token={tokens?.eth} price={priceETH} readOnly />
-          <Token name='dai' token={tokens?.dai} price={priceDAI} readOnly />
+          <Token name='eth' token={tokens?.eth} price={cryptoToUSD(price?.eth?.values?.bid, tokens?.eth)} readOnly />
+          <Token name='dai' token={tokens?.dai} price={cryptoToUSD(price?.dai?.values?.bid, tokens?.dai)} readOnly />
         </Container>
       </ScreenView>
 
