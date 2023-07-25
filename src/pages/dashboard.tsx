@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
+import { Text as TextDemo } from '@chakra-ui/react';
 import { ArrowDown, ArrowUp } from 'react-feather';
 
 import { useAccount } from '../context/Account';
@@ -90,8 +91,22 @@ const Dashboard = ({ price }) => {
         <Container size='small'>
           {/* Balance */}
           <Flex direction='column' align='center'>
-            <Text size='small'>Su balance</Text>
-            <Divider y={4} />
+            <Flex justify='center' align='center' gap={8}>
+              <Text size='small'>Su balance</Text>
+              {/* POC */}
+              <TextDemo
+                bg='terciary15'
+                color='terciary'
+                p='4px 12px'
+                borderRadius={99}
+                fontSize='12px'
+                fontWeight={'bold'}
+                textTransform={'uppercase'}
+              >
+                Testnet
+              </TextDemo>
+            </Flex>
+            <Divider y={16} />
             <Text fontSize={32} isBold>
               ${formatPrice(Number(total).toFixed(2), 2)}
             </Text>
