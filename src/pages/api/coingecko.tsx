@@ -10,7 +10,7 @@ interface PriceInterface {
   };
 }
 
-export async function getPrice() {
+export async function getTest() {
   // const URL = 'https://api.coingecko.com/api/v3/simple/price?ids=ethereum%2Cdai&vs_currencies=usd';
   // const data = await fetch(URL).then((res) => res.json());
 
