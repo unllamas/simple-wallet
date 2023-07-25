@@ -24,12 +24,15 @@ const Component = (props) => {
     background: 'background',
     border: 'none',
     borderBottom: '1px solid',
-    borderColor: 'gray35',
+    borderColor: 'gray5',
     borderRadius: 0,
 
     color: 'text',
 
     _hover: {
+      borderColor: 'gray35',
+    },
+    _focusVisible: {
       borderColor: 'primary',
     },
   };
