@@ -2,20 +2,21 @@
 import { useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { Flex, useToast, VStack, Box, Link as LinkBox, Spinner } from '@chakra-ui/react';
+import { Flex, useToast, VStack, Link as LinkBox, Spinner } from '@chakra-ui/react';
 
-import { useAccount } from '../context/Account';
+import { useAccount } from 'src/context/Account';
 
-import { Container } from '../components/Container';
-import Button from '../components/Shared/Button';
-import Link from '../components/Shared/Link';
-import Image from '../components/Shared/Image';
-import Input from '../components/Shared/Input';
-import Text from '../components/Shared/Text';
-import Heading from '../components/Shared/Heading';
-import Mnemonic from '../components/Mnemonic';
+import Navbar from 'src/components/Layout/Navbar';
+import { Container } from 'src/components/Container';
+import Button from 'src/components/Shared/Button';
+import Link from 'src/components/Shared/Link';
+import Image from 'src/components/Shared/Image';
+import Input from 'src/components/Shared/Input';
+import Text from 'src/components/Shared/Text';
+import Heading from 'src/components/Shared/Heading';
+import Mnemonic from 'src/components/Mnemonic';
 
-import * as gtag from '../lib/gtag';
+import * as gtag from 'src/lib/gtag';
 
 const Signup = () => {
   const router = useRouter();
@@ -119,14 +120,12 @@ const Signup = () => {
       <Head>
         <title>Ingresar - Sallet</title>
       </Head>
+      <Navbar />
       <Flex justifyContent={'center'} alignItems={'center'} pb='20px' pt={{ base: '50px', md: '60px' }}>
         <Container maxW={'md'} px='20px'>
           {showMnemonic ? (
             <Flex flexDirection={'column'} justifyContent={{ base: 'flex-start', md: 'center' }} gap={4}>
               <VStack gap='10px' alignItems='flex-start'>
-                <Box maxW='200px'>
-                  <Image src='/seed-phrase.png' alt='Frase semilla' />
-                </Box>
                 <Heading as='h2'>Frase semilla</Heading>
                 <Text size='lg'>
                   Ingresa tu frase semilla o reutiliza alguna de otras wallets non-custodial.{' '}
@@ -143,7 +142,7 @@ const Signup = () => {
                 <Button variant='solid' onClick={handleLoginWallet} disabled={loading}>
                   {loading ? 'Cargando...' : 'Validar'}
                 </Button>
-                <Link color='default' href='/' passHref>
+                <Link type='bezeledGray' href='/' passHref>
                   Cancelar
                 </Link>
               </Flex>
@@ -152,9 +151,6 @@ const Signup = () => {
             <Flex flexDirection={'column'} justifyContent={{ base: 'space-between', md: 'center' }} h='100%' gap={4}>
               <VStack gap='20px'>
                 <VStack gap='10px' alignItems='flex-start'>
-                  <Flex justifyContent={'flex-start'} maxH='150px' margin='0 auto'>
-                    <Image src='/password.png' alt='Genera' />
-                  </Flex>
                   <Heading as='h2'>Contraseña</Heading>
                   <Text size='lg'>
                     Si bien somos localfirst, necesitamos saber que eres realmente tu quien mueve fondos.
@@ -180,7 +176,7 @@ const Signup = () => {
                 <Button variant='solid' disabled={!isValid || loading} onClick={handleConfirm}>
                   {loading ? 'Cargando...' : 'Confirmar'}
                 </Button>
-                <Link color='default' href='/' passHref>
+                <Link type='bezeledGray' href='/' passHref>
                   Cancelar
                 </Link>
               </Flex>
