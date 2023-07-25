@@ -1,63 +1,97 @@
 import NextLink from 'next/link';
-import { Text } from '@chakra-ui/react';
+import { Link } from '@chakra-ui/react';
 
-const Link = (props) => {
-  const { children, isBlock, color = 'primary', size = 'md' } = props;
+const Component = (props) => {
+  const { children, brand = 'primary', size = 'large', type = 'filled' } = props;
+
+  const isLarge = size === 'large';
+  const isSolid = type === 'filled';
+
+  const dimensions = {
+    height: '30px',
+    largeHeight: '60px',
+    minWidth: '30px',
+    largeMinWidth: '200px',
+  };
+
+  const style = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: isLarge ? dimensions.largeHeight : dimensions.height,
+    minWidth: isLarge ? dimensions.largeMinWidth : dimensions.minWidth,
+    width: { base: '100%', md: 'initial' },
+
+    padding: '18px 12px',
+
+    borderRadius: '8px',
+
+    color: isSolid ? 'background' : brand,
+    fontSize: isLarge ? '16px' : '14px',
+    fontWeight: 700,
+    textAlign: 'center',
+
+    _hover: {
+      textDecoration: 'none',
+    },
+  };
 
   const variants = {
-    primary: {
-      height: size === 'md' ? '60px' : '40px',
-      padding: size === 'md' ? '22px' : '16px',
-      backgroundColor: '#B3E0B8',
-      border: '2px solid #B3E0B8',
-      color: '#141318',
-      fontSize: size === 'md' ? '16px' : '14px',
+    filled: {
+      backgroundColor: brand,
+
       _hover: {
-        backgroundColor: '#8FD196',
-        textDecoration: 'none',
+        opacity: 0.85,
+        backgroundColor: brand,
+      },
+      _active: {
+        opacity: 0.65,
+        backgroundColor: brand,
       },
     },
-    default: {
-      height: size === 'md' ? '60px' : '30px',
-      padding: size === 'md' ? '22px' : '8px',
-      backgroundColor: '#111111',
-      border: '2px solid #2C2C2C',
-      color: '#fff',
-      fontSize: size === 'md' ? '16px' : '14px',
+    bezeled: {
+      backgroundColor: `${brand}15`,
+
       _hover: {
-        backgroundColor: '#2C2C2C',
-        textDecoration: 'none',
+        opacity: 0.85,
+        backgroundColor: `${brand}15`,
+      },
+      _active: {
+        opacity: 0.65,
+        backgroundColor: `${brand}15`,
       },
     },
-    terciary: {
-      height: size === 'md' ? '60px' : '30px',
-      padding: size === 'md' ? '18px' : '8px',
-      backgroundColor: '#DBA2A3',
-      border: '1px solid #DBA2A3',
-      color: '#141318',
-      fontSize: size === 'md' ? '16px' : '14px',
+    bezeledGray: {
+      backgroundColor: 'gray5',
+
       _hover: {
-        backgroundColor: '#CD7E80',
-        textDecoration: 'none',
+        opacity: 0.85,
+        backgroundColor: 'gray5',
+      },
+      _active: {
+        opacity: 0.65,
+        backgroundColor: 'gray5',
+      },
+    },
+    borderless: {
+      backgroundColor: 'transparent',
+
+      _hover: {
+        opacity: 0.85,
+        backgroundColor: 'transparent',
+      },
+      _active: {
+        opacity: 0.65,
+        backgroundColor: 'transparent',
       },
     },
   };
 
   return (
-    <NextLink {...props} passHref>
-      <Text
-        display='flex'
-        justifyContent='center'
-        alignItems='center'
-        borderRadius='0'
-        fontWeight={600}
-        width='100%'
-        {...variants[color]}
-      >
-        {children}
-      </Text>
-    </NextLink>
+    <Link as={NextLink} {...props} {...style} {...variants[type]} passHref>
+      {children}
+    </Link>
   );
 };
 
-export default Link;
+export default Component;

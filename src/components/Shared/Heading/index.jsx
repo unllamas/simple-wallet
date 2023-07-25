@@ -6,22 +6,22 @@ const Heading = (props) => {
   const variants = {
     h1: {
       fontSize: {
-        base: '48px',
-        md: '68px',
+        base: '32px',
+        md: '42px',
       },
       lineHeight: {
-        base: '48px',
-        md: '68px',
+        base: '38px',
+        md: '50px',
       },
     },
     h2: {
       fontSize: {
-        base: '42px',
-        md: '54px',
+        base: '26px',
+        md: '32px',
       },
       lineHeight: {
-        base: '42px',
-        md: '54px',
+        base: '32px',
+        md: '38px',
       },
     },
     h3: {
@@ -37,6 +37,14 @@ const Heading = (props) => {
     h4: {
       fontSize: '20px',
       lineHeight: '26px',
+    },
+    h5: {
+      fontSize: '18px',
+      lineHeight: '24px',
+    },
+    h6: {
+      fontSize: '16px',
+      lineHeight: '22px',
     },
   };
 
