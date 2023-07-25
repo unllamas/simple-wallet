@@ -6,17 +6,18 @@ const Component = (props) => {
     align = 'flex-start',
     justify = 'flex-start',
     direction,
-    gap = '8px',
+    gap = 0,
     padding = 0,
     background = 'transparent',
   } = props;
 
   return (
     <Flex
+      {...props}
       flexDirection={direction}
       justifyContent={justify}
       alignItems={align}
-      gap={gap}
+      gap={`${gap}px`}
       padding={padding}
       background={background}
       width='100%'
