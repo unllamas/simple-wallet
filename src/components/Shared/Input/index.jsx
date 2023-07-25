@@ -48,6 +48,15 @@ const Component = (props) => {
     _placeholder: {
       color: 'gray35',
     },
+    _hover: {
+      borderColor: 'gray35',
+      _disabled: {
+        borderColor: 'gray15',
+      },
+    },
+    _focusVisible: {
+      borderColor: 'primary',
+    },
   };
 
   return (
