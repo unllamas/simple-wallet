@@ -8,12 +8,13 @@ import { useAccount } from './Account';
 
 import abiDAI from '../utils/abi/DAI.json';
 
+type TokenName = 'eth' | 'dai';
 interface TokenContextInterface {
   tokens: {
     eth: BigNumber;
     dai: BigNumber;
   };
-  sendTransaction: () => null;
+  sendTransaction: (address: string, mount: number, token: TokenName) => null;
 }
 
 const TokenContext = createContext<TokenContextInterface | null>(null);
@@ -91,6 +92,7 @@ export function TokenWrapper({ children }) {
 
           return {
             success: true,
+            error: null,
           };
         } catch (error) {
           return {
@@ -107,7 +109,7 @@ export function TokenWrapper({ children }) {
 
       return {
         success: false,
-        error: '',
+        error: null,
       };
     }
   };
