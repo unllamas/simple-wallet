@@ -1,5 +1,5 @@
 export default function useTruncatedAddress(address: string): string {
-  const truncated = `${address?.substr(0, 5)}...${address?.substr(-4)}`;
+  const truncated = `${address?.substring(0, 4)}...${address?.substring(address.length - 3, address.length)}`;
 
   return truncated;
 }
