@@ -17,7 +17,11 @@ interface TokenContextInterface {
 
 const TokenContext = createContext<TokenContextInterface | null>(null);
 
-const addressDAI = '0x73967c6a0904aA032C103b4104747E88c566B1A2';
+// Mainnet
+// const addressDAI = '0x73967c6a0904aA032C103b4104747E88c566B1A2';
+
+// Testnet
+const addressDAI = '0x73967c6a0904aa032c103b4104747e88c566b1a2';
 
 export function TokenWrapper({ children }) {
   // Chakra
