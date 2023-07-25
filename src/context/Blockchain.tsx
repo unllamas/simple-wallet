@@ -2,7 +2,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 
-const BlockchainContext = createContext({ kovanProvider: () => {} });
+const BlockchainContext = createContext({ kovanProvider: () => null, getGasPrice: () => null });
 
 export function BlockchainWrapper({ children }) {
   const [kovanProvider, setKovanProvider] = useState();

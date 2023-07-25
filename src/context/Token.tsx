@@ -13,11 +13,16 @@ interface TokenContextInterface {
     eth: BigNumber;
     dai: BigNumber;
   };
+  sendTransaction: () => null;
 }
 
 const TokenContext = createContext<TokenContextInterface | null>(null);
 
-const addressDAI = '0x6B175474E89094C44Da98b954EedeAC495271d0F';
+// Mainnet
+// const addressDAI = '0x6B175474E89094C44Da98b954EedeAC495271d0F';
+
+// Test
+const addressDAI = '0x11fe4b6ae13d2a6055c8d9cf65c55bac32b5d844';
 
 export function TokenWrapper({ children }) {
   // Chakra
@@ -28,26 +33,24 @@ export function TokenWrapper({ children }) {
   const { wallet, signer } = useAccount();
 
   // Component
-  const [tokens, setTokens] = useState({
-    dai: ethers.constants.Zero,
-    eth: ethers.constants.Zero,
-  });
+  const [tokenETH, setTokenETH] = useState(ethers.constants.Zero);
+  const [tokenDAI, setTokenDAI] = useState(ethers.constants.Zero);
 
   const providerDAI = new ethers.Contract(addressDAI, abiDAI, kovanProvider);
 
   // Obtener balance de Ethereum y DAI
   if (!!wallet?.address) {
     kovanProvider?.on('block', () => {
-      if (tokens?.eth?.isZero() && tokens?.dai?.isZero()) {
+      if (tokenETH?.isZero() && tokenDAI?.isZero()) {
         kovanProvider.getBalance(wallet?.address).then((balance) => {
-          if (!balance?.eq(tokens?.eth)) {
-            setTokens({ ...tokens, eth: balance });
+          if (!balance?.eq(tokenETH)) {
+            setTokenETH(balance);
           }
         });
 
         providerDAI.balanceOf(wallet?.address).then((balance) => {
-          if (!balance?.eq(tokens?.dai)) {
-            setTokens({ ...tokens, dai: balance });
+          if (!balance?.eq(tokenDAI)) {
+            setTokenDAI(balance);
           }
         });
       }
@@ -109,7 +112,11 @@ export function TokenWrapper({ children }) {
     }
   };
 
-  return <TokenContext.Provider value={{ tokens, sendTransaction }}>{children}</TokenContext.Provider>;
+  return (
+    <TokenContext.Provider value={{ tokens: { eth: tokenETH, dai: tokenDAI }, sendTransaction }}>
+      {children}
+    </TokenContext.Provider>
+  );
 }
 
 export function useToken() {

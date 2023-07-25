@@ -1,33 +1,27 @@
-import { Text as TextBox } from '@chakra-ui/react';
+import { Text } from '@chakra-ui/react';
 
-const Text = (props) => {
-  const { children, size = 'md' } = props;
+const Component = (props) => {
+  const { children, size = 'medium', opacity = 100, isBold = false, align = 'left' } = props;
 
-  const variants = {
-    xl: {
-      fontSize: '36px',
-      lineHeight: '46px',
-    },
-    lg: {
-      fontSize: '24px',
-      lineHeight: '34px',
-    },
-    md: {
-      fontSize: '16px',
-      lineHeight: '22px',
-    },
-    sm: {
-      opacity: 0.65,
-      fontSize: '12px',
-      lineHeight: '18px',
-    },
+  const isSmall = size === 'small';
+
+  const style = {
+    opacity,
+
+    margin: 0,
+
+    color: 'text',
+    fontSize: `${isSmall ? 14 : 16}px`,
+    lineHeight: `${isSmall ? 20 : 22}px`,
+    fontWeight: isBold ? 700 : 400,
+    textAlign: align,
   };
 
   return (
-    <TextBox m='0px' color='#fff' {...props} {...variants[size]}>
+    <Text {...style} {...props}>
       {children}
-    </TextBox>
+    </Text>
   );
 };
 
-export default Text;
+export default Component;

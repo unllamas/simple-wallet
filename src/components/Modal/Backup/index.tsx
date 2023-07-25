@@ -1,9 +1,8 @@
 import { Flex, ModalContent, ModalBody } from '@chakra-ui/react';
 
-import Link from '../../Shared/Link';
-import Text from '../../Shared/Text';
-import Heading from '../../Shared/Heading';
-import Image from '../../Shared/Image';
+import Link from 'src/components/Shared/Link';
+import Text from 'src/components/Shared/Text';
+import Heading from 'src/components/Shared/Heading';
 
 const Backup = () => {
   return (
@@ -11,9 +10,6 @@ const Backup = () => {
       <ModalBody p='40px 20px' display='flex' w='100%' flexDirection='column' alignItems='initial' gap='20px'>
         <Flex flex='1' flexDirection='column' gap='20px' justifyContent='center' mb='20px'>
           <Flex flexDirection='column' alignItems='center' gap='20px' textAlign='center'>
-            <Flex maxW='200px'>
-              <Image src='/congrats.png' alt='Felicitaciones' />
-            </Flex>
             <Heading as='h2'>Felicitaciones!</Heading>
             <Text opacity='.65'>
               Asegúrate de guardar bien tu frase semilla, es la única forma de recuperar tus fondos.
