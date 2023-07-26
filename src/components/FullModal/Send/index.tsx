@@ -78,7 +78,7 @@ const Component = ({ onClose }) => {
       }
     }
 
-    !gasPrice && init();
+    !gasPrice && !price.eth && !price.dai && init();
   }, [gasPrice, totalTokensUSD]);
 
   // Send transaction
