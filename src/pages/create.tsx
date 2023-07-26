@@ -76,6 +76,8 @@ const Create = () => {
 
         gtag.event(options);
         router.push('/dashboard');
+      } else {
+        setLoading(false);
       }
     } else {
       toast({

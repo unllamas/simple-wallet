@@ -44,7 +44,7 @@ export function AccountWrapper({ children }) {
     // Remove old structure
     async function removeOldStructure() {
       await db.wallets.delete(1);
-      push('/signin');
+      push('/');
     }
 
     if (!wallet && walletsDB && walletsDB?.length > 0) {
@@ -54,9 +54,9 @@ export function AccountWrapper({ children }) {
         return;
       }
 
+      const decryptAccount = decrypt(itemDB?.account);
+
       if (itemDB) {
-        const decryptAccount = decrypt(itemDB?.account);
-        console.log('itemDB', itemDB);
         setWallet({
           address: {
             eth: itemDB?.address?.eth,
@@ -65,18 +65,16 @@ export function AccountWrapper({ children }) {
           backup: itemDB?.backup,
         });
       }
-    }
-  }, [walletsDB, wallet]);
 
-  useEffect(() => {
-    if (wallet && !signer) {
-      const mnemonic = decrypt(wallet?.account?.seedPhrase).replaceAll('"', '');
-      const walletAccount = ethers.Wallet.fromMnemonic(mnemonic);
+      if (!signer) {
+        const mnemonic = decrypt(JSON.parse(decryptAccount).seedPhrase).replaceAll('"', '');
+        const walletAccount = ethers.Wallet.fromMnemonic(mnemonic);
 
-      const signer = walletAccount.connect(kovanProvider);
-      setSigner(signer);
+        const signer = walletAccount.connect(kovanProvider);
+        setSigner(signer);
+      }
     }
-  }, [wallet, signer]);
+  }, [walletsDB, signer]);
 
   // Create a new wallet
   const createWallet = async (password) => {
@@ -98,7 +96,7 @@ export function AccountWrapper({ children }) {
         });
 
         setWallet({
-          address: walletETH?.address,
+          address: { eth: walletETH?.address },
           seedPhrase: encrypt(walletETH?.mnemonic?.phrase),
           password: encrypt(password),
           backup: false,

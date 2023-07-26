@@ -29,7 +29,9 @@ export async function getPrices(): Promise<PricesInterface> {
       const resp = await fetch(url);
       const body = await resp.text();
 
-      return { name, values: JSON.parse(body) };
+      if (body) {
+        return { name, values: JSON.parse(body) };
+      }
     }),
   );
 

@@ -24,7 +24,7 @@ const Component = (props) => {
     background: 'background',
     border: 'none',
     borderBottom: '1px solid',
-    borderColor: 'gray5',
+    borderColor: 'gray15',
     borderRadius: 0,
 
     color: 'text',
