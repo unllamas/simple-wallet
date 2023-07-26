@@ -20,7 +20,7 @@ const Component = ({ onClose }) => {
 
   const handleCopyAddress = async () => {
     try {
-      await navigator.clipboard.writeText(wallet?.address);
+      await navigator.clipboard.writeText(wallet?.address?.eth);
       toast({ description: 'Address copiada', status: 'success' });
       onClose();
     } catch (err) {
@@ -41,13 +41,13 @@ const Component = ({ onClose }) => {
           width={{ base: '100%', md: '410px' }}
           borderRadius={{ base: 0, md: '8px' }}
         >
-          {wallet?.address && <QRCode value={wallet?.address} />}
+          {wallet?.address?.eth && <QRCode value={wallet?.address?.eth} />}
         </Flex>
         <Divider y={16} />
         <Container size='small'>
           <Flex flexDirection='column' alignItems='center' gap='20px'>
             <Flex w='100%' justifyContent='space-between' alignItems='center'>
-              <AddressBox title='Address' address={wallet?.address} />
+              <AddressBox title='Address' address={wallet?.address?.eth} />
               <div>
                 <Button size='small' type='bezeled' onClick={handleCopyAddress}>
                   Copiar

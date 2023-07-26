@@ -120,7 +120,7 @@ const Dashboard = ({ price }) => {
       </ScreenView>
 
       {/* Security */}
-      {wallet && !wallet?.saveMn && (
+      {wallet && !wallet?.backup && (
         <Flex background='terciary15'>
           <Container>
             <Divider y={16} />
