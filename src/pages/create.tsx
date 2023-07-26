@@ -146,7 +146,7 @@ const Create = () => {
             <Link type='bezeledGray' href='/' passHref>
               Cancelar
             </Link>
-            <Button variant='solid' disabled={!isValid || loading} onClick={handleConfirm}>
+            <Button variant='solid' isDisabled={!isValid || loading} onClick={handleConfirm}>
               {loading ? <Spinner /> : 'Crear'}
             </Button>
           </Flex>
