@@ -26,7 +26,7 @@ const Backup = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { wallet } = useAccount();
 
-  const mnemonic = decrypt(wallet?.mnemonic?.eth)?.replaceAll('"', '');
+  const mnemonic = decrypt(wallet?.seedPhrase)?.replaceAll('"', '');
 
   const [hasSave, setHasSave] = useState(false);
 
@@ -50,10 +50,14 @@ const Backup = () => {
   const handleSubmit = async (localMnemonic) => {
     const isValid = ethers.utils.isValidMnemonic(localMnemonic.join(' '));
     if (isValid) {
+      await db.wallets.update(1, { backup: true });
       onOpen();
-      await db.wallets.update(1, { saveMn: true });
     } else {
-      toast({ description: 'Verifique que la frase semilla sea correcta.', status: 'warning' });
+      toast({
+        title: 'Frase semilla incorrecta',
+        description: 'Verifique que la frase semilla sea correcta.',
+        status: 'warning',
+      });
     }
   };
 
@@ -140,7 +144,7 @@ const Backup = () => {
             </Link>
             {!showMnemonic && <Button onClick={handleShowMnemonic}>Continuar</Button>}
             {showMnemonic && !showValidateMnemonic && (
-              <Button disabled={!hasSave} onClick={handleConfirmSaveMnemonic}>
+              <Button isDisabled={!hasSave} onClick={handleConfirmSaveMnemonic}>
                 Continuar
               </Button>
             )}

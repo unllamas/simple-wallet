@@ -8,12 +8,13 @@ import { useAccount } from './Account';
 
 import abiDAI from '../utils/abi/DAI.json';
 
+type TokenName = 'eth' | 'dai';
 interface TokenContextInterface {
   tokens: {
     eth: BigNumber;
     dai: BigNumber;
   };
-  sendTransaction: () => null;
+  sendTransaction: (address: string, mount: number, token: TokenName) => null;
 }
 
 const TokenContext = createContext<TokenContextInterface | null>(null);
@@ -39,16 +40,16 @@ export function TokenWrapper({ children }) {
   const providerDAI = new ethers.Contract(addressDAI, abiDAI, kovanProvider);
 
   // Obtener balance de Ethereum y DAI
-  if (!!wallet?.address) {
+  if (!!wallet?.address?.eth) {
     kovanProvider?.on('block', () => {
       if (tokenETH?.isZero() && tokenDAI?.isZero()) {
-        kovanProvider.getBalance(wallet?.address).then((balance) => {
+        kovanProvider.getBalance(wallet?.address?.eth).then((balance) => {
           if (!balance?.eq(tokenETH)) {
             setTokenETH(balance);
           }
         });
 
-        providerDAI.balanceOf(wallet?.address).then((balance) => {
+        providerDAI.balanceOf(wallet?.address?.eth).then((balance) => {
           if (!balance?.eq(tokenDAI)) {
             setTokenDAI(balance);
           }
@@ -91,6 +92,7 @@ export function TokenWrapper({ children }) {
 
           return {
             success: true,
+            error: null,
           };
         } catch (error) {
           return {
@@ -107,7 +109,7 @@ export function TokenWrapper({ children }) {
 
       return {
         success: false,
-        error: '',
+        error: null,
       };
     }
   };

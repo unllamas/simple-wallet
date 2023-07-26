@@ -4,28 +4,29 @@ import { ethers } from 'ethers';
 import { useRouter } from 'next/router';
 import { useToast } from '@chakra-ui/react';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { db } from '../utils/db';
+import { db } from 'src/utils/db';
 
 import { useBlockchain } from './Blockchain';
 
-import { encrypt, decrypt } from '../hooks/useCrypto';
+import { encrypt, decrypt } from 'src/hooks/useCrypto';
 
 interface AccountInterface {
   signer: any;
-  wallet: { address: string; mnemonic: string; password: string | number; saveMn: boolean };
+  wallet: { address: { eth: string }; account: { seedPhrase: string; password: string }; backup: false };
   createWallet: (password: string | number) => { success: boolean; error: any };
   signupWallet: (mnemonic: string, password: string | number) => { success: boolean; error: any };
 }
 
 const AccountContext = createContext<AccountInterface>({
   signer: {},
-  wallet: { address: '', mnemonic: '', password: '', saveMn: true },
+  wallet: { address: { eth: '' }, account: { seedPhrase: '', password: '' }, backup: false },
   createWallet: () => ({ success: false, error: null }),
   signupWallet: () => ({ success: false, error: null }),
 });
 
 export function AccountWrapper({ children }) {
   // Chakra
+  const { push } = useRouter();
   const toast = useToast();
 
   // Provider
@@ -38,29 +39,38 @@ export function AccountWrapper({ children }) {
   const [wallet, setWallet] = useState(null);
   const [signer, setSigner] = useState(null);
 
-  // POC:
-  // Removed old data structure for localfirst
-  useEffect(() => {
-    async function init() {
-      await db.wallets.delete(1);
-    }
-
-    if (walletsDB && walletsDB?.length && !!walletsDB[0]?.mnemonic) {
-      init();
-    }
-  });
-
   // Get new created data structure for localfirst
   useEffect(() => {
+    // Remove old structure
+    async function removeOldStructure() {
+      await db.wallets.delete(1);
+      push('/signin');
+    }
+
     if (!wallet && walletsDB && walletsDB?.length > 0) {
-      const localWallet = JSON.parse(decrypt(walletsDB[0]?.wallet));
-      setWallet(localWallet);
+      const itemDB = walletsDB[0];
+      if (itemDB?.wallet) {
+        removeOldStructure();
+        return;
+      }
+
+      if (itemDB) {
+        const decryptAccount = decrypt(itemDB?.account);
+        console.log('itemDB', itemDB);
+        setWallet({
+          address: {
+            eth: itemDB?.address?.eth,
+          },
+          account: JSON.parse(decryptAccount),
+          backup: itemDB?.backup,
+        });
+      }
     }
   }, [walletsDB, wallet]);
 
   useEffect(() => {
     if (wallet && !signer) {
-      const mnemonic = decrypt(wallet?.mnemonic?.eth).replaceAll('"', '');
+      const mnemonic = decrypt(wallet?.account?.seedPhrase).replaceAll('"', '');
       const walletAccount = ethers.Wallet.fromMnemonic(mnemonic);
 
       const signer = walletAccount.connect(kovanProvider);
@@ -72,24 +82,28 @@ export function AccountWrapper({ children }) {
   const createWallet = async (password) => {
     const walletETH = ethers.Wallet.createRandom();
     if (walletETH) {
-      const instanceWallet = {
-        address: walletETH?.address,
-        mnemonic: {
-          eth: encrypt(walletETH?.mnemonic?.phrase),
-          btc: '',
-        },
-        privateKey: {
-          eth: '',
-          btc: '',
-        },
+      const accountInstance = {
+        seedPhrase: encrypt(walletETH?.mnemonic?.phrase),
         password: encrypt(password),
-        saveMn: false,
       };
 
       try {
-        await db.wallets.add({ wallet: encrypt(instanceWallet) });
+        await db.wallets.add({
+          address: {
+            eth: walletETH?.address,
+          },
+          account: encrypt(accountInstance),
+          backup: false,
+          version: 3,
+        });
 
-        setWallet(instanceWallet);
+        setWallet({
+          address: walletETH?.address,
+          seedPhrase: encrypt(walletETH?.mnemonic?.phrase),
+          password: encrypt(password),
+          backup: false,
+          version: 3,
+        });
 
         return { success: true, error: null };
       } catch (error) {
@@ -106,22 +120,20 @@ export function AccountWrapper({ children }) {
     if (isValid) {
       const walletETH = ethers.Wallet.fromMnemonic(mnemonic);
       if (walletETH) {
-        const instanceWallet = {
-          address: walletETH?.address,
-          mnemonic: {
-            eth: encrypt(walletETH?.mnemonic?.phrase),
-            btc: '',
-          },
-          privateKey: {
-            eth: '',
-            btc: '',
-          },
+        const accountInstance = {
+          seedPhrase: encrypt(walletETH?.mnemonic?.phrase),
           password: encrypt(password),
-          saveMn: true,
         };
 
         try {
-          await db.wallets.add({ wallet: encrypt(instanceWallet) });
+          await db.wallets.add({
+            address: {
+              eth: walletETH?.address,
+            },
+            account: encrypt(accountInstance),
+            backup: true,
+            version: 3,
+          });
 
           return { success: true, error: null };
         } catch (error) {
@@ -129,7 +141,11 @@ export function AccountWrapper({ children }) {
         }
       }
     } else {
-      toast({ description: 'Comprueba que la frase semilla sea correcta.', status: 'warning' });
+      toast({
+        title: 'Frase semilla incorrecta',
+        description: 'Verifique que la frase semilla sea correcta.',
+        status: 'warning',
+      });
       return { success: false, error: null };
     }
   };
