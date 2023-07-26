@@ -18,7 +18,7 @@ const Index = () => {
   // Context
   const { wallet } = useAccount();
 
-  if (wallet?.address) {
+  if (wallet?.account) {
     router.push('/dashboard');
     return false;
   }
@@ -37,9 +37,14 @@ const Index = () => {
               <strong>Wallet non-custodial</strong> para <strong>ETH</strong>.
             </Text>
             <Divider y={16} />
-            <Link href='/create' passHref>
-              Crear billetera
-            </Link>
+            <Flex direction={{ base: 'column-reverse', md: 'row' }} gap={8}>
+              <Link href='/signin' type='bezeled' passHref>
+                Ya tengo una billetera
+              </Link>
+              <Link href='/create' passHref>
+                Crear billetera
+              </Link>
+            </Flex>
           </Flex>
         </Container>
       </ScreenView>

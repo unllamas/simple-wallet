@@ -43,7 +43,7 @@ const Dashboard = ({ price }) => {
   const { wallet } = useAccount();
   const { tokens } = useToken();
 
-  if (!tokens || !price) return null;
+  if (!tokens) return null;
 
   // General
   const [modalType, setModalType] = useState('');
