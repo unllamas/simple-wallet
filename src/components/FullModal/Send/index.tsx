@@ -83,9 +83,10 @@ const Component = ({ onClose }) => {
 
   // Send transaction
   const handleSendTransaction = async () => {
+    setLoading(true);
+
     const mountToToken = (Number(mount) * price.dai) / price[tokenSelected];
 
-    setLoading(true);
     if (toAddress && mount) {
       const { success, error } = await sendTransaction(toAddress, mountToToken, tokenSelected);
       if (success) {
@@ -263,6 +264,7 @@ const Component = ({ onClose }) => {
                     </Button>
                   </div>
                   <Input
+                    type='number'
                     autoFocus
                     placeholder='0.00'
                     iconLeft={'USD'}
@@ -322,22 +324,25 @@ const Component = ({ onClose }) => {
               Cancelar
             </Button>
             {step === 'address' && (
-              <Button onClick={() => toAddress && setStep('token')} disabled={!toAddress}>
+              <Button onClick={() => toAddress && setStep('token')} isDisabled={!toAddress}>
                 {loading ? <Spinner /> : 'Continuar'}
               </Button>
             )}
             {step === 'token' && (
-              <Button onClick={() => tokenSelected && setStep('amount')} disabled={!tokenSelected}>
+              <Button onClick={() => tokenSelected && setStep('amount')} isDisabled={!tokenSelected}>
                 {loading ? <Spinner /> : 'Seleccionar'}
               </Button>
             )}
             {step === 'amount' && (
-              <Button onClick={() => setStep('sumary')} disabled={!tokenSelected}>
+              <Button
+                onClick={() => setStep('sumary')}
+                isDisabled={!mount || mount === '0' || mount === '0.' || mount === '.' || mount === ','}
+              >
                 {loading ? <Spinner /> : 'Continuar'}
               </Button>
             )}
             {step === 'sumary' && (
-              <Button brand='secondary' onClick={handleSendTransaction} disabled={!tokenSelected}>
+              <Button brand='secondary' isLoading={loading} onClick={handleSendTransaction}>
                 {loading ? <Spinner /> : 'Transferir'}
               </Button>
             )}

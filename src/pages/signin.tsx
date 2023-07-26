@@ -174,7 +174,7 @@ const Signup = () => {
                 <Link type='bezeledGray' href='/' passHref>
                   Cancelar
                 </Link>
-                <Button brand='secondary' onClick={handleLoginWallet} disabled={loading}>
+                <Button brand='secondary' onClick={handleLoginWallet} isDisabled={loading}>
                   {loading ? 'Cargando...' : 'Validar'}
                 </Button>
               </>
@@ -183,7 +183,7 @@ const Signup = () => {
                 <Link type='bezeledGray' href='/' passHref>
                   Cancelar
                 </Link>
-                <Button disabled={!isValid || loading} onClick={handleConfirm}>
+                <Button isDisabled={!isValid || loading} onClick={handleConfirm}>
                   {loading ? 'Cargando...' : 'Continuar'}
                 </Button>
               </>

@@ -31,6 +31,15 @@ const Component = (props) => {
     fontSize: isLarge ? '16px' : '14px',
     fontWeight: 700,
     textAlign: 'center',
+
+    _disabled: {
+      backgroundColor: 'gray35',
+      color: 'background',
+      cursor: 'not-allowed',
+      _hover: {
+        opacity: 1,
+      },
+    },
   };
 
   const variants = {
