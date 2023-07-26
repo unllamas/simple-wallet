@@ -60,6 +60,10 @@ const Component = (props) => {
     alignItems: 'center',
   };
 
+  const inputStyle = {
+    paddingRight: '90px',
+  };
+
   return (
     <Box {...style}>
       <Input
@@ -67,9 +71,10 @@ const Component = (props) => {
         value={value && useTruncatedAddress(value)}
         onChange={(e) => handleValidateAddress(e.target.value)}
         autoFocus={!value}
+        {...inputStyle}
       />
       <Box {...buttonBoxStyle}>
-        <Button size='small' type='bezeled' onClick={handlePasteAddress} disabled={value}>
+        <Button size='small' type='bezeled' onClick={handlePasteAddress} isDisabled={value}>
           Pegar
         </Button>
       </Box>
