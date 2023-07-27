@@ -7,7 +7,7 @@ import Input from 'src/components/Shared/Input';
 import useTruncatedAddress from 'src/hooks/useTruncatedAddress';
 
 const Component = (props) => {
-  const { placeholder, value, onChange, onClick } = props;
+  const { placeholder, value, onChange, onClick, addressIsValid, setAddressIsValid } = props;
 
   // Chakra
   const toast = useToast();
@@ -15,14 +15,23 @@ const Component = (props) => {
   const handlePasteAddress = async () => {
     try {
       const text = await navigator.clipboard.readText();
-      const addressIsValid = ethers.utils.isAddress(text);
+      const isValid = ethers.utils.isAddress(text);
+      setAddressIsValid(isValid);
 
-      if (addressIsValid) {
+      if (isValid) {
         onClick(text);
+        toast({
+          description: 'Perfecto',
+          status: 'success',
+          position: 'top',
+          duration: '1500'
+        });
       } else {
         toast({
-          description: 'La address parece ser incorrecta.',
-          status: 'warning',
+          description: 'No existe la dirección de esta wallet',
+          status: 'error',
+          position: 'top',
+          duration: '1500'
         });
       }
     } catch (err) {
@@ -30,18 +39,14 @@ const Component = (props) => {
     }
   };
 
-  const handleValidateAddress = (value) => {
-    const addressIsValid = ethers.utils.isAddress(value);
-    if (addressIsValid) {
-      onChange(value);
-    }
-    // else {
-    //   toast({
-    //     description: 'La address parece ser incorrecta.',
-    //     status: 'warning',
-    //   });
-    // }
+  const handleValidateAddress = ({ target: { value } }) => {
+    const isValid = ethers.utils.isAddress(value);
+    setAddressIsValid(isValid);
+    onChange(value);
   };
+
+  const truncated = addressIsValid && value !== null && value !== ''
+  const inputValue = truncated ? useTruncatedAddress(value) : value
 
   const style = {
     position: 'relative',
@@ -52,21 +57,31 @@ const Component = (props) => {
   const buttonBoxStyle = {
     position: 'absolute',
     zIndex: 1,
-    right: '20px',
-    top: 0,
+    right: '2px',
+    top: '2px',
 
     display: 'flex',
     height: '100%',
     alignItems: 'center',
+
+    padding: '5px 20px',
+
+    minWidth: 'fit-content',
+    width: '80px',
+    maxHeight: '56px',
+
+    backgroundColor: '#1B1B1B',
+    borderRadius: '0px 10px 10px 0px'
   };
 
   return (
     <Box {...style}>
       <Input
         placeholder={placeholder}
-        value={value && useTruncatedAddress(value)}
-        onChange={(e) => handleValidateAddress(e.target.value)}
+        value={inputValue}
+        onChange={handleValidateAddress}
         autoFocus={!value}
+        style={{ paddingRight: '100px' }}
       />
       <Box {...buttonBoxStyle}>
         <Button size='small' type='bezeled' onClick={handlePasteAddress} disabled={value}>

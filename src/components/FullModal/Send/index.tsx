@@ -50,6 +50,7 @@ const Component = ({ onClose }) => {
   // Price
   const [price, setPrice] = useState({ eth: 0, dai: 0 });
   const [gasPrice, setGasPrice] = useState();
+  const [addressIsValid, setAddressIsValid] = useState(false);
 
   useEffect(() => {
     // setLoading(true);
@@ -80,6 +81,11 @@ const Component = ({ onClose }) => {
 
     !gasPrice && !price.eth && !price.dai && init();
   }, [gasPrice, totalTokensUSD]);
+
+  useEffect(() => {
+    setToAddress(null)
+    setAddressIsValid(false)
+  }, []);
 
   // Send transaction
   const handleSendTransaction = async () => {
@@ -167,6 +173,28 @@ const Component = ({ onClose }) => {
     setMount(null);
   };
 
+  const continueToken = () => {
+    if (toAddress === null || toAddress === '') {
+      toast({
+        description: 'El campo de texto está vacío',
+        status: 'warning',
+        position: 'top',
+        duration: '1500'
+      });
+    }
+
+    if (!addressIsValid && toAddress !== null && toAddress !== '') {
+      toast({
+        description: 'No existe la dirección de esta wallet',
+        status: 'error',
+        position: 'top',
+        duration: '1500'
+      });
+    }
+
+    if (toAddress && addressIsValid) setStep('token')
+  }
+
   return (
     <>
       <Navbar type='modal' title='Testeando' onClose={handleCloseModal} />
@@ -181,7 +209,8 @@ const Component = ({ onClose }) => {
                   value={toAddress}
                   onChange={setToAddress}
                   onClick={setToAddress}
-                  // autoFocus
+                  addressIsValid={addressIsValid}
+                  setAddressIsValid={setAddressIsValid}
                 />
                 <Divider y={16} />
                 <Text align='center'>
@@ -324,7 +353,7 @@ const Component = ({ onClose }) => {
               Cancelar
             </Button>
             {step === 'address' && (
-              <Button onClick={() => toAddress && setStep('token')} isDisabled={!toAddress}>
+              <Button onClick={continueToken}>
                 {loading ? <Spinner /> : 'Continuar'}
               </Button>
             )}
@@ -336,7 +365,7 @@ const Component = ({ onClose }) => {
             {step === 'amount' && (
               <Button
                 onClick={() => setStep('sumary')}
-                isDisabled={!mount || mount === '0' || mount === '0.' || mount === '.' || mount === ','}
+                isDisabled={!mount || mount === '0' || mount === '0.' || mount === '.' || mount === ',' || !addressIsValid}
               >
                 {loading ? <Spinner /> : 'Continuar'}
               </Button>
