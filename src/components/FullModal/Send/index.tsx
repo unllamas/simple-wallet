@@ -127,7 +127,7 @@ const Component = ({ onClose }) => {
     if (enterPress) {
       switch (step) {
         case 'address':
-          toAddress && setStep('token');
+          toAddress !== null && toAddress !== '' && addressIsValid && setStep('token');
           break;
         case 'token':
           tokenSelected && setStep('amount');
