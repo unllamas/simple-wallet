@@ -21,17 +21,21 @@ const Component = (props) => {
       if (isValid) {
         onClick(text);
         toast({
-          description: 'Perfecto',
+          title: 'Perfecto',
+          description: 'La dirección de esta billetera es correcta',
           status: 'success',
           position: 'top',
-          duration: '1500'
+          duration: '2000',
+          isClosable: true
         });
       } else {
         toast({
-          description: 'No existe la dirección de esta wallet',
+          title: 'Error',
+          description: 'La dirección de esta billetera es incorrecta o inválida',
           status: 'error',
           position: 'top',
-          duration: '1500'
+          duration: '2000',
+          isClosable: true
         });
       }
     } catch (err) {
@@ -45,8 +49,8 @@ const Component = (props) => {
     onChange(value);
   };
 
-  const truncated = addressIsValid && value !== null && value !== ''
-  const inputValue = truncated ? useTruncatedAddress(value) : value
+  const truncated = addressIsValid && value !== null && value !== '';
+  const inputValue = truncated ? useTruncatedAddress(value) : value;
 
   const style = {
     position: 'relative',
@@ -54,24 +58,19 @@ const Component = (props) => {
     width: '100%',
   };
 
+  const inputStyle = {
+    paddingRight: '90px'
+  };
+
   const buttonBoxStyle = {
     position: 'absolute',
     zIndex: 1,
-    right: '2px',
-    top: '2px',
+    right: '20px',
+    top: 0,
 
     display: 'flex',
     height: '100%',
-    alignItems: 'center',
-
-    padding: '5px 20px',
-
-    minWidth: 'fit-content',
-    width: '80px',
-    maxHeight: '56px',
-
-    backgroundColor: '#1B1B1B',
-    borderRadius: '0px 10px 10px 0px'
+    alignItems: 'center'
   };
 
   return (
@@ -81,7 +80,7 @@ const Component = (props) => {
         value={inputValue}
         onChange={handleValidateAddress}
         autoFocus={!value}
-        style={{ paddingRight: '100px' }}
+        style={inputStyle}
       />
       <Box {...buttonBoxStyle}>
         <Button size='small' type='bezeled' onClick={handlePasteAddress} disabled={value}>

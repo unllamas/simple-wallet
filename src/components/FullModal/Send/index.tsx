@@ -176,23 +176,27 @@ const Component = ({ onClose }) => {
   const continueToken = () => {
     if (toAddress === null || toAddress === '') {
       toast({
+        title: 'Advertencia',
         description: 'El campo de texto está vacío',
         status: 'warning',
         position: 'top',
-        duration: '1500'
+        duration: '2000',
+        isClosable: true
       });
     }
 
     if (!addressIsValid && toAddress !== null && toAddress !== '') {
       toast({
-        description: 'No existe la dirección de esta wallet',
+        title: 'Error',
+        description: 'La dirección de esta billetera es incorrecta o inválida',
         status: 'error',
         position: 'top',
-        duration: '1500'
+        duration: '2000',
+        isClosable: true
       });
     }
 
-    if (toAddress && addressIsValid) setStep('token')
+    if (toAddress && addressIsValid) setStep('token');
   }
 
   return (
