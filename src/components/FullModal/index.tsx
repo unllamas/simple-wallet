@@ -18,6 +18,7 @@ const Component = (props) => {
   }, [escapePress]);
 
   const fullModalStyle = {
+    overflow: 'auto',
     bottom: '0',
     left: '0',
     zIndex: '10',

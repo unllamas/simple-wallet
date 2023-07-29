@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { Spinner, useToast } from '@chakra-ui/react';
 
+import { ethers } from 'ethers';
 import { useBlockchain } from 'src/context/Blockchain';
 import { useToken } from 'src/context/Token';
 
@@ -26,6 +27,7 @@ import { getPrices } from 'src/pages/api/prices';
 
 import useKeyPress from 'src/hooks/useKeyPress';
 import useTruncatedAddress from 'src/hooks/useTruncatedAddress';
+import { QRCodeScanner } from 'src/components/QRCodeScanner';
 
 const Component = ({ onClose }) => {
   // Chakra
@@ -50,6 +52,7 @@ const Component = ({ onClose }) => {
   // Price
   const [price, setPrice] = useState({ eth: 0, dai: 0 });
   const [gasPrice, setGasPrice] = useState();
+  const [addressIsValid, setAddressIsValid] = useState(false);
 
   useEffect(() => {
     // setLoading(true);
@@ -80,6 +83,16 @@ const Component = ({ onClose }) => {
 
     !gasPrice && !price.eth && !price.dai && init();
   }, [gasPrice, totalTokensUSD]);
+
+  useEffect(() => {
+    setToAddress(null)
+    setAddressIsValid(false)
+  }, []);
+
+  useEffect(() => {
+    const isValid = ethers.utils.isAddress(toAddress);
+    setAddressIsValid(isValid);
+  }, [toAddress]);
 
   // Send transaction
   const handleSendTransaction = async () => {
@@ -121,7 +134,7 @@ const Component = ({ onClose }) => {
     if (enterPress) {
       switch (step) {
         case 'address':
-          toAddress && setStep('token');
+          toAddress !== null && toAddress !== '' && addressIsValid && setStep('token');
           break;
         case 'token':
           tokenSelected && setStep('amount');
@@ -167,6 +180,32 @@ const Component = ({ onClose }) => {
     setMount(null);
   };
 
+  const continueToken = () => {
+    if (toAddress === null || toAddress === '') {
+      toast({
+        title: 'Advertencia',
+        description: 'El campo de texto está vacío',
+        status: 'warning',
+        position: 'top',
+        duration: '2000',
+        isClosable: true
+      });
+    }
+
+    if (!addressIsValid && toAddress !== null && toAddress !== '') {
+      toast({
+        title: 'Error',
+        description: 'La dirección de esta billetera es incorrecta o inválida',
+        status: 'error',
+        position: 'top',
+        duration: '2000',
+        isClosable: true
+      });
+    }
+
+    if (toAddress && addressIsValid) setStep('token');
+  }
+
   return (
     <>
       <Navbar type='modal' title='Testeando' onClose={handleCloseModal} />
@@ -176,17 +215,20 @@ const Component = ({ onClose }) => {
             {/* Step Account */}
             {step === 'address' ? (
               <>
+                <QRCodeScanner toAddress={toAddress} setToAddress={setToAddress} addressIsValid={addressIsValid} />
                 <InputWithButton
                   placeholder='Address'
                   value={toAddress}
                   onChange={setToAddress}
                   onClick={setToAddress}
-                  // autoFocus
+                  addressIsValid={addressIsValid}
+                  setAddressIsValid={setAddressIsValid}
                 />
                 <Divider y={16} />
                 <Text align='center'>
                   Al enviar <strong>siempre verifica</strong> que las direcciones pertenecen al ecosistema de Ethereum.
                 </Text>
+                <Divider y={32} />
               </>
             ) : (
               <>
@@ -324,7 +366,7 @@ const Component = ({ onClose }) => {
               Cancelar
             </Button>
             {step === 'address' && (
-              <Button onClick={() => toAddress && setStep('token')} isDisabled={!toAddress}>
+              <Button onClick={continueToken}>
                 {loading ? <Spinner /> : 'Continuar'}
               </Button>
             )}
@@ -336,7 +378,7 @@ const Component = ({ onClose }) => {
             {step === 'amount' && (
               <Button
                 onClick={() => setStep('sumary')}
-                isDisabled={!mount || mount === '0' || mount === '0.' || mount === '.' || mount === ','}
+                isDisabled={!mount || mount === '0' || mount === '0.' || mount === '.' || mount === ',' || !addressIsValid}
               >
                 {loading ? <Spinner /> : 'Continuar'}
               </Button>
