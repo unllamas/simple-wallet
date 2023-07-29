@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { Spinner, useToast } from '@chakra-ui/react';
 
+import { ethers } from 'ethers';
 import { useBlockchain } from 'src/context/Blockchain';
 import { useToken } from 'src/context/Token';
 
@@ -87,6 +88,11 @@ const Component = ({ onClose }) => {
     setToAddress(null)
     setAddressIsValid(false)
   }, []);
+
+  useEffect(() => {
+    const isValid = ethers.utils.isAddress(toAddress);
+    setAddressIsValid(isValid);
+  }, [toAddress]);
 
   // Send transaction
   const handleSendTransaction = async () => {
