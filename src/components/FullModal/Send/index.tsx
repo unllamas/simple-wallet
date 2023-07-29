@@ -215,7 +215,7 @@ const Component = ({ onClose }) => {
             {/* Step Account */}
             {step === 'address' ? (
               <>
-                <QRCodeScanner toAddress={toAddress} setToAddress={setToAddress} />
+                <QRCodeScanner toAddress={toAddress} setToAddress={setToAddress} addressIsValid={addressIsValid} />
                 <InputWithButton
                   placeholder='Address'
                   value={toAddress}
