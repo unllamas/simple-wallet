@@ -26,6 +26,7 @@ import { getPrices } from 'src/pages/api/prices';
 
 import useKeyPress from 'src/hooks/useKeyPress';
 import useTruncatedAddress from 'src/hooks/useTruncatedAddress';
+import { QRCodeScanner } from 'src/components/QRCodeScanner';
 
 const Component = ({ onClose }) => {
   // Chakra
@@ -208,6 +209,7 @@ const Component = ({ onClose }) => {
             {/* Step Account */}
             {step === 'address' ? (
               <>
+                <QRCodeScanner toAddress={toAddress} setToAddress={setToAddress} />
                 <InputWithButton
                   placeholder='Address'
                   value={toAddress}
@@ -220,6 +222,7 @@ const Component = ({ onClose }) => {
                 <Text align='center'>
                   Al enviar <strong>siempre verifica</strong> que las direcciones pertenecen al ecosistema de Ethereum.
                 </Text>
+                <Divider y={32} />
               </>
             ) : (
               <>

@@ -36,6 +36,7 @@
     "react-feather": "^2.0.10",
     "react-hotjar": "^5.2.0",
     "react-qr-code": "^2.0.7",
+    "react-qr-reader": "3.0.0-beta-1",
     "tiny-secp256k1": "^2.2.3"
   },
   "devDependencies": {
