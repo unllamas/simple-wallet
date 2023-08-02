@@ -1,12 +1,14 @@
-import { Flex, Box, useToast } from '@chakra-ui/react';
+import { Box, useToast } from '@chakra-ui/react';
 import { ethers } from 'ethers';
 
-import Button from '../Shared/Button';
-import Input from '../Shared/Input';
+import Button from 'src/components/Shared/Button';
+import Input from 'src/components/Shared/Input';
 
-import useTruncatedAddress from '../../hooks/useTruncatedAddress';
+import useTruncatedAddress from 'src/hooks/useTruncatedAddress';
 
-const InputWithButton = ({ placeholder, value, onChange, onClick }) => {
+const Component = (props) => {
+  const { placeholder, value, onChange, onClick } = props;
+
   // Chakra
   const toast = useToast();
 
@@ -32,29 +34,47 @@ const InputWithButton = ({ placeholder, value, onChange, onClick }) => {
     const addressIsValid = ethers.utils.isAddress(value);
     if (addressIsValid) {
       onChange(value);
-    } else {
-      toast({
-        description: 'La address parece ser incorrecta.',
-        status: 'warning',
-      });
     }
+    // else {
+    //   toast({
+    //     description: 'La address parece ser incorrecta.',
+    //     status: 'warning',
+    //   });
+    // }
+  };
+
+  const style = {
+    position: 'relative',
+    display: 'flex',
+    width: '100%',
+  };
+
+  const buttonBoxStyle = {
+    position: 'absolute',
+    zIndex: 1,
+    right: '20px',
+    top: 0,
+
+    display: 'flex',
+    height: '100%',
+    alignItems: 'center',
   };
 
   return (
-    <Box position='relative' flex='1'>
+    <Box {...style}>
       <Input
-        pr='100px'
         placeholder={placeholder}
         value={value && useTruncatedAddress(value)}
         onChange={(e) => handleValidateAddress(e.target.value)}
+        autoFocus={!value}
       />
-      <Flex position='absolute' zIndex={1} right='20px' top='0' h='100%' alignItems={'center'}>
-        <Button size='sm' onClick={handlePasteAddress} disabled={value}>
+      <Box {...buttonBoxStyle}>
+        <Button size='small' type='bezeled' onClick={handlePasteAddress} disabled={value}>
           Pegar
         </Button>
-      </Flex>
+      </Box>
     </Box>
   );
 };
 
-export default InputWithButton;
+export default Component;

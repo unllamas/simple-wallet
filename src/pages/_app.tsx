@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import Script from 'next/script';
 import { useRouter } from 'next/router';
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider, Flex } from '@chakra-ui/react';
 import { Analytics } from '@vercel/analytics/react';
 import { hotjar } from 'react-hotjar';
 
@@ -57,7 +57,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         <BlockchainWrapper>
           <AccountWrapper>
             <TokenWrapper>
-              <Component {...pageProps} />
+              <Flex width={'100%'} height={'100%'} flexDirection={'column'}>
+                <Component {...pageProps} />
+              </Flex>
               <Analytics />
             </TokenWrapper>
           </AccountWrapper>

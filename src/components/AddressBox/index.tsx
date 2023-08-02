@@ -1,14 +1,14 @@
 import { Box } from '@chakra-ui/react';
 
-import Text from '../Shared/Text';
+import Text from 'src/components/Shared/Text';
 
-import useTruncatedAddress from '../../hooks/useTruncatedAddress';
+import useTruncatedAddress from 'src/hooks/useTruncatedAddress';
 
 const AddressBox = ({ title, address }) => {
   return (
     <Box flex='1'>
-      <Text size='sm'>{title}</Text>
-      <Text size='lg'>{useTruncatedAddress(address)}</Text>
+      <Text size='small'>{title}</Text>
+      <Text isBold>{useTruncatedAddress(address)}</Text>
     </Box>
   );
 };

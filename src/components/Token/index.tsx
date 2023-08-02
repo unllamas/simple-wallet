@@ -1,29 +1,49 @@
-import { Flex, Box, VStack } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 
-import Text from '../Shared/Text';
+import Text from 'src/components/Shared/Text';
+import Flex from 'src/components/Shared/Flex';
 
-import IconETH from '../Icons/ETH';
-import IconDAI from '../Icons/DAI';
+import IconETH from 'src/components/Icons/ETH';
+import IconDAI from 'src/components/Icons/DAI';
 
-import bigNumberTokenToString from '../../hooks/useUtils';
+import bigNumberTokenToString from 'src/hooks/useUtils';
 
-const Token = (props) => {
-  const { name, token, price } = props;
+const Component = (props) => {
+  const { name, token, price, onClick, active = false, readOnly = false } = props;
+
+  const style = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: '20px',
+    width: '100%',
+
+    padding: '20px',
+
+    backgroundColor: 'gray5',
+    borderWidth: '1px',
+    borderColor: active ? 'primary' : 'gray5',
+    borderRadius: '8px',
+
+    cursor: readOnly ? 'default' : 'pointer',
+
+    _hover: {
+      borderColor: readOnly ? 'gray5' : active ? 'primary' : 'gray35',
+    },
+  };
 
   return (
-    <Flex flex='1' alignItems={'center'} justifyContent={'space-between'} w='100%' p='20px' {...props}>
-      <Flex alignItems={'center'} gap='10px'>
-        <Box>{name === 'ETH' ? <IconETH /> : <IconDAI />}</Box>
-        <Text fontWeight='bold'>{name}</Text>
+    <Box {...style} onClick={() => !readOnly && onClick(name)} tabIndex={readOnly ? -1 : 1}>
+      <Flex align='center' gap={8}>
+        {name === 'eth' ? <IconETH /> : <IconDAI />}
+        <Text fontWeight='bold'>{name.toUpperCase()}</Text>
       </Flex>
-      <VStack alignItems='flex-end'>
-        <Text>${Number(price).toFixed(2)}</Text>
-        <Text size='sm' mt='0px !important'>
-          {Number(bigNumberTokenToString(token)).toFixed(10) || '0.00'}
-        </Text>
-      </VStack>
-    </Flex>
+      <Flex direction='column' align='flex-end'>
+        <Text isBold>${Number(price).toFixed(2)}</Text>
+        <Text size='small'>{Number(bigNumberTokenToString(token)).toFixed(4) || '0.00'}</Text>
+      </Flex>
+    </Box>
   );
 };
 
-export default Token;
+export default Component;

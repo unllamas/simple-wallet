@@ -2,14 +2,16 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 
-const BlockchainContext = createContext({ kovanProvider: () => {} });
+const BlockchainContext = createContext({ kovanProvider: () => null, getGasPrice: () => null });
 
 export function BlockchainWrapper({ children }) {
   const [kovanProvider, setKovanProvider] = useState();
 
   useEffect(() => {
     if (!kovanProvider) {
-      const kovan = new ethers.providers.InfuraProvider('homestead', process.env.INFURA_TOKEN_API);
+      // Mainnet: homestead
+      // Testnet: goerli
+      const kovan = new ethers.providers.InfuraProvider('goerli', process.env.INFURA_TOKEN_API);
       setKovanProvider(kovan);
     }
   }, [kovanProvider]);

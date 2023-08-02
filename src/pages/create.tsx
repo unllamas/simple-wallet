@@ -3,19 +3,22 @@ import { useState } from 'react';
 import Head from 'next/head';
 // import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { Flex, useToast, VStack, Spinner } from '@chakra-ui/react';
+import { useToast, VStack, Spinner } from '@chakra-ui/react';
 
 import { useAccount } from '../context/Account';
 
-import { Container } from '../components/Container';
-import Button from '../components/Shared/Button';
-import Link from '../components/Shared/Link';
-import Input from '../components/Shared/Input';
-import Text from '../components/Shared/Text';
-import Heading from '../components/Shared/Heading';
-import Image from '../components/Shared/Image';
+import Navbar from 'src/components/Layout/Navbar';
+import ScreenView from 'src/components/Layout/ScreenView';
+import Container from 'src/components/Layout/Container';
+import Button from 'src/components/Shared/Button';
+import Link from 'src/components/Shared/Link';
+import Input from 'src/components/Shared/Input';
+import Text from 'src/components/Shared/Text';
+import Heading from 'src/components/Shared/Heading';
+import Flex from 'src/components/Shared/Flex';
+import Divider from 'src/components/Shared/Divider';
 
-import * as gtag from '../lib/gtag';
+import * as gtag from 'src/lib/gtag';
 
 const Create = () => {
   const router = useRouter();
@@ -40,17 +43,19 @@ const Create = () => {
 
   // Pass
   const handleSetPassword = (value) => {
+    const data = value.target.value;
     // TO-DO: añadir validaciones min/max
-    if (value) {
+    if (data) {
       setShowValidate(true);
-      setPassword(value);
+      setPassword(data);
     }
   };
 
   // Verify
   const handleSetValidatePass = (value) => {
-    setValidatePassword(value);
-    if (value === password) {
+    const data = value.target.value;
+    setValidatePassword(data);
+    if (data === password) {
       setIsValid(true);
     } else {
       setIsValid(false);
@@ -71,6 +76,8 @@ const Create = () => {
 
         gtag.event(options);
         router.push('/dashboard');
+      } else {
+        setLoading(false);
       }
     } else {
       toast({
@@ -87,9 +94,9 @@ const Create = () => {
 
   if (loading) {
     return (
-      <Flex w='100%' h='100%' justifyContent='center' alignItems='center'>
+      <ScreenView justify='center' align='center'>
         <Spinner />
-      </Flex>
+      </ScreenView>
     );
   }
 
@@ -98,43 +105,54 @@ const Create = () => {
       <Head>
         <title>Crear - Sallet</title>
       </Head>
-      <Flex justifyContent={'center'} alignItems={'center'} pt={{ base: '50px', md: '60px' }}>
-        <Container maxW={'md'} p='20px'>
-          <Flex flexDirection={'column'} justifyContent={{ base: 'space-between', md: 'center' }} gap={4}>
-            <>
-              <VStack alignItems='flex-start' gap='10px'>
-                <Flex justifyContent={'flex-start'} maxH='150px' margin='0 auto'>
-                  <Image src='/password.png' alt='Genera' />
-                </Flex>
-                <Heading as='h2'>Seguridad</Heading>
-                <Text size='lg' opacity='.65'>
-                  Si bien toda informacion queda almacenada en su dispotivo, necesita un metodo de seguridad minimo para
-                  retirar fondos.
+      <Navbar />
+      <ScreenView justify='center'>
+        <Flex justifyContent={'center'} alignItems={'center'} pt={{ base: '50px', md: '60px' }}>
+          <Container size='small'>
+            <Flex flexDirection={'column'} justifyContent={{ base: 'space-between', md: 'center' }} gap={4}>
+              <Flex direction='column'>
+                <Heading as='h2'>Cree una contraseña</Heading>
+                <Divider y={8} />
+                <Text>
+                  Si bien toda información queda almacenada en su dispositivo, necesitamos un método de seguridad mínimo
+                  para manejar sus fondos.
                 </Text>
+                <Divider y={16} />
                 <Input
-                  h='60px'
                   placeholder='Escriba su contraseña'
                   value={password}
-                  onChange={(e) => handleSetPassword(e.target.value)}
+                  onChange={handleSetPassword}
+                  name='password'
+                  type='text'
+                  id='password'
                 />
+                <Divider y={8} />
                 <Input
-                  h='60px'
                   placeholder='Verifique su contraseña'
                   value={validatePassword}
-                  onChange={(e) => handleSetValidatePass(e.target.value)}
+                  onChange={handleSetValidatePass}
                   disabled={!showValidate}
+                  name='validatePassword'
+                  type='text'
+                  id='validatePassword'
                 />
-              </VStack>
-              <Flex w='100%' gap='10px' flexDirection={'column'}>
-                <Button variant='solid' disabled={!isValid || loading} onClick={handleConfirm}>
-                  {loading ? <Spinner /> : 'Confirmar'}
-                </Button>
-                <Link color='default' href='/' passHref>
-                  Cancelar
-                </Link>
               </Flex>
-            </>
+            </Flex>
+          </Container>
+        </Flex>
+      </ScreenView>
+      <Flex background='gray5'>
+        <Container>
+          <Divider y={16} />
+          <Flex direction={{ base: 'column-reverse', md: 'row' }} justify={'center'} gap={8}>
+            <Link type='bezeledGray' href='/' passHref>
+              Cancelar
+            </Link>
+            <Button variant='solid' isDisabled={!isValid || loading} onClick={handleConfirm}>
+              {loading ? <Spinner /> : 'Crear'}
+            </Button>
           </Flex>
+          <Divider y={16} />
         </Container>
       </Flex>
     </>
